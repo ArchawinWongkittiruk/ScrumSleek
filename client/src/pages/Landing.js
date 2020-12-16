@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import ProjectTeamImage from '../images/undraw_project_team_lc5a.svg';
 import ScrumBoardImage from '../images/undraw_Scrum_board_re_wk7v.svg';
 
+import Copyright from '../components/other/Copyright';
+
 const Landing = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
@@ -14,7 +16,7 @@ const Landing = () => {
 
   return (
     <Flex direction='column' align='center' justify='center' maxW='80rem' m='auto'>
-      <Flex as='nav' w='100vw' p='1rem' maxW='80rem'>
+      <Flex as='nav' w='100%' p='1rem'>
         <Text as='h2' fontSize='1.5rem'>
           ScrumSleek
         </Text>
@@ -47,7 +49,7 @@ const Landing = () => {
           Learn the most effective Scrum practices and increase your team's productivity.
         </Text>
       </Flex>
-      <Text pt='1rem'>© {new Date().getFullYear()} Archawin Wongkittiruk</Text>
+      <Copyright />
     </Flex>
   );
 };
