@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, Heading, Text, Button, Flex, Spacer } from '@chakra-ui/react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link as ReactLink, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProjectTeamImage from '../images/undraw_project_team_lc5a.svg';
 import ScrumBoardImage from '../images/undraw_Scrum_board_re_wk7v.svg';
@@ -21,22 +21,20 @@ const Landing = () => {
           ScrumSleek
         </Text>
         <Spacer />
-        <Link to='/login'>
-          <Button>LOGIN</Button>
-        </Link>
-        <Link to='/register'>
-          <Button colorScheme='green'>SIGN UP</Button>
-        </Link>
+        <Button as={ReactLink} to='/login'>
+          LOGIN
+        </Button>
+        <Button as={ReactLink} to='/register' colorScheme='green'>
+          SIGN UP
+        </Button>
       </Flex>
 
       <Heading as='h1' pb='1.5rem' fontSize='6xl' textAlign='center'>
         Scrum for the next generation of developers
       </Heading>
-      <Link to='/register'>
-        <Button colorScheme='green' mb='1rem'>
-          SIGN UP
-        </Button>
-      </Link>
+      <Button as={ReactLink} to='/register' colorScheme='green' mb='1rem'>
+        SIGN UP
+      </Button>
       <Flex align='center' justify='space-between'>
         <Text as='h2' fontSize='2rem' pr='3rem' w='25rem' align='center'>
           Manage your software development team with the battle-tested Agile framework.
