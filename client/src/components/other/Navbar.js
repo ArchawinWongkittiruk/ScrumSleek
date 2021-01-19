@@ -13,7 +13,7 @@ const Navbar = () => {
   }
 
   return (
-    <Flex as='nav' justify='space-between' p='1rem' bg='gray.100'>
+    <Flex as='nav' justify='space-between' p='1rem' borderBottom='2px solid lightgrey'>
       <Link as={ReactLink} to='/projects'>
         Home
       </Link>
