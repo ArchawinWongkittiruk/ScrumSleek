@@ -1,7 +1,7 @@
 import React from 'react';
-import { Image, Heading, Text, Button, Flex, Spacer } from '@chakra-ui/react';
 import { Link as ReactLink, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Image, Heading, Text, Button, Flex, Spacer } from '@chakra-ui/react';
 import ProjectTeamImage from '../images/undraw_project_team_lc5a.svg';
 import ScrumBoardImage from '../images/undraw_Scrum_board_re_wk7v.svg';
 
@@ -29,25 +29,25 @@ const Landing = () => {
         </Button>
       </Flex>
 
-      <Heading as='h1' pb='1.5rem' fontSize='6xl' textAlign='center'>
+      <Heading as='h1' p='1.5rem' fontSize='5xl' textAlign='center'>
         Scrum for the next generation of developers
       </Heading>
       <Button as={ReactLink} to='/register' colorScheme='green' mb='1rem'>
         SIGN UP
       </Button>
-      <Flex align='center' justify='space-between'>
-        <Text as='h2' fontSize='2rem' pr='3rem' w='25rem' align='center'>
-          Manage your software development team with the battle-tested Agile framework.
-        </Text>
-        <Image src={ProjectTeamImage} alt='project_team' />
-      </Flex>
-      <Flex align='center' justify='space-between'>
-        <Image src={ScrumBoardImage} alt='scrum_board' />
-        <Text as='h2' fontSize='2rem' pl='3rem' w='25rem' align='center'>
-          Learn the most effective Scrum practices and increase your team's productivity.
-        </Text>
-      </Flex>
+
+      <Text as='h2' fontSize='2rem' p='3rem' maxW='50rem' align='center'>
+        Manage your software development team with the battle-tested Agile framework.
+      </Text>
+      <Image src={ProjectTeamImage} alt='project_team' />
+      <Text as='h2' fontSize='2rem' p='3rem' maxW='50rem' align='center'>
+        Learn the most effective Scrum practices and increase your team's productivity.
+      </Text>
+      <Image src={ScrumBoardImage} alt='scrum_board' />
+
+      <Spacer p='0.5rem' />
       <Copyright />
+      <Spacer p='0.5rem' />
     </Flex>
   );
 };
