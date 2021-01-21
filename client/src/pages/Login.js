@@ -32,6 +32,7 @@ const Login = () => {
       <Flex
         direction='column'
         w='40rem'
+        maxWidth='90vw'
         margin='auto'
         align='center'
         p='2rem'
@@ -44,8 +45,8 @@ const Login = () => {
         <Text as='h2' fontSize='2rem' pb='2rem'>
           Sign In
         </Text>
-        <form onSubmit={(e) => onSubmit(e)}>
-          <Flex direction='column' w='30rem'>
+        <Flex direction='column' maxWidth='30rem'>
+          <form onSubmit={(e) => onSubmit(e)}>
             <Input
               isRequired
               placeholder='Email Address'
@@ -64,16 +65,16 @@ const Login = () => {
               onChange={(e) => onChange(e)}
               mb='1rem'
             />
-          </Flex>
-          <Button type='submit' isFullWidth mb='1rem' colorScheme='blue'>
-            Sign In
-          </Button>
+            <Button type='submit' isFullWidth mb='1rem' colorScheme='blue'>
+              Sign In
+            </Button>
+          </form>
           <Flex justify='flex-end'>
             <Link as={ReactLink} to='/register'>
               Don't have an account? Sign Up
             </Link>
           </Flex>
-        </form>
+        </Flex>
       </Flex>
       <Box mt={5}>
         <Copyright />

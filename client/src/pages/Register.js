@@ -39,6 +39,7 @@ const Register = () => {
       <Flex
         direction='column'
         w='40rem'
+        maxWidth='90vw'
         margin='auto'
         align='center'
         p='2rem'
@@ -51,8 +52,8 @@ const Register = () => {
         <Text as='h2' fontSize='2rem' pb='2rem'>
           Sign Up
         </Text>
-        <form onSubmit={(e) => onSubmit(e)}>
-          <Flex direction='column' w='30rem'>
+        <Flex direction='column' maxWidth='30rem'>
+          <form onSubmit={(e) => onSubmit(e)}>
             <Input
               isRequired
               placeholder='Your Name'
@@ -90,16 +91,16 @@ const Register = () => {
               onChange={(e) => onChange(e)}
               mb='1rem'
             />
-          </Flex>
-          <Button type='submit' isFullWidth mb='1rem' colorScheme='blue'>
-            Sign Up
-          </Button>
+            <Button type='submit' isFullWidth mb='1rem' colorScheme='blue'>
+              Sign Up
+            </Button>
+          </form>
           <Flex justify='flex-end'>
             <Link as={ReactLink} to='/login'>
               Already have an account? Sign In
             </Link>
           </Flex>
-        </form>
+        </Flex>
       </Flex>
       <Box mt={5}>
         <Copyright />
