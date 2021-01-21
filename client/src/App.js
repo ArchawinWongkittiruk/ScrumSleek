@@ -4,6 +4,7 @@ import Landing from './pages/Landing';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Projects from './pages/Projects';
+import Project from './pages/Project';
 import Alert from './components/other/Alert';
 
 // Redux
@@ -30,6 +31,7 @@ const App = () => {
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/projects' component={Projects} />
+          <Route exact path='/project/:id' component={Project} />
         </Switch>
       </Router>
     </Provider>

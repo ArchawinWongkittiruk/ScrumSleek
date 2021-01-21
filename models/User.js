@@ -14,6 +14,12 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  projects: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'projects',
+    },
+  ],
 });
 
 module.exports = User = model('user', UserSchema);
