@@ -25,7 +25,7 @@ const Project = ({ match }) => {
       <Navbar />
       {!project ? (
         <Box textAlign='center' mt='20%'>
-          <CircularProgress />
+          <CircularProgress isIndeterminate />
         </Box>
       ) : (
         <Box p='1rem'>
