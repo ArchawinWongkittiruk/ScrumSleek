@@ -5,6 +5,7 @@ import { getProject } from '../actions/project';
 import { Box, CircularProgress } from '@chakra-ui/react';
 
 import Navbar from '../components/other/Navbar';
+import ProjectTitle from '../components/project/ProjectTitle';
 
 const Project = ({ match }) => {
   const project = useSelector((state) => state.project.project);
@@ -23,11 +24,13 @@ const Project = ({ match }) => {
     <>
       <Navbar />
       {!project ? (
-        <Box className='board-loading'>
+        <Box textAlign='center' mt='20%'>
           <CircularProgress />
         </Box>
       ) : (
-        <div></div>
+        <Box p='1rem'>
+          <ProjectTitle project={project} />
+        </Box>
       )}
     </>
   );

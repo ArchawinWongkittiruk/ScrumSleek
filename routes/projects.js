@@ -73,4 +73,31 @@ router.get('/:id', auth, async (req, res) => {
   }
 });
 
+// Change a project's title
+router.patch(
+  '/rename/:id',
+  [auth, member, [check('title', 'Title is required').not().isEmpty()]],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const project = await Project.findById(req.params.id);
+      if (!project) {
+        return res.status(404).json({ msg: 'Project not found' });
+      }
+
+      project.title = req.body.title;
+      await project.save();
+
+      res.json(project);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
 module.exports = router;

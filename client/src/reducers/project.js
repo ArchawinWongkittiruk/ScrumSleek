@@ -4,6 +4,7 @@ import {
   GET_PROJECT,
   ADD_PROJECT,
   PROJECT_ERROR,
+  RENAME_PROJECT,
 } from '../actions/types';
 
 const initialState = {
@@ -29,6 +30,7 @@ const project = (state = initialState, action) => {
         projectsLoading: false,
       };
     case GET_PROJECT:
+    case RENAME_PROJECT:
       return {
         ...state,
         project: { ...state.project, ...payload },
