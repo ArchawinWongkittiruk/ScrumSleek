@@ -20,7 +20,7 @@ const ProjectTitle = ({ project }) => {
   };
 
   return !editing ? (
-    <Text onClick={() => setEditing(true)} p='5px' fontSize='xl' cursor='pointer' w='fit-content'>
+    <Text onClick={() => setEditing(true)} p='5px' fontSize='2xl' cursor='pointer' w='fit-content'>
       {project.title}
     </Text>
   ) : (
