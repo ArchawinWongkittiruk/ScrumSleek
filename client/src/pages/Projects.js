@@ -15,7 +15,7 @@ const Projects = () => {
 
   useEffect(() => {
     dispatch(getProjects());
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   if (!isAuthenticated) {
     return <Redirect to='/' />;
