@@ -14,7 +14,7 @@ const initialState = {
   error: {},
 };
 
-const project = (state = initialState, action) => {
+export default function Project(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
@@ -48,6 +48,4 @@ const project = (state = initialState, action) => {
     default:
       return state;
   }
-};
-
-export default project;
+}
