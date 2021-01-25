@@ -1,5 +1,36 @@
 const { Schema, model } = require('mongoose');
 
+const TaskSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+    },
+    status: {
+      type: String,
+    },
+    members: [
+      {
+        _id: false,
+        user: {
+          type: Schema.Types.ObjectId,
+          ref: 'users',
+        },
+        name: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+);
+
 const ProjectSchema = new Schema(
   {
     title: {
@@ -23,6 +54,7 @@ const ProjectSchema = new Schema(
         },
       },
     ],
+    backlog: [TaskSchema],
   },
   {
     timestamps: true,

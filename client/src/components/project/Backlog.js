@@ -1,0 +1,22 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Box, Flex, Text } from '@chakra-ui/react';
+
+import CreateTask from './CreateTask';
+import Task from './Task';
+
+const Backlog = () => {
+  const backlog = useSelector((state) => state.project.project.backlog);
+
+  return (
+    <Box p='5px'>
+      <Text fontSize='xl'>Backlog</Text>
+      <CreateTask />
+      <Flex wrap='wrap' pt='1rem'>
+        {backlog && backlog.map((task) => <Task task={task} key={task._id} />)}
+      </Flex>
+    </Box>
+  );
+};
+
+export default Backlog;

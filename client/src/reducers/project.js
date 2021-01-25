@@ -5,6 +5,7 @@ import {
   ADD_PROJECT,
   PROJECT_ERROR,
   RENAME_PROJECT,
+  ADD_TASK,
 } from '../actions/types';
 
 const initialState = {
@@ -44,6 +45,11 @@ export default function Project(state = initialState, action) {
       return {
         ...state,
         error: payload,
+      };
+    case ADD_TASK:
+      return {
+        ...state,
+        project: { ...state.project, backlog: [...state.project.backlog, payload] },
       };
     default:
       return state;
