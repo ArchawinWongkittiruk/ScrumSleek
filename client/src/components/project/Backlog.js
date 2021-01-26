@@ -11,9 +11,9 @@ const Backlog = () => {
   return (
     <Box p='5px'>
       <Text fontSize='xl'>Backlog</Text>
-      <CreateTask />
       <Flex wrap='wrap' pt='1rem'>
         {backlog && backlog.map((task) => <Task task={task} key={task._id} />)}
+        <CreateTask />
       </Flex>
     </Box>
   );

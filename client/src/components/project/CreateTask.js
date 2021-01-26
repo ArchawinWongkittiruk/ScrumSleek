@@ -16,13 +16,13 @@ const CreateTask = () => {
   };
 
   return !adding ? (
-    <Box p='0.5rem 0'>
+    <Box>
       <Button onClick={() => setAdding(true)} colorScheme='green'>
         + Add a Task
       </Button>
     </Box>
   ) : (
-    <Box p='0.5rem 0' maxWidth='300px'>
+    <Box width='300px'>
       <form onSubmit={(e) => onSubmit(e)}>
         <Textarea
           isRequired
@@ -30,7 +30,7 @@ const CreateTask = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           onKeyPress={(e) => e.key === 'Enter' && onSubmit(e)}
-          h='10rem'
+          h='8rem'
         />
         <Box>
           <Button type='submit' colorScheme='blue'>

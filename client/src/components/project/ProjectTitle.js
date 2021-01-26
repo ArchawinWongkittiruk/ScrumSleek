@@ -25,7 +25,13 @@ const ProjectTitle = ({ project }) => {
     </Text>
   ) : (
     <form onSubmit={(e) => onSubmit(e)}>
-      <Input isRequired value={title} onChange={(e) => setTitle(e.target.value)} maxWidth='25rem' />
+      <Input
+        isRequired
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        maxWidth='25rem'
+        size='lg'
+      />
     </form>
   );
 };
