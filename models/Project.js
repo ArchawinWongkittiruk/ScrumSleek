@@ -58,11 +58,9 @@ const ProjectSchema = new Schema(
     sprint: {
       start: {
         type: Date,
-        required: true,
       },
       end: {
         type: Date,
-        required: true,
       },
       goals: {
         type: String,
