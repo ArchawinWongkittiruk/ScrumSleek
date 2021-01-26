@@ -19,6 +19,7 @@ const Task = ({ task }) => {
     e.preventDefault();
     dispatch(editTask(task._id, { title }));
     setEditing(false);
+    setMouseOver(false);
   };
 
   return !editing ? (
