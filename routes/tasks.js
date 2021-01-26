@@ -34,4 +34,37 @@ router.post(
   }
 );
 
+// Edit a task
+router.patch(
+  '/edit/:id',
+  [auth, member, [check('title', 'Title is required').not().isEmpty()]],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const { title } = req.body;
+      const project = await Project.findById(req.header('projectId'));
+
+      const taskId = req.params.id;
+      const backlogTask = project.backlog.find((task) => task.id === taskId);
+      const sprintTask = project.sprint.tasks.find((task) => task.id === taskId);
+      const task = backlogTask ? backlogTask : sprintTask;
+      if (!task) {
+        return res.status(404).json({ msg: 'Task not found' });
+      }
+
+      task.title = title;
+      await project.save();
+
+      res.json(task);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
 module.exports = router;

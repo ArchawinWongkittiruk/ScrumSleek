@@ -1,12 +1,70 @@
-import React from 'react';
-import { Box, Text } from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import { editTask } from '../../actions/tasks';
+import { Box, Text, Textarea } from '@chakra-ui/react';
+import { EditIcon } from '@chakra-ui/icons';
 
 const Task = ({ task }) => {
-  return (
-    <Box borderWidth='2px' borderRadius='lg' w='300px' p='1rem' m='0 1rem 1rem 0' h='fit-content'>
-      <Text key={task._id}>{task.title}</Text>
+  const [editing, setEditing] = useState(false);
+  const [title, setTitle] = useState(task.title);
+  const [mouseOver, setMouseOver] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setTitle(task.title);
+  }, [task.title]);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    dispatch(editTask(task._id, { title }));
+    setEditing(false);
+  };
+
+  return !editing ? (
+    <Box
+      onMouseOver={() => setMouseOver(true)}
+      onMouseLeave={() => setMouseOver(false)}
+      borderWidth='2px'
+      borderRadius='lg'
+      w='300px'
+      p='1rem'
+      m='0 1rem 1rem 0'
+      h='fit-content'
+      position='relative'
+    >
+      {mouseOver && (
+        <EditIcon
+          onClick={() => setEditing(true)}
+          cursor='pointer'
+          position='absolute'
+          left='90%'
+          top='0'
+          zIndex='1'
+          boxSize='1.5rem'
+        />
+      )}
+      <Text>{task.title}</Text>
     </Box>
+  ) : (
+    <form onSubmit={(e) => onSubmit(e)}>
+      <Textarea
+        isRequired
+        autoFocus
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        onKeyPress={(e) => e.key === 'Enter' && onSubmit(e)}
+        w='300px'
+        p='1rem'
+        m='0 1rem 1rem 0'
+        h='8rem'
+      />
+    </form>
   );
+};
+
+Task.propTypes = {
+  task: PropTypes.object.isRequired,
 };
 
 export default Task;

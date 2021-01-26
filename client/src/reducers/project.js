@@ -6,6 +6,7 @@ import {
   PROJECT_ERROR,
   RENAME_PROJECT,
   ADD_TASK,
+  EDIT_TASK,
 } from '../actions/types';
 
 const initialState = {
@@ -50,6 +51,20 @@ export default function Project(state = initialState, action) {
       return {
         ...state,
         project: { ...state.project, backlog: [...state.project.backlog, payload] },
+      };
+    case EDIT_TASK:
+      return {
+        ...state,
+        project: {
+          ...state.project,
+          backlog: state.project.backlog.map((task) => (task._id === payload._id ? payload : task)),
+          sprint: {
+            ...state.project.sprint,
+            tasks: state.project.sprint.tasks.map((task) =>
+              task._id === payload._id ? payload : task
+            ),
+          },
+        },
       };
     default:
       return state;
