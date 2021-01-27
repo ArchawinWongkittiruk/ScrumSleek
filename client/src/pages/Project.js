@@ -7,6 +7,7 @@ import { Box, CircularProgress } from '@chakra-ui/react';
 import Navbar from '../components/other/Navbar';
 import ProjectTitle from '../components/project/ProjectTitle';
 import Backlog from '../components/project/Backlog';
+import PlanSprint from '../components/project/PlanSprint';
 
 const Project = ({ match }) => {
   const project = useSelector((state) => state.project.project);
@@ -29,9 +30,10 @@ const Project = ({ match }) => {
           <CircularProgress isIndeterminate />
         </Box>
       ) : (
-        <Box p='1rem'>
+        <Box p='1.5rem'>
           <ProjectTitle project={project} />
           <Backlog />
+          <PlanSprint />
         </Box>
       )}
     </>
