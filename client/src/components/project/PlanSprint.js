@@ -18,7 +18,7 @@ const PlanSprint = () => {
   };
 
   return (
-    <>
+    <Box pt='0.5rem'>
       <Text fontSize='xl'>Sprint Plan</Text>
       <form onSubmit={(e) => onSubmit(e)}>
         <Flex pt='0.5rem' wrap='wrap'>
@@ -52,7 +52,7 @@ const PlanSprint = () => {
           Start Sprint
         </Button>
       </form>
-    </>
+    </Box>
   );
 };
 
