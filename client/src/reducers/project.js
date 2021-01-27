@@ -35,7 +35,7 @@ export default function Project(state = initialState, action) {
     case RENAME_PROJECT:
       return {
         ...state,
-        project: { ...state.project, ...payload },
+        project: payload,
       };
     case ADD_PROJECT:
       return {

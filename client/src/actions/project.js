@@ -47,7 +47,7 @@ export const getProject = (id) => async (dispatch) => {
 
     dispatch({
       type: GET_PROJECT,
-      payload: { ...res.data, listObjects: [], cardObjects: [] },
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
