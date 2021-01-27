@@ -65,4 +65,38 @@ router.patch(
   }
 );
 
+// Move a task
+router.patch('/move/:id', [auth, member], async (req, res) => {
+  try {
+    // const { to, toIndex } = req.body;
+    const { to } = req.body;
+    const project = await Project.findById(req.header('projectId'));
+
+    const taskId = req.params.id;
+    const task = project.tasks.find((task) => task.id === taskId);
+    if (!task) {
+      return res.status(404).json({ msg: 'Task not found' });
+    }
+
+    // if (toIndex === 0 || toIndex) {
+    //   project.tasks.splice(toIndex, 0, task);
+    // } else {
+    //   project.tasks.push(task);
+    // }
+
+    // const fromIndex = project.tasks.indexOf(task);
+    // if (fromIndex !== -1) {
+    //   project.tasks.splice(fromIndex, 1);
+    // }
+
+    task.location = to;
+    await project.save();
+
+    res.send(task);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { startSprint } from '../../actions/sprints';
 import { Flex, Box, Text, Button, Textarea } from '@chakra-ui/react';
 import DateTimePicker from 'react-datetime-picker';
+
+import Task from './Task';
 
 const PlanSprint = () => {
   const [start, setStart] = useState(new Date());
@@ -10,6 +12,9 @@ const PlanSprint = () => {
   startPlusWeek.setDate(startPlusWeek.getDate() + 7);
   const [end, setEnd] = useState(startPlusWeek);
   const [goals, setGoals] = useState('');
+  const tasks = useSelector((state) =>
+    state.project.project.tasks.filter((task) => task.location === 'SPRINTPLAN')
+  );
   const dispatch = useDispatch();
 
   const onSubmit = async (e) => {
@@ -35,7 +40,6 @@ const PlanSprint = () => {
           <Text>Sprint Goals</Text>
           <Textarea
             isRequired
-            autoFocus
             value={goals}
             onChange={(e) => setGoals(e.target.value)}
             maxWidth='30rem'
@@ -43,12 +47,12 @@ const PlanSprint = () => {
           />
         </Box>
         <Box pt='1rem'>
-          <Text>Sprint Tasks - Drop Backlog Tasks Here</Text>
-          <Flex borderWidth='2px' borderRadius='lg' w='300px' p='1rem' h='fit-content'>
-            {}
+          <Text>Sprint Tasks</Text>
+          <Flex borderWidth='2px' borderRadius='lg' p='1rem' minHeight='10rem'>
+            {tasks && tasks.map((task) => <Task task={task} key={task._id} />)}
           </Flex>
         </Box>
-        <Button colorScheme='blue' mt='0.5rem'>
+        <Button colorScheme='blue' mt='0.5rem' isDisabled={tasks.length === 0}>
           Start Sprint
         </Button>
       </form>

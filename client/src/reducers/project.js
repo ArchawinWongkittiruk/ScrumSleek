@@ -7,6 +7,7 @@ import {
   RENAME_PROJECT,
   ADD_TASK,
   EDIT_TASK,
+  MOVE_TASK,
   START_SPRINT,
 } from '../actions/types';
 
@@ -54,6 +55,7 @@ export default function Project(state = initialState, action) {
         project: { ...state.project, tasks: [...state.project.tasks, payload] },
       };
     case EDIT_TASK:
+    case MOVE_TASK:
       return {
         ...state,
         project: {

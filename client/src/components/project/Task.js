@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { editTask } from '../../actions/tasks';
+import { editTask, moveTask } from '../../actions/tasks';
 import { Box, Text, Textarea, Button } from '@chakra-ui/react';
 import { EditIcon, CloseIcon } from '@chakra-ui/icons';
 
@@ -22,30 +22,41 @@ const Task = ({ task }) => {
     setMouseOver(false);
   };
 
+  const onMove = async (e) => {
+    e.preventDefault();
+    dispatch(moveTask(task._id, { to: task.location === 'BACKLOG' ? 'SPRINTPLAN' : 'BACKLOG' }));
+  };
+
   return !editing ? (
-    <Box
-      onMouseOver={() => setMouseOver(true)}
-      onMouseLeave={() => setMouseOver(false)}
-      borderWidth='2px'
-      borderRadius='lg'
-      w='300px'
-      p='1rem'
-      m='0 1rem 1rem 0'
-      h='fit-content'
-      position='relative'
-    >
-      {mouseOver && (
-        <EditIcon
-          onClick={() => setEditing(true)}
-          cursor='pointer'
-          position='absolute'
-          left='90%'
-          top='0'
-          zIndex='1'
-          boxSize='1.5rem'
-        />
+    <Box m='0 1rem 1rem 0'>
+      <Box
+        onMouseOver={() => setMouseOver(true)}
+        onMouseLeave={() => setMouseOver(false)}
+        borderWidth='2px'
+        borderRadius='lg'
+        w='300px'
+        p='1rem'
+        h='fit-content'
+        position='relative'
+      >
+        {mouseOver && (
+          <EditIcon
+            onClick={() => setEditing(true)}
+            cursor='pointer'
+            position='absolute'
+            left='90%'
+            top='0'
+            zIndex='1'
+            boxSize='1.5rem'
+          />
+        )}
+        <Text>{task.title}</Text>
+      </Box>
+      {task.location !== 'SPRINT' && (
+        <Button onClick={onMove}>
+          Move to {task.location === 'BACKLOG' ? 'Sprint Plan' : 'Backlog'}
+        </Button>
       )}
-      <Text>{task.title}</Text>
     </Box>
   ) : (
     <Box w='300px' m='0 1rem 1rem 0'>
