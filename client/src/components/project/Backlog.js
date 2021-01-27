@@ -4,6 +4,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 
 import CreateTask from './CreateTask';
 import Task from './Task';
+import PlanSprint from './PlanSprint';
 
 const Backlog = () => {
   const backlog = useSelector((state) => state.project.project.backlog);
@@ -15,6 +16,7 @@ const Backlog = () => {
         {backlog && backlog.map((task) => <Task task={task} key={task._id} />)}
         <CreateTask />
       </Flex>
+      <PlanSprint />
     </Box>
   );
 };

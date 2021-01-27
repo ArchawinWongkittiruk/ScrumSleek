@@ -7,6 +7,7 @@ import {
   RENAME_PROJECT,
   ADD_TASK,
   EDIT_TASK,
+  START_SPRINT,
 } from '../actions/types';
 
 const initialState = {
@@ -64,6 +65,14 @@ export default function Project(state = initialState, action) {
               task._id === payload._id ? payload : task
             ),
           },
+        },
+      };
+    case START_SPRINT:
+      return {
+        ...state,
+        project: {
+          ...state.project,
+          sprint: payload,
         },
       };
     default:
