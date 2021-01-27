@@ -31,7 +31,7 @@ const PlanSprint = () => {
             <DateTimePicker required onChange={setEnd} value={end} />
           </Box>
         </Flex>
-        <Box pt='0.5rem'>
+        <Box pt='1rem'>
           <Text>Sprint Goals</Text>
           <Textarea
             isRequired
@@ -42,7 +42,7 @@ const PlanSprint = () => {
             h='10rem'
           />
         </Box>
-        <Box>
+        <Box pt='1rem'>
           <Text>Sprint Tasks - Drop Backlog Tasks Here</Text>
           <Flex borderWidth='2px' borderRadius='lg' w='300px' p='1rem' h='fit-content'>
             {}
