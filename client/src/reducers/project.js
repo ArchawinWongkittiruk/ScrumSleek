@@ -51,20 +51,14 @@ export default function Project(state = initialState, action) {
     case ADD_TASK:
       return {
         ...state,
-        project: { ...state.project, backlog: [...state.project.backlog, payload] },
+        project: { ...state.project, tasks: [...state.project.tasks, payload] },
       };
     case EDIT_TASK:
       return {
         ...state,
         project: {
           ...state.project,
-          backlog: state.project.backlog.map((task) => (task._id === payload._id ? payload : task)),
-          sprint: {
-            ...state.project.sprint,
-            tasks: state.project.sprint.tasks.map((task) =>
-              task._id === payload._id ? payload : task
-            ),
-          },
+          tasks: state.project.tasks.map((task) => (task._id === payload._id ? payload : task)),
         },
       };
     case START_SPRINT:

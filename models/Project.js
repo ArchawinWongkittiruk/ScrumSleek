@@ -1,5 +1,14 @@
 const { Schema, model } = require('mongoose');
 
+const StatusSchema = new Schema({
+  title: {
+    type: String,
+  },
+  color: {
+    type: String,
+  },
+});
+
 const TaskSchema = new Schema(
   {
     title: {
@@ -9,8 +18,14 @@ const TaskSchema = new Schema(
     description: {
       type: String,
     },
-    status: {
+    location: {
       type: String,
+      enum: ['BACKLOG', 'SPRINTPLAN', 'SPRINT'],
+      default: 'BACKLOG',
+    },
+    status: {
+      type: Schema.Types.ObjectId,
+      ref: 'statuses',
     },
     members: [
       {
@@ -54,8 +69,17 @@ const ProjectSchema = new Schema(
         },
       },
     ],
-    backlog: [TaskSchema],
+    tasks: [TaskSchema],
+    statuses: {
+      type: [StatusSchema],
+      default: [
+        { title: 'To Do', color: 'red' },
+        { title: 'Doing', color: 'yellow' },
+        { title: 'Done', color: 'green' },
+      ],
+    },
     sprint: {
+      _id: false,
       start: {
         type: Date,
       },
@@ -65,7 +89,9 @@ const ProjectSchema = new Schema(
       goals: {
         type: String,
       },
-      tasks: [TaskSchema],
+      done: {
+        type: Boolean,
+      },
     },
   },
   {

@@ -23,10 +23,10 @@ router.post(
       // Create and save the task
       const project = await Project.findById(projectId);
       const task = { title };
-      project.backlog.push(task);
+      project.tasks.push(task);
       await project.save();
 
-      res.json(project.backlog[project.backlog.length - 1]);
+      res.json(project.tasks[project.tasks.length - 1]);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -49,9 +49,7 @@ router.patch(
       const project = await Project.findById(req.header('projectId'));
 
       const taskId = req.params.id;
-      const backlogTask = project.backlog.find((task) => task.id === taskId);
-      const sprintTask = project.sprint.tasks.find((task) => task.id === taskId);
-      const task = backlogTask ? backlogTask : sprintTask;
+      const task = project.tasks.find((task) => task.id === taskId);
       if (!task) {
         return res.status(404).json({ msg: 'Task not found' });
       }

@@ -7,7 +7,9 @@ import Task from './Task';
 import PlanSprint from './PlanSprint';
 
 const Backlog = () => {
-  const backlog = useSelector((state) => state.project.project.backlog);
+  const backlog = useSelector((state) =>
+    state.project.project.tasks.filter((task) => task.location === 'BACKLOG')
+  );
 
   return (
     <Box p='5px'>
