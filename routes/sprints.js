@@ -19,9 +19,16 @@ router.post('/', [auth, member], async (req, res) => {
     // Create and save the sprint
     const project = await Project.findById(projectId);
     project.sprint = req.body;
+
+    for (let task of project.tasks) {
+      if (task.location === 'SPRINTPLAN') {
+        task.location = 'SPRINT';
+      }
+    }
+
     await project.save();
 
-    res.json(project.sprint);
+    res.json(project);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

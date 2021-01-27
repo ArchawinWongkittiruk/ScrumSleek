@@ -66,10 +66,7 @@ export default function Project(state = initialState, action) {
     case START_SPRINT:
       return {
         ...state,
-        project: {
-          ...state.project,
-          sprint: payload,
-        },
+        project: payload,
       };
     default:
       return state;

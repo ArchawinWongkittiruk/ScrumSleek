@@ -91,6 +91,7 @@ const ProjectSchema = new Schema(
       },
       done: {
         type: Boolean,
+        default: true,
       },
     },
   },

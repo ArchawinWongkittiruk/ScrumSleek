@@ -19,7 +19,7 @@ const PlanSprint = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    dispatch(startSprint({ start, end, goals }));
+    dispatch(startSprint({ start, end, goals, done: false }));
   };
 
   return (
@@ -52,7 +52,7 @@ const PlanSprint = () => {
             {tasks && tasks.map((task) => <Task task={task} key={task._id} />)}
           </Flex>
         </Box>
-        <Button colorScheme='blue' mt='0.5rem' isDisabled={tasks.length === 0}>
+        <Button type='submit' colorScheme='blue' mt='0.5rem' isDisabled={tasks.length === 0}>
           Start Sprint
         </Button>
       </form>
