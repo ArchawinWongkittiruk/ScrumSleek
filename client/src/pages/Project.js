@@ -27,7 +27,7 @@ const Project = ({ match }) => {
     } else {
       setPage('backlog');
     }
-  }, [project?.sprint]);
+  }, [project?.sprint?.ongoing]);
 
   if (!isAuthenticated) {
     return <Redirect to='/' />;
