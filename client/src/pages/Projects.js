@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, Link as ReactLink } from 'react-router-dom';
 import { getProjects } from '../actions/project';
-import { Button, Text, Flex, CircularProgress } from '@chakra-ui/react';
+import { Text, Flex, Link, CircularProgress } from '@chakra-ui/react';
 
 import Navbar from '../components/other/Navbar';
 import CreateProject from '../components/other/CreateProject';
@@ -33,21 +33,19 @@ const Projects = () => {
         </Text>
         <CreateProject />
         {loading && <CircularProgress isIndeterminate m='40px' />}
-        <Flex m='1rem' direction='row' wrap='wrap' align='center' justify='center'>
+        <Flex m='1rem' direction='column' align='center' justify='center'>
           {projects.map((project) => (
-            <Button
+            <Link
               as={ReactLink}
               key={project._id}
               to={`/project/${project._id}`}
-              w='220px'
-              h='120px'
-              m='20px'
-              color='white'
-              backgroundColor='#5067c5'
-              _hover={{ backgroundColor: '#4057b5' }}
+              borderBottom='2px solid lightgrey'
+              p='2rem'
+              w='300px'
+              textAlign='center'
             >
               {project.title}
-            </Button>
+            </Link>
           ))}
         </Flex>
       </Flex>
