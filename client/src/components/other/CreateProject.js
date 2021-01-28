@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { addProject } from '../../actions/project';
 import {
   Input,
@@ -14,10 +14,11 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react';
 
-const CreateProject = ({ history }) => {
+const CreateProject = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [title, setTitle] = useState('');
   const dispatch = useDispatch();
+  let history = useHistory();
 
   const initialRef = useRef();
 
@@ -55,4 +56,4 @@ const CreateProject = ({ history }) => {
   );
 };
 
-export default withRouter(CreateProject);
+export default CreateProject;
