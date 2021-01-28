@@ -16,13 +16,11 @@ const CreateTask = () => {
   };
 
   return !adding ? (
-    <Box>
-      <Button onClick={() => setAdding(true)} colorScheme='green'>
-        + Add a Task
-      </Button>
-    </Box>
+    <Button onClick={() => setAdding(true)} colorScheme='green' mb='1rem'>
+      + Add a Task
+    </Button>
   ) : (
-    <Box width='300px'>
+    <Box width='300px' mb='1rem'>
       <form onSubmit={(e) => onSubmit(e)}>
         <Textarea
           isRequired
