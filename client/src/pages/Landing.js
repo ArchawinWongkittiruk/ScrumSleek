@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link as ReactLink, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Link as ReactLink, Redirect } from 'react-router-dom';
 import { Image, Heading, Text, Button, Flex, Spacer } from '@chakra-ui/react';
 import ProjectTeamImage from '../images/undraw_project_team_lc5a.svg';
 import ScrumBoardImage from '../images/undraw_Scrum_board_re_wk7v.svg';

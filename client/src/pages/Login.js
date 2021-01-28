@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link as ReactLink, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link as ReactLink, Redirect } from 'react-router-dom';
 import { login } from '../actions/auth';
 import { Button, Input, Flex, Box, Text, Link } from '@chakra-ui/react';
 
