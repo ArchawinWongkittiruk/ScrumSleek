@@ -4,7 +4,18 @@ import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { endSprint } from '../../actions/sprints';
-import { Flex, Text, Button } from '@chakra-ui/react';
+import {
+  Flex,
+  Text,
+  Button,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverArrow,
+  PopoverCloseButton,
+} from '@chakra-ui/react';
 
 import Task from './Task';
 
@@ -27,9 +38,21 @@ const Sprint = ({ setPage }) => {
     <>
       <Flex justify='space-between' wrap='wrap' pb='1rem'>
         <Text fontSize='xl'>Sprint</Text>
-        <Button onClick={onEndSprint} colorScheme='red'>
-          End Sprint
-        </Button>
+        <Popover>
+          <PopoverTrigger>
+            <Button colorScheme='red'>End Sprint</Button>
+          </PopoverTrigger>
+          <PopoverContent mr='1.5rem'>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverHeader>Are You Sure?</PopoverHeader>
+            <PopoverBody>
+              <Button onClick={onEndSprint} colorScheme='red'>
+                Yes, End the Sprint
+              </Button>
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
       </Flex>
       <Flex wrap='wrap' pb='1rem'>
         <Text pr='1rem'>
