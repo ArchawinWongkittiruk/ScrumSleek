@@ -11,7 +11,7 @@ import PlanSprint from '../components/project/PlanSprint';
 import Sprint from '../components/project/Sprint';
 
 const Project = ({ match }) => {
-  const [page, setPage] = useState('backlog');
+  const [page, setPage] = useState('');
   const project = useSelector((state) => state.project.project);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
@@ -20,6 +20,10 @@ const Project = ({ match }) => {
     dispatch(getProject(match.params.id));
   }, [dispatch, match.params.id]);
 
+  useEffect(() => {
+    if (project) setPage(project.sprint.ongoing ? 'sprint' : 'backlog');
+  }, [project]);
+
   if (!isAuthenticated) {
     return <Redirect to='/' />;
   }
@@ -27,7 +31,7 @@ const Project = ({ match }) => {
   return (
     <>
       <Navbar />
-      {!project ? (
+      {!project || !page ? (
         <Box textAlign='center' mt='20%'>
           <CircularProgress isIndeterminate />
         </Box>
