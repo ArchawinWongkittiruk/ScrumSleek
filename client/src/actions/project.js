@@ -7,6 +7,7 @@ import {
   ADD_PROJECT,
   PROJECT_ERROR,
   RENAME_PROJECT,
+  DELETE_PROJECT,
 } from './types';
 
 const config = {
@@ -89,6 +90,27 @@ export const renameProject = (projectId, formData) => async (dispatch) => {
       type: RENAME_PROJECT,
       payload: res.data,
     });
+  } catch (err) {
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Delete project
+export const deleteProject = (projectId, history) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/projects/${projectId}`);
+
+    dispatch({
+      type: DELETE_PROJECT,
+      payload: res.data,
+    });
+
+    dispatch({ type: CLEAR_PROJECT });
+
+    history.push('/projects');
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,

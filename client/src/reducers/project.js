@@ -5,6 +5,7 @@ import {
   ADD_PROJECT,
   PROJECT_ERROR,
   RENAME_PROJECT,
+  DELETE_PROJECT,
   ADD_TASK,
   EDIT_TASK,
   MOVE_TASK,
@@ -49,6 +50,11 @@ export default function Project(state = initialState, action) {
       return {
         ...state,
         error: payload,
+      };
+    case DELETE_PROJECT:
+      return {
+        ...state,
+        projects: state.projects.filter((project) => project._id !== payload),
       };
     case ADD_TASK:
       return {

@@ -9,6 +9,7 @@ import ProjectTitle from '../components/project/ProjectTitle';
 import Backlog from '../components/project/Backlog';
 import PlanSprint from '../components/project/PlanSprint';
 import Sprint from '../components/project/Sprint';
+import ProjectMenu from '../components/project/ProjectMenu';
 
 const Project = ({ match }) => {
   const [page, setPage] = useState('');
@@ -49,6 +50,7 @@ const Project = ({ match }) => {
               >
                 Sprint
               </Button>
+              <ProjectMenu project={project} />
             </Box>
           </Flex>
           {page === 'backlog' ? (
