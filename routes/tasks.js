@@ -99,4 +99,23 @@ router.patch('/move/:id', [auth, member], async (req, res) => {
   }
 });
 
+// Delete a task
+router.delete('/:id', [auth, member], async (req, res) => {
+  try {
+    const taskId = req.params.id;
+    const project = await Project.findById(req.header('projectId'));
+
+    project.tasks.splice(
+      project.tasks.findIndex((task) => task._id === taskId),
+      1
+    );
+    await project.save();
+
+    res.json(taskId);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;

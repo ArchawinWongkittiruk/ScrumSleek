@@ -9,6 +9,7 @@ import {
   ADD_TASK,
   EDIT_TASK,
   MOVE_TASK,
+  DELETE_TASK,
   START_SPRINT,
   END_SPRINT,
 } from '../actions/types';
@@ -68,6 +69,14 @@ export default function Project(state = initialState, action) {
         project: {
           ...state.project,
           tasks: state.project.tasks.map((task) => (task._id === payload._id ? payload : task)),
+        },
+      };
+    case DELETE_TASK:
+      return {
+        ...state,
+        project: {
+          ...state.project,
+          tasks: state.project.tasks.filter((task) => task._id !== payload),
         },
       };
     case START_SPRINT:

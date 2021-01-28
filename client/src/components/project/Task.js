@@ -1,8 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { editTask, moveTask } from '../../actions/tasks';
-import { Box, Text, Textarea, Button } from '@chakra-ui/react';
+import { editTask, moveTask, deleteTask } from '../../actions/tasks';
+import {
+  Flex,
+  Box,
+  Text,
+  Textarea,
+  Button,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverArrow,
+  PopoverCloseButton,
+} from '@chakra-ui/react';
 import { EditIcon, CloseIcon } from '@chakra-ui/icons';
 
 const Task = ({ task }) => {
@@ -16,7 +29,7 @@ const Task = ({ task }) => {
     setTitle(task.title);
   }, [task.title]);
 
-  const onSubmit = async (e) => {
+  const onEditSubmit = async (e) => {
     e.preventDefault();
     dispatch(editTask(task._id, { title }));
     setEditing(false);
@@ -26,6 +39,11 @@ const Task = ({ task }) => {
   const onMove = async (e) => {
     e.preventDefault();
     dispatch(moveTask(task._id, { to: task.location === 'BACKLOG' ? 'SPRINTPLAN' : 'BACKLOG' }));
+  };
+
+  const onDelete = async (e) => {
+    e.preventDefault();
+    dispatch(deleteTask(task._id));
   };
 
   return !editing ? (
@@ -61,29 +79,45 @@ const Task = ({ task }) => {
     </Box>
   ) : (
     <Box w='300px' m='0 1rem 1rem 0'>
-      <form onSubmit={(e) => onSubmit(e)}>
-        <Textarea
-          isRequired
-          autoFocus
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && onSubmit(e)}
-          h='8rem'
-        />
+      <Textarea
+        isRequired
+        autoFocus
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        onKeyPress={(e) => e.key === 'Enter' && onEditSubmit(e)}
+        h='8rem'
+      />
+      <Flex justify='space-between'>
         <Box>
-          <Button type='submit' colorScheme='blue'>
+          <Button onClick={onEditSubmit} colorScheme='blue'>
             Save
           </Button>
           <Button
             onClick={() => {
               setEditing(false);
               setMouseOver(false);
+              setTitle(task.title);
             }}
           >
             <CloseIcon />
           </Button>
         </Box>
-      </form>
+        <Popover>
+          <PopoverTrigger>
+            <Button colorScheme='red'>Delete</Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverHeader>Are You Sure?</PopoverHeader>
+            <PopoverBody>
+              <Button onClick={onDelete} colorScheme='red'>
+                Yes, Delete the Task
+              </Button>
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+      </Flex>
     </Box>
   );
 };

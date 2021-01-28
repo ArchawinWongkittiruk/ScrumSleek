@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ADD_TASK, PROJECT_ERROR, EDIT_TASK, MOVE_TASK } from './types';
+import { ADD_TASK, PROJECT_ERROR, EDIT_TASK, MOVE_TASK, DELETE_TASK } from './types';
 
 const config = {
   headers: {
@@ -54,6 +54,23 @@ export const moveTask = (taskId, formData) => async (dispatch) => {
 
     dispatch({
       type: MOVE_TASK,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Delete task
+export const deleteTask = (taskId) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/tasks/${taskId}`);
+
+    dispatch({
+      type: DELETE_TASK,
       payload: res.data,
     });
   } catch (err) {
