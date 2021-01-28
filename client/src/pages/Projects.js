@@ -14,7 +14,7 @@ const Projects = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProjects());
+    if (user) dispatch(getProjects());
   }, [dispatch, user]);
 
   if (!isAuthenticated) {
