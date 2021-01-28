@@ -19,7 +19,7 @@ const PlanSprint = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    dispatch(startSprint({ start, end, goals, done: false }));
+    dispatch(startSprint({ start, end, goals, ongoing: true }));
   };
 
   return (

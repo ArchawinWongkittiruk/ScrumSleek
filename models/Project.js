@@ -89,9 +89,9 @@ const ProjectSchema = new Schema(
       goals: {
         type: String,
       },
-      done: {
+      ongoing: {
         type: Boolean,
-        default: true,
+        default: false,
       },
     },
   },
