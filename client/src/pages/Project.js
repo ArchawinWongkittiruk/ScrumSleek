@@ -12,7 +12,7 @@ import Sprint from '../components/project/Sprint';
 import ProjectMenu from '../components/project/ProjectMenu';
 
 const Project = ({ match }) => {
-  const [page, setPage] = useState('');
+  const [page, setPage] = useState('backlog');
   const project = useSelector((state) => state.project.project);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
@@ -22,8 +22,12 @@ const Project = ({ match }) => {
   }, [dispatch, match.params.id]);
 
   useEffect(() => {
-    if (project) setPage(project.sprint.ongoing ? 'sprint' : 'backlog');
-  }, [project]);
+    if (project?.sprint?.ongoing) {
+      setPage('sprint');
+    } else {
+      setPage('backlog');
+    }
+  }, [project?.sprint]);
 
   if (!isAuthenticated) {
     return <Redirect to='/' />;
@@ -32,7 +36,7 @@ const Project = ({ match }) => {
   return (
     <>
       <Navbar />
-      {!project || !page ? (
+      {!project ? (
         <Box textAlign='center' mt='20%'>
           <CircularProgress isIndeterminate />
         </Box>
@@ -44,22 +48,16 @@ const Project = ({ match }) => {
               <Button onClick={() => setPage('backlog')} isDisabled={page === 'backlog'}>
                 Backlog
               </Button>
-              <Button
-                onClick={() => setPage('sprint')}
-                isDisabled={page === 'sprint' || !project.sprint.ongoing}
-              >
+              <Button onClick={() => setPage('sprint')} isDisabled={page === 'sprint'}>
                 Sprint
               </Button>
               <ProjectMenu project={project} />
             </Box>
           </Flex>
           {page === 'backlog' ? (
-            <>
-              <Backlog />
-              {!project.sprint.ongoing && <PlanSprint setPage={setPage} />}
-            </>
+            <Backlog />
           ) : (
-            <Sprint setPage={setPage} />
+            <>{project.sprint.ongoing ? <Sprint /> : <PlanSprint />}</>
           )}
         </Box>
       )}

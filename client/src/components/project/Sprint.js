@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { endSprint } from '../../actions/sprints';
@@ -21,7 +20,7 @@ import Task from './Task';
 
 dayjs.extend(relativeTime);
 
-const Sprint = ({ setPage }) => {
+const Sprint = () => {
   const tasks = useSelector((state) =>
     state.project.project.tasks.filter((task) => task.location === 'SPRINT')
   );
@@ -31,7 +30,6 @@ const Sprint = ({ setPage }) => {
   const onEndSprint = async (e) => {
     e.preventDefault();
     dispatch(endSprint());
-    setPage('backlog');
   };
 
   return (
@@ -70,10 +68,6 @@ const Sprint = ({ setPage }) => {
       </Flex>
     </>
   );
-};
-
-Sprint.propTypes = {
-  setPage: PropTypes.func.isRequired,
 };
 
 export default Sprint;
