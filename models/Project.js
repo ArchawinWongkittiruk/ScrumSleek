@@ -86,7 +86,7 @@ const ProjectSchema = new Schema(
       end: {
         type: Date,
       },
-      goals: {
+      target: {
         type: String,
       },
       ongoing: {

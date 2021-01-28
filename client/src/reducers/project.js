@@ -9,6 +9,7 @@ import {
   EDIT_TASK,
   MOVE_TASK,
   START_SPRINT,
+  END_SPRINT,
 } from '../actions/types';
 
 const initialState = {
@@ -64,6 +65,7 @@ export default function Project(state = initialState, action) {
         },
       };
     case START_SPRINT:
+    case END_SPRINT:
       return {
         ...state,
         project: payload,

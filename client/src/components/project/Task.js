@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { editTask, moveTask } from '../../actions/tasks';
 import { Box, Text, Textarea, Button } from '@chakra-ui/react';
@@ -9,6 +9,7 @@ const Task = ({ task }) => {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [mouseOver, setMouseOver] = useState(false);
+  const sprintOngoing = useSelector((state) => state.project.project.sprint.ongoing);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const Task = ({ task }) => {
         )}
         <Text>{task.title}</Text>
       </Box>
-      {task.location !== 'SPRINT' && (
+      {task.location !== 'SPRINT' && !sprintOngoing && (
         <Button onClick={onMove}>
           Move to {task.location === 'BACKLOG' ? 'Sprint Plan' : 'Backlog'}
         </Button>
