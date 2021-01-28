@@ -29,18 +29,35 @@ const Landing = () => {
         </Button>
       </Flex>
 
-      <Heading as='h1' p='1.5rem' fontSize='5xl' textAlign='center'>
+      <Heading
+        as='h1'
+        p='1.5rem'
+        fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}
+        textAlign='center'
+      >
         Scrum for the next generation of developers
       </Heading>
       <Button as={ReactLink} to='/register' colorScheme='green' mb='1rem'>
         SIGN UP
       </Button>
 
-      <Text as='h2' fontSize='2rem' p='3rem' maxW='50rem' align='center'>
+      <Text
+        as='h2'
+        fontSize={{ base: '2xl', md: '3xl', lg: '4xl' }}
+        p='3rem'
+        maxW='50rem'
+        align='center'
+      >
         Manage your software development team with the battle-tested Agile framework.
       </Text>
       <Image src={ProjectTeamImage} alt='project_team' />
-      <Text as='h2' fontSize='2rem' p='3rem' maxW='50rem' align='center'>
+      <Text
+        as='h2'
+        fontSize={{ base: '2xl', md: '3xl', lg: '4xl' }}
+        p='3rem'
+        maxW='50rem'
+        align='center'
+      >
         Learn the most effective Scrum practices and increase your team's productivity.
       </Text>
       <Image src={ScrumBoardImage} alt='scrum_board' />

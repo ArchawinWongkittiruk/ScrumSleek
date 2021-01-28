@@ -1,10 +1,14 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { endSprint } from '../../actions/sprints';
-import { Box, Flex, Text, Button } from '@chakra-ui/react';
+import { Flex, Text, Button } from '@chakra-ui/react';
 
 import Task from './Task';
+
+dayjs.extend(relativeTime);
 
 const Sprint = ({ setPage }) => {
   const tasks = useSelector((state) =>
@@ -20,24 +24,28 @@ const Sprint = ({ setPage }) => {
   };
 
   return (
-    <Box>
-      <Flex justify='space-between' pb='1rem'>
-        <Box>
-          <Text fontSize='xl' pb='1rem'>
-            Sprint
-          </Text>
-          <Text>{sprint.target}</Text>
-        </Box>
+    <>
+      <Flex justify='space-between' wrap='wrap' pb='1rem'>
+        <Text fontSize='xl'>Sprint</Text>
         <Button onClick={onEndSprint} colorScheme='red'>
           End Sprint
         </Button>
       </Flex>
+      <Flex wrap='wrap' pb='1rem'>
+        <Text pr='1rem'>
+          Start: {dayjs(sprint.start).format('DD/MM/YYYY HH:mm')} ({dayjs(sprint.start).fromNow()})
+        </Text>
+        <Text>
+          End: {dayjs(sprint.end).format('DD/MM/YYYY HH:mm')} ({dayjs(sprint.end).fromNow()})
+        </Text>
+      </Flex>
+      <Text>Target - {sprint.target}</Text>
       <Flex wrap='wrap' pt='1rem'>
         {tasks.map((task) => (
           <Task task={task} key={task._id} />
         ))}
       </Flex>
-    </Box>
+    </>
   );
 };
 
