@@ -28,7 +28,7 @@ const Login = () => {
   }
 
   return (
-    <Box textAlign='center' bg='gray.100' height='100vh' pt='10vh'>
+    <Box textAlign='center' height='100vh' pt='10vh'>
       <Flex
         direction='column'
         w='40rem'
