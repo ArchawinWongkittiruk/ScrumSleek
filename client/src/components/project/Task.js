@@ -82,7 +82,12 @@ const Task = ({ task }) => {
         <RadioGroup onChange={onChangeStatus} value={status._id}>
           <Flex>
             {statuses.map((status) => (
-              <Radio key={status._id} value={status._id} isDisabled={!sprintOngoing} mr='15px'>
+              <Radio
+                key={status._id}
+                value={status._id}
+                isDisabled={task.location !== 'SPRINT'}
+                mr='15px'
+              >
                 {status.title}
               </Radio>
             ))}
