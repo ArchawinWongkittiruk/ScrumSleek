@@ -17,7 +17,7 @@ const CreateTask = () => {
 
   return !adding ? (
     <Button onClick={() => setAdding(true)} colorScheme='green' mb='1rem'>
-      + Add a Task
+      + Add a User Story
     </Button>
   ) : (
     <Box width='300px' mb='1rem'>
@@ -32,7 +32,7 @@ const CreateTask = () => {
         />
         <Box>
           <Button type='submit' colorScheme='blue'>
-            Add Task
+            Add User Story
           </Button>
           <Button
             onClick={() => {
