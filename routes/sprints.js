@@ -39,8 +39,10 @@ router.post('/end', [auth, member], async (req, res) => {
     const project = await Project.findById(projectId);
     project.sprint.ongoing = false;
 
-    for (let task of project.tasks) {
-      if (task.location === 'SPRINT') {
+    for (const task of project.tasks) {
+      if (task.status == project.statuses[project.statuses.length - 1].id) {
+        task.location = 'COMPLETED';
+      } else if (task.location === 'SPRINT') {
         task.location = 'BACKLOG';
       }
     }

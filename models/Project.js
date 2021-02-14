@@ -20,7 +20,7 @@ const TaskSchema = new Schema(
     },
     location: {
       type: String,
-      enum: ['BACKLOG', 'SPRINTPLAN', 'SPRINT'],
+      enum: ['BACKLOG', 'SPRINTPLAN', 'SPRINT', 'COMPLETED'],
       default: 'BACKLOG',
     },
     status: {

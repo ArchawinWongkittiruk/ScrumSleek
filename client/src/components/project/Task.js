@@ -94,7 +94,7 @@ const Task = ({ task }) => {
           </Flex>
         </RadioGroup>
       </Box>
-      {task.location !== 'SPRINT' && !sprintOngoing && (
+      {!['SPRINT', 'COMPLETED'].includes(task.location) && !sprintOngoing && (
         <Button onClick={onMove} size='sm'>
           Move to {task.location === 'BACKLOG' ? 'Sprint Plan' : 'Backlog'}
         </Button>

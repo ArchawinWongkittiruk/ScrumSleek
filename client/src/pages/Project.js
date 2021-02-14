@@ -10,6 +10,7 @@ import Backlog from '../components/project/Backlog';
 import PlanSprint from '../components/project/PlanSprint';
 import Sprint from '../components/project/Sprint';
 import ProjectMenu from '../components/project/ProjectMenu';
+import Completed from '../components/project/Completed';
 
 const Project = ({ match }) => {
   const [page, setPage] = useState('backlog');
@@ -51,13 +52,18 @@ const Project = ({ match }) => {
               <Button onClick={() => setPage('sprint')} isDisabled={page === 'sprint'}>
                 Sprint
               </Button>
+              <Button onClick={() => setPage('completed')} isDisabled={page === 'completed'}>
+                Completed
+              </Button>
               <ProjectMenu project={project} />
             </Box>
           </Flex>
           {page === 'backlog' ? (
             <Backlog />
-          ) : (
+          ) : page === 'sprint' ? (
             <>{project.sprint.ongoing ? <Sprint /> : <PlanSprint />}</>
+          ) : (
+            <Completed />
           )}
         </Box>
       )}
