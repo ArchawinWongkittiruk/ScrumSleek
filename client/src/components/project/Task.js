@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { editTask, moveTask, deleteTask } from '../../actions/tasks';
+import { editTask, moveTask, changeTaskStatus, deleteTask } from '../../actions/tasks';
 import {
   Flex,
   Box,
   Text,
   Textarea,
   Button,
+  Radio,
+  RadioGroup,
   Popover,
   PopoverTrigger,
   PopoverContent,
@@ -23,6 +25,8 @@ const Task = ({ task }) => {
   const [title, setTitle] = useState(task.title);
   const [mouseOver, setMouseOver] = useState(false);
   const sprintOngoing = useSelector((state) => state.project.project.sprint.ongoing);
+  const statuses = useSelector((state) => state.project.project.statuses);
+  const status = statuses.find((status) => status._id === task.status);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,6 +43,10 @@ const Task = ({ task }) => {
   const onMove = async (e) => {
     e.preventDefault();
     dispatch(moveTask(task._id, { to: task.location === 'BACKLOG' ? 'SPRINTPLAN' : 'BACKLOG' }));
+  };
+
+  const onChangeStatus = async (newStatus) => {
+    dispatch(changeTaskStatus(task._id, { status: newStatus }));
   };
 
   const onDelete = async (e) => {
@@ -69,10 +77,20 @@ const Task = ({ task }) => {
             boxSize='1.5rem'
           />
         )}
-        <Text>{task.title}</Text>
+        <Text pb='15px'>{task.title}</Text>
+        <Box bg={status.color + '.500'} h='4px' w='100%' mb='10px' borderRadius='5px' />
+        <RadioGroup onChange={onChangeStatus} value={status._id}>
+          <Flex>
+            {statuses.map((status) => (
+              <Radio key={status._id} value={status._id} isDisabled={!sprintOngoing} mr='15px'>
+                {status.title}
+              </Radio>
+            ))}
+          </Flex>
+        </RadioGroup>
       </Box>
       {task.location !== 'SPRINT' && !sprintOngoing && (
-        <Button onClick={onMove}>
+        <Button onClick={onMove} size='sm'>
           Move to {task.location === 'BACKLOG' ? 'Sprint Plan' : 'Backlog'}
         </Button>
       )}

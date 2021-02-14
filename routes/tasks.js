@@ -23,6 +23,7 @@ router.post(
       // Create and save the task
       const project = await Project.findById(projectId);
       const task = { title };
+      task.status = project.statuses[0].id;
       project.tasks.push(task);
       await project.save();
 
@@ -93,6 +94,28 @@ router.patch('/move/:id', [auth, member], async (req, res) => {
     await project.save();
 
     res.send(task);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Change a task's status
+router.patch('/status/:id', [auth, member], async (req, res) => {
+  try {
+    const { status } = req.body;
+    const project = await Project.findById(req.header('projectId'));
+
+    const taskId = req.params.id;
+    const task = project.tasks.find((task) => task.id === taskId);
+    if (!task) {
+      return res.status(404).json({ msg: 'Task not found' });
+    }
+
+    task.status = status;
+    await project.save();
+
+    res.json(task);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

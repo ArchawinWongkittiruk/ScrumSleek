@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { ADD_TASK, PROJECT_ERROR, EDIT_TASK, MOVE_TASK, DELETE_TASK } from './types';
+import {
+  ADD_TASK,
+  PROJECT_ERROR,
+  EDIT_TASK,
+  MOVE_TASK,
+  CHANGE_TASK_STATUS,
+  DELETE_TASK,
+} from './types';
 
 const config = {
   headers: {
@@ -54,6 +61,25 @@ export const moveTask = (taskId, formData) => async (dispatch) => {
 
     dispatch({
       type: MOVE_TASK,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Change task status
+export const changeTaskStatus = (taskId, formData) => async (dispatch) => {
+  try {
+    const body = JSON.stringify(formData);
+
+    const res = await axios.patch(`/api/tasks/status/${taskId}`, body, config);
+
+    dispatch({
+      type: CHANGE_TASK_STATUS,
       payload: res.data,
     });
   } catch (err) {
