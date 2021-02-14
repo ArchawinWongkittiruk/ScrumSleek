@@ -1,13 +1,15 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link as ReactLink, Redirect } from 'react-router-dom';
-import { Image, Heading, Text, Button, Flex, Spacer } from '@chakra-ui/react';
+import { Image, Heading, Text, Button, Flex, Spacer, useColorMode } from '@chakra-ui/react';
+import { SunIcon, MoonIcon } from '@chakra-ui/icons';
 import ProjectTeamImage from '../images/undraw_project_team_lc5a.svg';
 import ScrumBoardImage from '../images/undraw_Scrum_board_re_wk7v.svg';
 
 import Copyright from '../components/other/Copyright';
 
 const Landing = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   if (isAuthenticated) {
@@ -21,6 +23,9 @@ const Landing = () => {
           ScrumSleek
         </Text>
         <Spacer />
+        <Button onClick={toggleColorMode} mr='1rem'>
+          {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+        </Button>
         <Button as={ReactLink} to='/login'>
           LOGIN
         </Button>

@@ -44,7 +44,6 @@ const Register = () => {
         align='center'
         p='2rem'
         boxShadow='xl'
-        bg='white'
       >
         <Text as='h1' fontSize='3rem'>
           ScrumSleek
