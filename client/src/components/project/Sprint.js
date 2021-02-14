@@ -70,6 +70,7 @@ const Sprint = () => {
       </Flex>
       <Progress
         value={progress}
+        borderRadius='5px'
         mb='1rem'
         w='100%'
         colorScheme={
