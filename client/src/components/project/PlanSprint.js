@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { startSprint } from '../../actions/sprints';
 import { Flex, Box, Text, Button, Textarea } from '@chakra-ui/react';
-import DateTimePicker from 'react-datetime-picker';
+import DateTimePicker from 'react-datetime-picker/dist/entry.nostyle';
+import '../../css/DateTimePicker.css';
+import '../../css/Calendar.css';
+import '../../css/Clock.css';
 
 import Task from './Task';
 
