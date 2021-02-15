@@ -25,7 +25,7 @@ const Projects = () => {
     <>
       <Navbar />
       <Flex direction='column' align='center' p='50px'>
-        <Text as='h1' fontSize='2rem' pb='1rem'>
+        <Text as='h1' fontSize='2rem' pb='1rem' textAlign='center'>
           Welcome {user && user.name}
         </Text>
         <Text as='h2' fontSize='1.5rem'>

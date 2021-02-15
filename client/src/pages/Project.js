@@ -2,7 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { getProject } from '../actions/project';
-import { Button, Box, Flex, CircularProgress } from '@chakra-ui/react';
+import {
+  Button,
+  Box,
+  Flex,
+  CircularProgress,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 
 import Navbar from '../components/other/Navbar';
 import ProjectTitle from '../components/project/ProjectTitle';
@@ -43,18 +53,40 @@ const Project = ({ match }) => {
         </Box>
       ) : (
         <Box p='1.5rem'>
-          <Flex justify='space-between'>
+          <Flex justify='space-between' wrap='wrap' minHeight='4rem'>
             <ProjectTitle project={project} />
-            <Box>
-              <Button onClick={() => setPage('backlog')} isDisabled={page === 'backlog'}>
-                Backlog
-              </Button>
-              <Button onClick={() => setPage('sprint')} isDisabled={page === 'sprint'}>
-                Sprint
-              </Button>
-              <Button onClick={() => setPage('completed')} isDisabled={page === 'completed'}>
-                Completed
-              </Button>
+            <Box minHeight='3rem'>
+              <Box display={{ base: 'none', md: 'inline' }}>
+                <Button onClick={() => setPage('backlog')} isDisabled={page === 'backlog'}>
+                  Backlog
+                </Button>
+                <Button onClick={() => setPage('sprint')} isDisabled={page === 'sprint'}>
+                  Sprint
+                </Button>
+                <Button onClick={() => setPage('completed')} isDisabled={page === 'completed'}>
+                  Completed
+                </Button>
+              </Box>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rightIcon={<ChevronDownIcon />}
+                  display={{ base: 'inline', md: 'none' }}
+                >
+                  Pages
+                </MenuButton>
+                <MenuList>
+                  <MenuItem onClick={() => setPage('backlog')} isDisabled={page === 'backlog'}>
+                    Backlog
+                  </MenuItem>
+                  <MenuItem onClick={() => setPage('sprint')} isDisabled={page === 'sprint'}>
+                    Sprint
+                  </MenuItem>
+                  <MenuItem onClick={() => setPage('completed')} isDisabled={page === 'completed'}>
+                    Completed
+                  </MenuItem>
+                </MenuList>
+              </Menu>
               <ProjectMenu project={project} />
             </Box>
           </Flex>
