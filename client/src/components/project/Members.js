@@ -42,21 +42,16 @@ const Members = () => {
 
   return (
     <Flex wrap='wrap' alignItems='center'>
-      <AvatarGroup pr='1rem'>
+      <AvatarGroup pr='1rem' mb={{ base: '0.5rem', md: 0 }}>
         {members.map((member) => (
           <TooltipAvatar
             key={member.user}
             name={member.name + ' - Role: ' + (member.role === 'admin' ? 'Admin' : 'Member')}
-            bg='gray.300'
-            color='gray.700'
-            mr='1rem'
-            mb={{ base: '0.5rem', md: 0 }}
-            cursor='default'
           />
         ))}
       </AvatarGroup>
       {isAdmin(project, user) && (
-        <Box mb={{ base: '0.5rem', md: 0 }}>
+        <Box>
           {!inviting ? (
             <Button onClick={() => setInviting(true)}>Invite</Button>
           ) : (
