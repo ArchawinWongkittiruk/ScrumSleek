@@ -29,7 +29,7 @@ const CreateTask = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && onSubmit(e)}
-            h='8rem'
+            h='10rem'
           />
           <Box>
             <Button type='submit' colorScheme='blue'>

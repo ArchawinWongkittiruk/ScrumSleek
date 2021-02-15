@@ -171,7 +171,7 @@ const Task = ({ task }) => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         onKeyPress={(e) => e.key === 'Enter' && onEditSubmit(e)}
-        h='8rem'
+        h='10rem'
       />
       <Flex justify='space-between'>
         <Box>
