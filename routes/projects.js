@@ -101,6 +101,36 @@ router.patch(
   }
 );
 
+// Add a project member
+router.put('/addMember/:userId', [auth, member], async (req, res) => {
+  try {
+    const project = await Project.findById(req.header('projectId'));
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    // See if already member of project
+    if (project.members.map((member) => member.user).includes(req.params.userId)) {
+      return res.status(400).json({ msg: 'Already member of project' });
+    }
+
+    // Add project to user's projects
+    user.projects.unshift(project.id);
+    await user.save();
+
+    // Add user to project's members with 'normal' role
+    project.members.push({ user: user.id, name: user.name, role: 'normal' });
+
+    await project.save();
+
+    res.json(project.members);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // Delete a project
 router.delete('/:id', [auth, admin], async (req, res) => {
   try {

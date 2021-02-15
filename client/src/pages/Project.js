@@ -21,6 +21,7 @@ import PlanSprint from '../components/project/PlanSprint';
 import Sprint from '../components/project/Sprint';
 import ProjectMenu from '../components/project/ProjectMenu';
 import Completed from '../components/project/Completed';
+import Members from '../components/project/Members';
 
 const Project = ({ match }) => {
   const [page, setPage] = useState('backlog');
@@ -53,10 +54,13 @@ const Project = ({ match }) => {
         </Box>
       ) : (
         <Box p='1.5rem'>
-          <Flex justify='space-between' wrap='wrap' minHeight='4rem'>
-            <ProjectTitle project={project} />
-            <Box minHeight='3rem'>
-              <Box display={{ base: 'none', md: 'inline' }}>
+          <Flex justify='space-between' alignItems='center' wrap='wrap' minHeight='4rem'>
+            <Flex direction={{ base: 'column', md: 'row' }} pb='1rem'>
+              <ProjectTitle project={project} />
+              <Members />
+            </Flex>
+            <Flex pb='1rem'>
+              <Box display={{ base: 'none', md: 'block' }}>
                 <Button onClick={() => setPage('backlog')} isDisabled={page === 'backlog'}>
                   Backlog
                 </Button>
@@ -71,7 +75,7 @@ const Project = ({ match }) => {
                 <MenuButton
                   as={Button}
                   rightIcon={<ChevronDownIcon />}
-                  display={{ base: 'inline', md: 'none' }}
+                  display={{ base: 'block', md: 'none' }}
                 >
                   Pages
                 </MenuButton>
@@ -88,7 +92,7 @@ const Project = ({ match }) => {
                 </MenuList>
               </Menu>
               <ProjectMenu project={project} />
-            </Box>
+            </Flex>
           </Flex>
           {page === 'backlog' ? (
             <Backlog />

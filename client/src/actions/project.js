@@ -7,6 +7,7 @@ import {
   ADD_PROJECT,
   PROJECT_ERROR,
   RENAME_PROJECT,
+  ADD_MEMBER,
   DELETE_PROJECT,
 } from './types';
 
@@ -88,6 +89,23 @@ export const renameProject = (projectId, formData) => async (dispatch) => {
 
     dispatch({
       type: RENAME_PROJECT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Add member
+export const addMember = (userId) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/api/projects/addMember/${userId}`);
+
+    dispatch({
+      type: ADD_MEMBER,
       payload: res.data,
     });
   } catch (err) {

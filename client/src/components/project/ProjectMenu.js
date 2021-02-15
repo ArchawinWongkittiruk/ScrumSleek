@@ -1,7 +1,8 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import isAdmin from '../../utils/isAdmin';
 import { deleteProject } from '../../actions/project';
 import {
   Button,
@@ -19,6 +20,7 @@ import {
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
 const ProjectMenu = ({ project }) => {
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   let history = useHistory();
 
@@ -35,7 +37,9 @@ const ProjectMenu = ({ project }) => {
       <MenuList p='1rem'>
         <Popover>
           <PopoverTrigger>
-            <Button colorScheme='red'>Delete Project</Button>
+            <Button colorScheme='red' isDisabled={!isAdmin(project, user)}>
+              Delete Project
+            </Button>
           </PopoverTrigger>
           <PopoverContent>
             <PopoverArrow />

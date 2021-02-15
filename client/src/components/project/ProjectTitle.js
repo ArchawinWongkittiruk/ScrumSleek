@@ -20,7 +20,7 @@ const ProjectTitle = ({ project }) => {
   };
 
   return (
-    <Box minHeight='3rem'>
+    <Box minHeight='3rem' pr='1.5rem'>
       {!editing ? (
         <Text onClick={() => setEditing(true)} fontSize='2xl' cursor='pointer' w='fit-content'>
           {project.title}
