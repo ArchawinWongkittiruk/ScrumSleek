@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { editTask, moveTask, changeTaskStatus, deleteTask } from '../../actions/tasks';
+import {
+  editTask,
+  moveTask,
+  changeTaskStatus,
+  addTaskMember,
+  deleteTask,
+} from '../../actions/tasks';
 import {
   Flex,
   Box,
   Text,
   Textarea,
+  IconButton,
+  Checkbox,
+  AvatarGroup,
   Button,
   Radio,
   RadioGroup,
@@ -19,11 +28,15 @@ import {
   PopoverCloseButton,
 } from '@chakra-ui/react';
 import { EditIcon, CloseIcon } from '@chakra-ui/icons';
+import { BiUser } from 'react-icons/bi';
+
+import TooltipAvatar from '../other/TooltipAvatar';
 
 const Task = ({ task }) => {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [mouseOver, setMouseOver] = useState(false);
+  const projectMembers = useSelector((state) => state.project.project.members);
   const sprintOngoing = useSelector((state) => state.project.project.sprint.ongoing);
   const statuses = useSelector((state) => state.project.project.statuses);
   const status = statuses.find((status) => status._id === task.status);
@@ -49,6 +62,16 @@ const Task = ({ task }) => {
     dispatch(changeTaskStatus(task._id, { status: newStatus }));
   };
 
+  const onAddTaskMember = async (e) => {
+    dispatch(
+      addTaskMember({
+        add: e.target.checked,
+        taskId: task._id,
+        userId: e.target.name,
+      })
+    );
+  };
+
   const onDelete = async (e) => {
     e.preventDefault();
     dispatch(deleteTask(task._id));
@@ -67,17 +90,57 @@ const Task = ({ task }) => {
         position='relative'
       >
         {mouseOver && (
-          <EditIcon
-            onClick={() => setEditing(true)}
-            cursor='pointer'
-            position='absolute'
-            left='90%'
-            top='0'
-            zIndex='1'
-            boxSize='1.5rem'
-          />
+          <>
+            <IconButton
+              onClick={() => setEditing(true)}
+              icon={<EditIcon />}
+              aria-label='Edit User Story'
+              position='absolute'
+              left='69%'
+              top='5px'
+              zIndex='1'
+            />
+            <Popover>
+              <PopoverTrigger>
+                <IconButton
+                  icon={<BiUser />}
+                  aria-label='Add Member to User Story'
+                  position='absolute'
+                  left='84%'
+                  top='5px'
+                  zIndex='1'
+                />
+              </PopoverTrigger>
+              <PopoverContent>
+                <PopoverArrow />
+                <PopoverCloseButton />
+                <PopoverHeader>Members</PopoverHeader>
+                <PopoverBody>
+                  {projectMembers.map((member) => (
+                    <Checkbox
+                      key={member.user}
+                      isChecked={task.members
+                        .map((taskMember) => taskMember.user)
+                        .includes(member.user)}
+                      onChange={onAddTaskMember}
+                      name={member.user}
+                    >
+                      {member.name}
+                    </Checkbox>
+                  ))}
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
+          </>
         )}
-        <Text pb='15px'>{task.title}</Text>
+        <Text pb={task.members.length > 0 ? '10px' : '15px'}>{task.title}</Text>
+        {task.members.length > 0 && (
+          <AvatarGroup pb='15px' flexWrap='wrap'>
+            {task.members.map((member) => (
+              <TooltipAvatar key={member.user} name={member.name} size='sm' />
+            ))}
+          </AvatarGroup>
+        )}
         <Box bg={status.color + '.500'} h='4px' w='100%' mb='10px' borderRadius='5px' />
         <RadioGroup onChange={onChangeStatus} value={status._id}>
           <Flex>

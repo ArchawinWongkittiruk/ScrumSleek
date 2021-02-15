@@ -5,6 +5,7 @@ import {
   EDIT_TASK,
   MOVE_TASK,
   CHANGE_TASK_STATUS,
+  ADD_TASK_MEMBER,
   DELETE_TASK,
 } from './types';
 
@@ -80,6 +81,25 @@ export const changeTaskStatus = (taskId, formData) => async (dispatch) => {
 
     dispatch({
       type: CHANGE_TASK_STATUS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Add task member
+export const addTaskMember = (formData) => async (dispatch) => {
+  try {
+    const { add, taskId, userId } = formData;
+
+    const res = await axios.put(`/api/tasks/addMember/${add}/${taskId}/${userId}`);
+
+    dispatch({
+      type: ADD_TASK_MEMBER,
       payload: res.data,
     });
   } catch (err) {

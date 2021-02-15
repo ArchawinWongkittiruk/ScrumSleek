@@ -11,6 +11,7 @@ import {
   EDIT_TASK,
   MOVE_TASK,
   CHANGE_TASK_STATUS,
+  ADD_TASK_MEMBER,
   DELETE_TASK,
   START_SPRINT,
   END_SPRINT,
@@ -75,6 +76,7 @@ export default function Project(state = initialState, action) {
     case EDIT_TASK:
     case MOVE_TASK:
     case CHANGE_TASK_STATUS:
+    case ADD_TASK_MEMBER:
       return {
         ...state,
         project: {

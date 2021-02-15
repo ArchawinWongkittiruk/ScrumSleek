@@ -122,6 +122,38 @@ router.patch('/status/:id', [auth, member], async (req, res) => {
   }
 });
 
+// Add/Remove a member
+router.put('/addMember/:add/:taskId/:userId', [auth, member], async (req, res) => {
+  try {
+    const { taskId, userId } = req.params;
+    const project = await Project.findById(req.header('projectId'));
+    const user = project.members.find((member) => member.user == userId);
+    const task = project.tasks.find((task) => task.id === taskId);
+    if (!task || !user) {
+      return res.status(404).json({ msg: 'Task/user not found' });
+    }
+
+    const add = req.params.add === 'true';
+    const members = task.members.map((member) => member.user);
+    const index = members.indexOf(userId);
+    if ((add && members.includes(userId)) || (!add && index === -1)) {
+      return res.json(task);
+    }
+
+    if (add) {
+      task.members.push({ user: user.user, name: user.name });
+    } else {
+      task.members.splice(index, 1);
+    }
+    await project.save();
+
+    res.json(task);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // Delete a task
 router.delete('/:id', [auth, member], async (req, res) => {
   try {
