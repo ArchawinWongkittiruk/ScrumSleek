@@ -116,18 +116,20 @@ const Task = ({ task }) => {
                 <PopoverCloseButton />
                 <PopoverHeader>Members</PopoverHeader>
                 <PopoverBody>
-                  {projectMembers.map((member) => (
-                    <Checkbox
-                      key={member.user}
-                      isChecked={task.members
-                        .map((taskMember) => taskMember.user)
-                        .includes(member.user)}
-                      onChange={onAddTaskMember}
-                      name={member.user}
-                    >
-                      {member.name}
-                    </Checkbox>
-                  ))}
+                  <Flex direction='column'>
+                    {projectMembers.map((member) => (
+                      <Checkbox
+                        key={member.user}
+                        isChecked={task.members
+                          .map((taskMember) => taskMember.user)
+                          .includes(member.user)}
+                        onChange={onAddTaskMember}
+                        name={member.user}
+                      >
+                        {member.name}
+                      </Checkbox>
+                    ))}
+                  </Flex>
                 </PopoverBody>
               </PopoverContent>
             </Popover>
