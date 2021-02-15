@@ -51,7 +51,7 @@ const PlanSprint = () => {
         </Box>
         <Box pt='1rem'>
           <Text>Sprint Tasks</Text>
-          <Flex borderWidth='2px' borderRadius='lg' p='1rem' minHeight='10rem'>
+          <Flex wrap='wrap' borderWidth='2px' borderRadius='lg' p='1rem' minHeight='10rem'>
             {tasks.map((task) => (
               <Task task={task} key={task._id} />
             ))}
