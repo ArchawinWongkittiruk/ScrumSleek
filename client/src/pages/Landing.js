@@ -23,13 +23,13 @@ const Landing = () => {
           ScrumSleek
         </Text>
         <Spacer />
-        <Button onClick={toggleColorMode} mr='1rem'>
+        <Button onClick={toggleColorMode} mr='0.5rem' size='sm'>
           {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
         </Button>
-        <Button as={ReactLink} to='/login'>
+        <Button as={ReactLink} to='/login' size='sm'>
           LOGIN
         </Button>
-        <Button as={ReactLink} to='/register' colorScheme='green'>
+        <Button as={ReactLink} to='/register' colorScheme='green' size='sm'>
           SIGN UP
         </Button>
       </Flex>
