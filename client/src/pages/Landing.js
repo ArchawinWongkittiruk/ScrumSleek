@@ -30,10 +30,21 @@ const Landing = () => {
         <Button onClick={toggleColorMode} mr='0.5rem' size='sm'>
           {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
         </Button>
-        <Button as={ReactLink} to='/login' size='sm'>
+        <Button
+          as={ReactLink}
+          to='/login'
+          width={{ base: '4.2rem', md: '5rem' }}
+          height={{ base: '2rem', md: '2.5rem' }}
+        >
           LOGIN
         </Button>
-        <Button as={ReactLink} to='/register' colorScheme='green' size='sm'>
+        <Button
+          as={ReactLink}
+          to='/register'
+          colorScheme='green'
+          width={{ base: '4.8rem', md: '6rem' }}
+          height={{ base: '2rem', md: '2.5rem' }}
+        >
           SIGN UP
         </Button>
       </Flex>
