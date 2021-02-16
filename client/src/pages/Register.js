@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as ReactLink, Redirect } from 'react-router-dom';
 import { setAlert } from '../actions/alert';
@@ -16,6 +16,10 @@ const Register = () => {
   });
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    document.title = 'ScrumSleek | Sign Up';
+  });
 
   const { name, email, password, password2 } = formData;
 

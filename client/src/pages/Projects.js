@@ -17,6 +17,10 @@ const Projects = () => {
     if (user) dispatch(getProjects());
   }, [dispatch, user]);
 
+  useEffect(() => {
+    document.title = 'Your Projects | ScrumSleek';
+  });
+
   if (!isAuthenticated) {
     return <Redirect to='/' />;
   }

@@ -34,6 +34,10 @@ const Project = ({ match }) => {
   }, [dispatch, match.params.id]);
 
   useEffect(() => {
+    if (project?.title) document.title = project.title + ' | ScrumSleek';
+  });
+
+  useEffect(() => {
     if (project?.sprint?.ongoing) {
       setPage('sprint');
     } else {

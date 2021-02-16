@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link as ReactLink, Redirect } from 'react-router-dom';
 import { Image, Heading, Text, Button, Flex, Spacer, useColorMode } from '@chakra-ui/react';
@@ -11,6 +11,10 @@ import Copyright from '../components/other/Copyright';
 const Landing = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  useEffect(() => {
+    document.title = 'ScrumSleek';
+  });
 
   if (isAuthenticated) {
     return <Redirect to='/projects' />;
