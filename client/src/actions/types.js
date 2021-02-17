@@ -27,3 +27,9 @@ export const DELETE_TASK = 'DELETE_TASK';
 
 export const START_SPRINT = 'START_SPRINT';
 export const END_SPRINT = 'END_SPRINT';
+
+// Sprint Plan Form
+export const RESET_SPRINT_PLAN = 'RESET_SPRINT_PLAN';
+export const SET_SPRINT_START = 'SET_SPRINT_START';
+export const SET_SPRINT_END = 'SET_SPRINT_END';
+export const SET_SPRINT_TARGET = 'SET_SPRINT_TARGET';

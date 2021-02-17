@@ -9,6 +9,7 @@ import {
   RENAME_PROJECT,
   ADD_MEMBER,
   DELETE_PROJECT,
+  RESET_SPRINT_PLAN,
 } from './types';
 
 const config = {
@@ -62,6 +63,8 @@ export const getProjects = () => async (dispatch) => {
 // Get project
 export const getProject = (id) => async (dispatch) => {
   try {
+    dispatch({ type: RESET_SPRINT_PLAN });
+
     const res = await axios.get(`/api/projects/${id}`);
 
     if (res) {

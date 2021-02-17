@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { SET_SPRINT_START, SET_SPRINT_END, SET_SPRINT_TARGET } from '../../actions/types';
 import { startSprint } from '../../actions/sprints';
 import { Flex, Box, Text, Button, Textarea } from '@chakra-ui/react';
 import DateTimePicker from 'react-datetime-picker/dist/entry.nostyle';
@@ -10,11 +11,7 @@ import '../../css/Clock.css';
 import Task from './Task';
 
 const PlanSprint = () => {
-  const [start, setStart] = useState(new Date());
-  const startPlusWeek = new Date();
-  startPlusWeek.setDate(startPlusWeek.getDate() + 7);
-  const [end, setEnd] = useState(startPlusWeek);
-  const [target, setTarget] = useState('');
+  const { start, end, target } = useSelector((state) => state.forms);
   const tasks = useSelector((state) =>
     state.project.project.tasks.filter((task) => task.location === 'SPRINTPLAN')
   );
@@ -32,11 +29,19 @@ const PlanSprint = () => {
         <Flex pt='0.5rem' wrap='wrap'>
           <Box pr='1rem'>
             <Text>Start</Text>
-            <DateTimePicker required onChange={setStart} value={start} />
+            <DateTimePicker
+              required
+              onChange={(newDate) => dispatch({ type: SET_SPRINT_START, payload: newDate })}
+              value={start}
+            />
           </Box>
           <Box>
             <Text>End</Text>
-            <DateTimePicker required onChange={setEnd} value={end} />
+            <DateTimePicker
+              required
+              onChange={(newDate) => dispatch({ type: SET_SPRINT_END, payload: newDate })}
+              value={end}
+            />
           </Box>
         </Flex>
         <Box pt='1rem'>
@@ -44,7 +49,7 @@ const PlanSprint = () => {
           <Textarea
             isRequired
             value={target}
-            onChange={(e) => setTarget(e.target.value)}
+            onChange={(e) => dispatch({ type: SET_SPRINT_TARGET, payload: e.target.value })}
             maxWidth='30rem'
             h='10rem'
           />
