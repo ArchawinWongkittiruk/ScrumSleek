@@ -19,7 +19,7 @@ const Register = () => {
 
   useEffect(() => {
     document.title = 'ScrumSleek | Sign Up';
-  });
+  }, []);
 
   const { name, email, password, password2 } = formData;
 

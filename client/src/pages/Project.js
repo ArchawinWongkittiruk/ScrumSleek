@@ -35,7 +35,7 @@ const Project = ({ match }) => {
 
   useEffect(() => {
     if (project?.title) document.title = project.title + ' | ScrumSleek';
-  });
+  }, [project?.title]);
 
   useEffect(() => {
     if (project?.sprint?.ongoing) {

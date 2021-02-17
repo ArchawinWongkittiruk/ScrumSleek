@@ -16,7 +16,7 @@ const Login = () => {
 
   useEffect(() => {
     document.title = 'ScrumSleek | Sign In';
-  });
+  }, []);
 
   const { email, password } = formData;
 

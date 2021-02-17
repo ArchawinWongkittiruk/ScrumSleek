@@ -19,7 +19,7 @@ const Projects = () => {
 
   useEffect(() => {
     document.title = 'Your Projects | ScrumSleek';
-  });
+  }, []);
 
   if (!isAuthenticated) {
     return <Redirect to='/' />;

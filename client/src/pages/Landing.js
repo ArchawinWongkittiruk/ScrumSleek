@@ -14,7 +14,7 @@ const Landing = () => {
 
   useEffect(() => {
     document.title = 'ScrumSleek';
-  });
+  }, []);
 
   if (isAuthenticated) {
     return <Redirect to='/projects' />;
