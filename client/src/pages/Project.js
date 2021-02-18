@@ -23,7 +23,8 @@ import Completed from '../components/project/Completed';
 import Members from '../components/project/Members';
 
 const Project = ({ match }) => {
-  const [page, setPage] = useState('backlog');
+  const pages = ['Backlog', 'Sprint', 'Completed'];
+  const [currentPage, setCurrentPage] = useState('Backlog');
   const project = useSelector((state) => state.project.project);
   const dispatch = useDispatch();
 
@@ -37,9 +38,9 @@ const Project = ({ match }) => {
 
   useEffect(() => {
     if (project?.sprint?.ongoing) {
-      setPage('sprint');
+      setCurrentPage('Sprint');
     } else {
-      setPage('backlog');
+      setCurrentPage('Backlog');
     }
   }, [project?.sprint?.ongoing]);
 
@@ -59,15 +60,11 @@ const Project = ({ match }) => {
             </Flex>
             <Flex pb='1rem'>
               <Box display={{ base: 'none', md: 'block' }}>
-                <Button onClick={() => setPage('backlog')} isDisabled={page === 'backlog'}>
-                  Backlog
-                </Button>
-                <Button onClick={() => setPage('sprint')} isDisabled={page === 'sprint'}>
-                  Sprint
-                </Button>
-                <Button onClick={() => setPage('completed')} isDisabled={page === 'completed'}>
-                  Completed
-                </Button>
+                {pages.map((page) => (
+                  <Button onClick={() => setCurrentPage(page)} isDisabled={page === currentPage}>
+                    {page}
+                  </Button>
+                ))}
               </Box>
               <Menu>
                 <MenuButton
@@ -78,23 +75,22 @@ const Project = ({ match }) => {
                   Pages
                 </MenuButton>
                 <MenuList>
-                  <MenuItem onClick={() => setPage('backlog')} isDisabled={page === 'backlog'}>
-                    Backlog
-                  </MenuItem>
-                  <MenuItem onClick={() => setPage('sprint')} isDisabled={page === 'sprint'}>
-                    Sprint
-                  </MenuItem>
-                  <MenuItem onClick={() => setPage('completed')} isDisabled={page === 'completed'}>
-                    Completed
-                  </MenuItem>
+                  {pages.map((page) => (
+                    <MenuItem
+                      onClick={() => setCurrentPage(page)}
+                      isDisabled={page === currentPage}
+                    >
+                      {page}
+                    </MenuItem>
+                  ))}
                 </MenuList>
               </Menu>
               <ProjectMenu project={project} />
             </Flex>
           </Flex>
-          {page === 'backlog' ? (
+          {currentPage === 'Backlog' ? (
             <Backlog />
-          ) : page === 'sprint' ? (
+          ) : currentPage === 'Sprint' ? (
             <>{project.sprint.ongoing ? <Sprint /> : <PlanSprint />}</>
           ) : (
             <Completed />
