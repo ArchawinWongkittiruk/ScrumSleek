@@ -102,7 +102,7 @@ router.patch(
 );
 
 // Add a project member
-router.put('/addMember/:userId', [auth, member], async (req, res) => {
+router.put('/addMember/:userId', [auth, admin], async (req, res) => {
   try {
     const project = await Project.findById(req.header('projectId'));
     const user = await User.findById(req.params.userId);
