@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Flex, Text } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 
-import Task from './Task';
+import TaskList from './TaskList';
 
 const Completed = () => {
   const tasks = useSelector((state) =>
@@ -12,11 +12,7 @@ const Completed = () => {
   return (
     <>
       <Text fontSize='xl'>Completed User Stories</Text>
-      <Flex wrap='wrap' pt='1rem'>
-        {tasks.map((task) => (
-          <Task task={task} key={task._id} />
-        ))}
-      </Flex>
+      <TaskList tasks={tasks} />
     </>
   );
 };

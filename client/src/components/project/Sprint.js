@@ -17,7 +17,7 @@ import {
   PopoverCloseButton,
 } from '@chakra-ui/react';
 
-import Task from './Task';
+import TaskList from './TaskList';
 
 dayjs.extend(relativeTime);
 
@@ -86,11 +86,7 @@ const Sprint = () => {
         </Text>
       </Flex>
       <Text>Target - {sprint.target}</Text>
-      <Flex wrap='wrap' pt='1rem'>
-        {tasks.map((task) => (
-          <Task task={task} key={task._id} />
-        ))}
-      </Flex>
+      <TaskList tasks={tasks} />
     </>
   );
 };

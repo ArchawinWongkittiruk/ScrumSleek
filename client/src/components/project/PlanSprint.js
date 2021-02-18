@@ -8,7 +8,7 @@ import '../../css/DateTimePicker.css';
 import '../../css/Calendar.css';
 import '../../css/Clock.css';
 
-import Task from './Task';
+import TaskList from './TaskList';
 
 const PlanSprint = () => {
   const { start, end, target } = useSelector((state) => state.forms);
@@ -56,11 +56,9 @@ const PlanSprint = () => {
         </Box>
         <Box pt='1rem'>
           <Text>Sprint Tasks</Text>
-          <Flex wrap='wrap' borderWidth='2px' borderRadius='lg' p='1rem' minHeight='10rem'>
-            {tasks.map((task) => (
-              <Task task={task} key={task._id} />
-            ))}
-          </Flex>
+          <Box borderWidth='2px' borderRadius='lg' p='0 1rem' minHeight='10rem'>
+            <TaskList tasks={tasks} />
+          </Box>
         </Box>
         <Button
           type='submit'
