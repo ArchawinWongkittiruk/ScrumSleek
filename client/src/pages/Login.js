@@ -12,6 +12,7 @@ const Login = () => {
     password: '',
   });
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const project = useSelector((state) => state.project.project);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,7 +29,11 @@ const Login = () => {
   };
 
   if (isAuthenticated) {
-    return <Redirect to='/projects' />;
+    if (project) {
+      return <Redirect to={`/project/${project._id}`} />;
+    } else {
+      return <Redirect to='/projects' />;
+    }
   }
 
   return (

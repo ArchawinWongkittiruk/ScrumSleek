@@ -97,5 +97,6 @@ export const login = (email, password) => async (dispatch) => {
 
 // Logout
 export const logout = () => async (dispatch) => {
+  setAuthToken(null);
   dispatch({ type: LOGOUT });
 };

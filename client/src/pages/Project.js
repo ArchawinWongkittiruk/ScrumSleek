@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { getProject } from '../actions/project';
 import {
   Button,
@@ -26,7 +25,6 @@ import Members from '../components/project/Members';
 const Project = ({ match }) => {
   const [page, setPage] = useState('backlog');
   const project = useSelector((state) => state.project.project);
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -44,10 +42,6 @@ const Project = ({ match }) => {
       setPage('backlog');
     }
   }, [project?.sprint?.ongoing]);
-
-  if (!isAuthenticated) {
-    return <Redirect to='/' />;
-  }
 
   return (
     <>

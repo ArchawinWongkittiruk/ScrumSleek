@@ -60,7 +60,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 // Get a project by id
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) {

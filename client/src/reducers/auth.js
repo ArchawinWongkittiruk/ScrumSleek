@@ -45,6 +45,7 @@ export default function Auth(state = initialState, action) {
         token: null,
         isAuthenticated: false,
         loading: false,
+        user: null,
       };
     default:
       return state;
