@@ -66,11 +66,10 @@ router.patch(
   }
 );
 
-// Move a task
+// Move a task (for both locations and indexes)
 router.patch('/move/:id', [auth, member], async (req, res) => {
   try {
-    // const { to, toIndex } = req.body;
-    const { to } = req.body;
+    const { to, oldIndex, newIndex } = req.body;
     const project = await Project.findById(req.header('projectId'));
 
     const taskId = req.params.id;
@@ -79,21 +78,18 @@ router.patch('/move/:id', [auth, member], async (req, res) => {
       return res.status(404).json({ msg: 'Task not found' });
     }
 
-    // if (toIndex === 0 || toIndex) {
-    //   project.tasks.splice(toIndex, 0, task);
-    // } else {
-    //   project.tasks.push(task);
-    // }
+    // Changing index
+    if (oldIndex !== null && newIndex !== null && oldIndex !== newIndex) {
+      project.tasks.splice(oldIndex, 1);
+      project.tasks.splice(newIndex, 0, task);
+    }
 
-    // const fromIndex = project.tasks.indexOf(task);
-    // if (fromIndex !== -1) {
-    //   project.tasks.splice(fromIndex, 1);
-    // }
+    // Changing location
+    if (to) task.location = to;
 
-    task.location = to;
     await project.save();
 
-    res.send(task);
+    res.json(project.tasks);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

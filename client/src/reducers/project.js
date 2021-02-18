@@ -74,7 +74,6 @@ export default function Project(state = initialState, action) {
         project: { ...state.project, tasks: [...state.project.tasks, payload] },
       };
     case EDIT_TASK:
-    case MOVE_TASK:
     case CHANGE_TASK_STATUS:
     case ADD_TASK_MEMBER:
       return {
@@ -83,6 +82,11 @@ export default function Project(state = initialState, action) {
           ...state.project,
           tasks: state.project.tasks.map((task) => (task._id === payload._id ? payload : task)),
         },
+      };
+    case MOVE_TASK:
+      return {
+        ...state,
+        project: { ...state.project, tasks: payload },
       };
     case DELETE_TASK:
       return {
