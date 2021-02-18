@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import {
   editTask,
   moveTask,
@@ -27,7 +29,7 @@ import {
   PopoverArrow,
   PopoverCloseButton,
 } from '@chakra-ui/react';
-import { EditIcon, CloseIcon } from '@chakra-ui/icons';
+import { EditIcon, CloseIcon, DragHandleIcon } from '@chakra-ui/icons';
 import { BiUser } from 'react-icons/bi';
 
 import TooltipAvatar from '../other/TooltipAvatar';
@@ -41,6 +43,14 @@ const Task = ({ task }) => {
   const statuses = useSelector((state) => state.project.project.statuses);
   const status = statuses.find((status) => status._id === task.status);
   const dispatch = useDispatch();
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+    id: task._id,
+  });
+
+  const dndStyle = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   useEffect(() => {
     setTitle(task.title);
@@ -78,7 +88,7 @@ const Task = ({ task }) => {
   };
 
   return !editing ? (
-    <Box m='0 1rem 1rem 0'>
+    <Box ref={setNodeRef} style={dndStyle} m='0 1rem 1rem 0'>
       <Box
         onMouseOver={() => setMouseOver(true)}
         onMouseLeave={() => setMouseOver(false)}
@@ -91,22 +101,13 @@ const Task = ({ task }) => {
       >
         {mouseOver && (
           <>
-            <IconButton
-              onClick={() => setEditing(true)}
-              icon={<EditIcon />}
-              aria-label='Edit User Story'
-              position='absolute'
-              left='69%'
-              top='5px'
-              zIndex='1'
-            />
             <Popover>
               <PopoverTrigger>
                 <IconButton
                   icon={<BiUser />}
                   aria-label='Add Member to User Story'
                   position='absolute'
-                  left='84%'
+                  left='60%'
                   top='5px'
                   zIndex='1'
                 />
@@ -133,6 +134,27 @@ const Task = ({ task }) => {
                 </PopoverBody>
               </PopoverContent>
             </Popover>
+            <IconButton
+              onClick={() => setEditing(true)}
+              icon={<EditIcon />}
+              aria-label='Edit User Story'
+              position='absolute'
+              left='75%'
+              top='5px'
+              zIndex='1'
+            />
+            <DragHandleIcon
+              cursor='grab'
+              _pressed={{ cursor: 'grabbing' }}
+              color='gray.500'
+              position='absolute'
+              left='89%'
+              top='9px'
+              zIndex='1'
+              {...attributes}
+              {...listeners}
+              boxSize='2rem'
+            />
           </>
         )}
         <Text pb={task.members.length > 0 ? '10px' : '15px'}>{task.title}</Text>
@@ -166,7 +188,7 @@ const Task = ({ task }) => {
       )}
     </Box>
   ) : (
-    <Box w='300px' m='0 1rem 1rem 0'>
+    <Box ref={setNodeRef} style={dndStyle} w='300px' m='0 1rem 1rem 0'>
       <Textarea
         isRequired
         autoFocus

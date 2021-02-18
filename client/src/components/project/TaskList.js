@@ -14,30 +14,11 @@ import {
   sortableKeyboardCoordinates,
   rectSortingStrategy,
 } from '@dnd-kit/sortable';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 import { moveTask } from '../../actions/tasks';
 import { Flex } from '@chakra-ui/react';
 
 import CreateTask from './CreateTask';
 import Task from './Task';
-
-const SortableItem = ({ task }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
-    id: task._id,
-  });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
-  return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <Task task={task} />
-    </div>
-  );
-};
 
 const TaskList = ({ tasks, canCreateTask }) => {
   const allTasks = useSelector((state) => state.project.project.tasks);
@@ -65,7 +46,7 @@ const TaskList = ({ tasks, canCreateTask }) => {
       <SortableContext items={tasks.map((task) => task._id)} strategy={rectSortingStrategy}>
         <Flex wrap='wrap' pt='1rem'>
           {tasks.map((task) => (
-            <SortableItem key={task._id} task={task} />
+            <Task key={task._id} task={task} />
           ))}
           {canCreateTask && <CreateTask />}
         </Flex>
