@@ -44,10 +44,7 @@ const Members = () => {
     <Flex wrap='wrap' alignItems='center'>
       <AvatarGroup pr='1rem' mb={{ base: '0.5rem', md: 0 }} flexWrap='wrap'>
         {members.map((member) => (
-          <TooltipAvatar
-            key={member.user}
-            name={member.name + ' - Role: ' + (member.role === 'admin' ? 'Admin' : 'Member')}
-          />
+          <TooltipAvatar key={member.user} name={member.name} />
         ))}
       </AvatarGroup>
       {isAdmin(project, user) && (
