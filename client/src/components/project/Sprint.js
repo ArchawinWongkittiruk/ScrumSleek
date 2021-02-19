@@ -31,16 +31,13 @@ const Sprint = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setProgress(
-      (tasks.reduce(
-        (total, task) =>
-          total +
-          statuses.findIndex((status) => status._id === task.status) / (statuses.length - 1),
-        0
-      ) /
-        tasks.length) *
-        100
-    );
+    let totalProgress = 0;
+    for (const task of tasks) {
+      const statusIndex = statuses.findIndex((status) => status._id === task.status);
+      totalProgress += (statusIndex / (statuses.length - 1)) * task.storyPoints;
+    }
+    const totalStoryPoints = tasks.reduce((total, task) => total + task.storyPoints, 0);
+    setProgress((totalProgress / totalStoryPoints) * 100);
   }, [tasks, statuses]);
 
   const onEndSprint = async (e) => {
