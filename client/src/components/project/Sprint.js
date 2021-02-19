@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 
 import TaskList from './TaskList';
+import StoryPoints from './StoryPoints';
 
 dayjs.extend(relativeTime);
 
@@ -49,21 +50,26 @@ const Sprint = () => {
     <>
       <Flex justify='space-between' wrap='wrap' pb='1rem'>
         <Text fontSize='xl'>Sprint Progress</Text>
-        <Popover>
-          <PopoverTrigger>
-            <Button colorScheme={progress !== 100 ? 'red' : 'green'}>End Sprint</Button>
-          </PopoverTrigger>
-          <PopoverContent mr='1.5rem'>
-            <PopoverArrow />
-            <PopoverCloseButton />
-            <PopoverHeader>Are You Sure?</PopoverHeader>
-            <PopoverBody>
-              <Button onClick={onEndSprint} colorScheme={progress !== 100 ? 'red' : 'green'}>
-                Yes, End the Sprint
+        <Flex wrap='wrap'>
+          <StoryPoints tasks={tasks} />
+          <Popover>
+            <PopoverTrigger>
+              <Button colorScheme={progress !== 100 ? 'red' : 'green'} ml='0.8rem'>
+                End Sprint
               </Button>
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
+            </PopoverTrigger>
+            <PopoverContent mr='1.5rem'>
+              <PopoverArrow />
+              <PopoverCloseButton />
+              <PopoverHeader>Are You Sure?</PopoverHeader>
+              <PopoverBody>
+                <Button onClick={onEndSprint} colorScheme={progress !== 100 ? 'red' : 'green'}>
+                  Yes, End the Sprint
+                </Button>
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
+        </Flex>
       </Flex>
       <Progress
         value={progress}

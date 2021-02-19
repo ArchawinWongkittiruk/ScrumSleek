@@ -9,6 +9,7 @@ import '../../css/Calendar.css';
 import '../../css/Clock.css';
 
 import TaskList from './TaskList';
+import StoryPoints from './StoryPoints';
 
 const PlanSprint = () => {
   const { start, end, target } = useSelector((state) => state.forms);
@@ -24,7 +25,10 @@ const PlanSprint = () => {
 
   return (
     <>
-      <Text fontSize='xl'>Sprint Plan</Text>
+      <Flex wrap='wrap' justify='space-between'>
+        <Text fontSize='xl'>Sprint Plan</Text>
+        <StoryPoints tasks={tasks} />
+      </Flex>
       <form onSubmit={(e) => onSubmit(e)}>
         <Flex pt='0.5rem' wrap='wrap'>
           <Box pr='1rem'>

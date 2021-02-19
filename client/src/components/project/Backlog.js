@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 
 import TaskList from './TaskList';
+import StoryPoints from './StoryPoints';
 
 const Backlog = () => {
   const tasks = useSelector((state) =>
@@ -11,7 +12,10 @@ const Backlog = () => {
 
   return (
     <>
-      <Text fontSize='xl'>Backlog</Text>
+      <Flex wrap='wrap' justify='space-between'>
+        <Text fontSize='xl'>Backlog</Text>
+        <StoryPoints tasks={tasks} />
+      </Flex>
       <TaskList tasks={tasks} canCreateTask />
     </>
   );
