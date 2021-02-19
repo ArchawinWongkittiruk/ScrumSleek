@@ -10,6 +10,8 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Alert as AlertCUI,
+  AlertIcon,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
@@ -25,7 +27,10 @@ import Members from '../components/project/Members';
 const Project = ({ match }) => {
   const pages = ['Backlog', 'Sprint', 'Completed'];
   const [currentPage, setCurrentPage] = useState('Backlog');
+  const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.project.project);
+  const isMember =
+    user && project ? project.members.map((member) => member.user).includes(user._id) : false;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -53,6 +58,12 @@ const Project = ({ match }) => {
         </Box>
       ) : (
         <Box p='1.5rem'>
+          {!isMember && (
+            <AlertCUI mb='1rem'>
+              <AlertIcon />
+              You cannot make changes to this project.
+            </AlertCUI>
+          )}
           <Flex justify='space-between' alignItems='center' wrap='wrap' minHeight='4rem'>
             <Flex direction={{ base: 'column', md: 'row' }} pb='1rem'>
               <ProjectTitle project={project} />
@@ -61,7 +72,11 @@ const Project = ({ match }) => {
             <Flex pb='1rem'>
               <Box display={{ base: 'none', md: 'block' }}>
                 {pages.map((page) => (
-                  <Button onClick={() => setCurrentPage(page)} isDisabled={page === currentPage}>
+                  <Button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    isDisabled={page === currentPage}
+                  >
                     {page}
                   </Button>
                 ))}
@@ -77,6 +92,7 @@ const Project = ({ match }) => {
                 <MenuList>
                   {pages.map((page) => (
                     <MenuItem
+                      key={page}
                       onClick={() => setCurrentPage(page)}
                       isDisabled={page === currentPage}
                     >
