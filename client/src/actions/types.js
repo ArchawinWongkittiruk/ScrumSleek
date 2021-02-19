@@ -22,6 +22,7 @@ export const ADD_TASK = 'ADD_TASK';
 export const EDIT_TASK = 'EDIT_TASK';
 export const MOVE_TASK = 'MOVE_TASK';
 export const CHANGE_TASK_STATUS = 'CHANGE_TASK_STATUS';
+export const CHANGE_TASK_STORY_POINTS = 'CHANGE_TASK_STORY_POINTS';
 export const ADD_TASK_MEMBER = 'ADD_TASK_MEMBER';
 export const DELETE_TASK = 'DELETE_TASK';
 

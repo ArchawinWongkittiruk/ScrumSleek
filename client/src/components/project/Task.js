@@ -7,6 +7,7 @@ import {
   editTask,
   moveTask,
   changeTaskStatus,
+  changeTaskStoryPoints,
   addTaskMember,
   deleteTask,
 } from '../../actions/tasks';
@@ -28,6 +29,11 @@ import {
   PopoverBody,
   PopoverArrow,
   PopoverCloseButton,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from '@chakra-ui/react';
 import { EditIcon, CloseIcon, DragHandleIcon } from '@chakra-ui/icons';
 import { BiUser } from 'react-icons/bi';
@@ -72,6 +78,12 @@ const Task = ({ task }) => {
     dispatch(changeTaskStatus(task._id, { status: newStatus }));
   };
 
+  const onChangeTaskStoryPoints = async (newEstimate) => {
+    if (Number(newEstimate) !== task.storyPoints) {
+      dispatch(changeTaskStoryPoints(task._id, { storyPoints: newEstimate }));
+    }
+  };
+
   const onAddTaskMember = async (e) => {
     dispatch(
       addTaskMember({
@@ -88,13 +100,12 @@ const Task = ({ task }) => {
   };
 
   return !editing ? (
-    <Box ref={setNodeRef} style={dndStyle} m='0 1rem 1rem 0'>
+    <Box ref={setNodeRef} style={dndStyle} w='300px' m='0 1rem 1rem 0'>
       <Box
         onMouseOver={() => setMouseOver(true)}
         onMouseLeave={() => setMouseOver(false)}
         borderWidth='2px'
         borderRadius='lg'
-        w='300px'
         p='1rem'
         h='fit-content'
         position='relative'
@@ -181,11 +192,29 @@ const Task = ({ task }) => {
           </Flex>
         </RadioGroup>
       </Box>
-      {!['SPRINT', 'COMPLETED'].includes(task.location) && !sprintOngoing && (
-        <Button onClick={onMove} size='sm'>
-          Move to {task.location === 'BACKLOG' ? 'Sprint Plan' : 'Backlog'}
-        </Button>
-      )}
+      <Flex justify='space-between'>
+        {!['SPRINT', 'COMPLETED'].includes(task.location) && !sprintOngoing ? (
+          <Button onClick={onMove} size='sm'>
+            Move to {task.location === 'BACKLOG' ? 'Sprint Plan' : 'Backlog'}
+          </Button>
+        ) : (
+          <Box />
+        )}
+        <NumberInput
+          value={task.storyPoints}
+          onChange={onChangeTaskStoryPoints}
+          min={0}
+          max={100}
+          size='sm'
+          w='4.5rem'
+        >
+          <NumberInputField />
+          <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+          </NumberInputStepper>
+        </NumberInput>
+      </Flex>
     </Box>
   ) : (
     <Box ref={setNodeRef} style={dndStyle} w='300px' m='0 1rem 1rem 0'>

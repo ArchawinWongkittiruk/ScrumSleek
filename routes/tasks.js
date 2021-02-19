@@ -118,6 +118,28 @@ router.patch('/status/:id', [auth, member], async (req, res) => {
   }
 });
 
+// Change a task's story points estimate
+router.patch('/storyPoints/:id', [auth, member], async (req, res) => {
+  try {
+    const { storyPoints } = req.body;
+    const project = await Project.findById(req.header('projectId'));
+
+    const taskId = req.params.id;
+    const task = project.tasks.find((task) => task.id === taskId);
+    if (!task) {
+      return res.status(404).json({ msg: 'Task not found' });
+    }
+
+    task.storyPoints = storyPoints ? storyPoints : 0;
+    await project.save();
+
+    res.json(task);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // Add/Remove a member
 router.put('/addMember/:add/:taskId/:userId', [auth, member], async (req, res) => {
   try {

@@ -5,6 +5,7 @@ import {
   EDIT_TASK,
   MOVE_TASK,
   CHANGE_TASK_STATUS,
+  CHANGE_TASK_STORY_POINTS,
   ADD_TASK_MEMBER,
   DELETE_TASK,
 } from './types';
@@ -81,6 +82,25 @@ export const changeTaskStatus = (taskId, formData) => async (dispatch) => {
 
     dispatch({
       type: CHANGE_TASK_STATUS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Change task story points estimate
+export const changeTaskStoryPoints = (taskId, formData) => async (dispatch) => {
+  try {
+    const body = JSON.stringify(formData);
+
+    const res = await axios.patch(`/api/tasks/storyPoints/${taskId}`, body, config);
+
+    dispatch({
+      type: CHANGE_TASK_STORY_POINTS,
       payload: res.data,
     });
   } catch (err) {

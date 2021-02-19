@@ -15,8 +15,9 @@ const TaskSchema = new Schema(
       type: String,
       required: true,
     },
-    description: {
-      type: String,
+    storyPoints: {
+      type: Number,
+      default: 1,
     },
     location: {
       type: String,
