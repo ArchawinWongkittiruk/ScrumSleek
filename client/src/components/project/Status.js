@@ -55,7 +55,7 @@ const Status = ({ statuses, status, index }) => {
           <Input isRequired value={title} onChange={(e) => setTitle(e.target.value)} w='8rem' />
         </form>
       )}
-      <ColorPicker color={status.color} setColor={onChangeColor} />
+      <ColorPicker colorScheme={status.color} setColor={onChangeColor} m='0.5rem 0' />
       <Flex justify='space-between'>
         {index !== 0 ? (
           <IconButton icon={<ChevronLeftIcon />} onClick={() => onMove(index - 1)} size='sm' />

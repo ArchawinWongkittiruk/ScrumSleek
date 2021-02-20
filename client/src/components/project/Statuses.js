@@ -11,7 +11,7 @@ const Statuses = () => {
   return (
     <>
       <Text fontSize='xl'>Statuses</Text>
-      <Flex wrap='wrap' alignItems='center' minHeight='9rem' pt='1rem'>
+      <Flex wrap='wrap' alignItems='center' minHeight='10rem' pt={{ base: '1rem', md: '0' }}>
         {statuses.map((status, index) => (
           <Status key={status._id} statuses={statuses} status={status} index={index} />
         ))}

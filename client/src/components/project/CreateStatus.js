@@ -34,7 +34,7 @@ const CreateStatus = () => {
               onChange={(e) => setTitle(e.target.value)}
               width='8rem'
             />
-            <ColorPicker color={color} setColor={setColor} />
+            <ColorPicker colorScheme={color} setColor={setColor} m='0.5rem 0' />
             <Box>
               <Button type='submit' size='sm' colorScheme='blue'>
                 Add Status
