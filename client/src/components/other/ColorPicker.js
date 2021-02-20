@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Button,
   Popover,
@@ -24,12 +25,12 @@ const chakraColors = [
   'pink',
 ];
 
-const ColorPicker = ({ setColor, ...props }) => {
+const ColorPicker = ({ setColor, prompt, ...props }) => {
   return (
     <Popover>
       <PopoverTrigger>
         <Button rightIcon={<ChevronDownIcon />} {...props}>
-          Select Color
+          {prompt ? prompt : 'Select Color'}
         </Button>
       </PopoverTrigger>
       <PopoverContent w='14.2rem'>
@@ -49,6 +50,11 @@ const ColorPicker = ({ setColor, ...props }) => {
       </PopoverContent>
     </Popover>
   );
+};
+
+ColorPicker.propTypes = {
+  setColor: PropTypes.func.isRequired,
+  prompt: PropTypes.string,
 };
 
 export default ColorPicker;
