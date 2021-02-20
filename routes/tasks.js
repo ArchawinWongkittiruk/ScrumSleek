@@ -179,7 +179,7 @@ router.delete('/:id', [auth, member], async (req, res) => {
     const project = await Project.findById(req.header('projectId'));
 
     project.tasks.splice(
-      project.tasks.findIndex((task) => task._id === taskId),
+      project.tasks.findIndex((task) => task.id === taskId),
       1
     );
     await project.save();

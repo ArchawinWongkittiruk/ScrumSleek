@@ -178,7 +178,7 @@ const Task = ({ task }) => {
         )}
         <Box bg={status.color + '.500'} h='4px' w='100%' mb='10px' borderRadius='5px' />
         <RadioGroup onChange={onChangeStatus} value={status._id}>
-          <Flex>
+          <Flex wrap='wrap'>
             {statuses.map((status) => (
               <Radio
                 key={status._id}

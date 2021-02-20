@@ -29,6 +29,12 @@ export const DELETE_TASK = 'DELETE_TASK';
 export const START_SPRINT = 'START_SPRINT';
 export const END_SPRINT = 'END_SPRINT';
 
+export const ADD_STATUS = 'ADD_STATUS';
+export const EDIT_STATUS = 'EDIT_STATUS';
+export const MOVE_STATUS = 'MOVE_STATUS';
+export const CHANGE_STATUS_COLOR = 'CHANGE_STATUS_COLOR';
+export const DELETE_STATUS = 'DELETE_STATUS';
+
 // Sprint Plan Form
 export const RESET_SPRINT_PLAN = 'RESET_SPRINT_PLAN';
 export const SET_SPRINT_START = 'SET_SPRINT_START';

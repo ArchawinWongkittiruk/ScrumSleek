@@ -23,9 +23,10 @@ import Sprint from '../components/project/Sprint';
 import ProjectMenu from '../components/project/ProjectMenu';
 import Completed from '../components/project/Completed';
 import Members from '../components/project/Members';
+import Statuses from '../components/project/Statuses';
 
 const Project = ({ match }) => {
-  const pages = ['Backlog', 'Sprint', 'Completed'];
+  const pages = ['Backlog', 'Sprint', 'Completed', 'Statuses'];
   const [currentPage, setCurrentPage] = useState('Backlog');
   const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.project.project);
@@ -108,8 +109,10 @@ const Project = ({ match }) => {
             <Backlog />
           ) : currentPage === 'Sprint' ? (
             <>{project.sprint.ongoing ? <Sprint /> : <PlanSprint />}</>
-          ) : (
+          ) : currentPage === 'Completed' ? (
             <Completed />
+          ) : (
+            <Statuses />
           )}
         </Box>
       )}

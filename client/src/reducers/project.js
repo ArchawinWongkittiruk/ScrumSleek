@@ -16,6 +16,11 @@ import {
   DELETE_TASK,
   START_SPRINT,
   END_SPRINT,
+  ADD_STATUS,
+  EDIT_STATUS,
+  MOVE_STATUS,
+  CHANGE_STATUS_COLOR,
+  DELETE_STATUS,
 } from '../actions/types';
 
 const initialState = {
@@ -100,6 +105,32 @@ export default function Project(state = initialState, action) {
       };
     case START_SPRINT:
     case END_SPRINT:
+      return {
+        ...state,
+        project: payload,
+      };
+    case ADD_STATUS:
+      return {
+        ...state,
+        project: { ...state.project, statuses: [...state.project.statuses, payload] },
+      };
+    case EDIT_STATUS:
+    case CHANGE_STATUS_COLOR:
+      return {
+        ...state,
+        project: {
+          ...state.project,
+          statuses: state.project.statuses.map((status) =>
+            status._id === payload._id ? payload : status
+          ),
+        },
+      };
+    case MOVE_STATUS:
+      return {
+        ...state,
+        project: { ...state.project, statuses: payload },
+      };
+    case DELETE_STATUS:
       return {
         ...state,
         project: payload,
