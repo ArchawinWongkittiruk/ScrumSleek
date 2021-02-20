@@ -118,13 +118,13 @@ router.delete('/:id', [auth, member], async (req, res) => {
     const statusId = req.params.id;
     const project = await Project.findById(req.header('projectId'));
 
-    project.statuses.splice(
-      project.statuses.findIndex((status) => status.id === statusId),
-      1
-    );
+    const statusIndex = project.statuses.findIndex((status) => status.id === statusId);
+    project.statuses.splice(statusIndex, 1);
+
+    const replacementIndex = statusIndex > 0 ? statusIndex - 1 : 0;
     for (const task of project.tasks) {
       if (task.status == statusId) {
-        task.status = project.statuses[0].id;
+        task.status = project.statuses[replacementIndex].id;
       }
     }
     await project.save();

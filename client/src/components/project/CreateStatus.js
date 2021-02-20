@@ -1,21 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addStatus } from '../../actions/statuses';
-import chakraColors from '../../utils/chakraColors';
-import {
-  Box,
-  Flex,
-  Input,
-  Button,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverArrow,
-  PopoverCloseButton,
-} from '@chakra-ui/react';
-import { ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
+import { Box, Flex, Input, Button } from '@chakra-ui/react';
+import { CloseIcon } from '@chakra-ui/icons';
+
+import ColorPicker from '../other/ColorPicker';
 
 const CreateStatus = () => {
   const [adding, setAdding] = useState(false);
@@ -45,28 +34,7 @@ const CreateStatus = () => {
               onChange={(e) => setTitle(e.target.value)}
               width='8rem'
             />
-            <Popover>
-              <PopoverTrigger>
-                <Button rightIcon={<ChevronDownIcon />} colorScheme={color} m='0.5rem 0'>
-                  Select Color
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent w='14.2rem'>
-                <PopoverArrow />
-                <PopoverCloseButton />
-                <PopoverHeader>Select Status Color</PopoverHeader>
-                <PopoverBody>
-                  {chakraColors.map((chakraColor) => (
-                    <Button
-                      onClick={() => setColor(chakraColor)}
-                      key={chakraColor}
-                      value={chakraColor}
-                      colorScheme={chakraColor}
-                    />
-                  ))}
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
+            <ColorPicker color={color} setColor={setColor} />
             <Box>
               <Button type='submit' size='sm' colorScheme='blue'>
                 Add Status

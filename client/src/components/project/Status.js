@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { editStatus, changeStatusColor, moveStatus, deleteStatus } from '../../actions/statuses';
-import chakraColors from '../../utils/chakraColors';
 import {
   Box,
   Flex,
@@ -18,7 +17,9 @@ import {
   PopoverArrow,
   PopoverCloseButton,
 } from '@chakra-ui/react';
-import { ChevronDownIcon, DeleteIcon } from '@chakra-ui/icons';
+import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon } from '@chakra-ui/icons';
+
+import ColorPicker from '../other/ColorPicker';
 
 const Status = ({ statuses, status, index }) => {
   const [editing, setEditing] = useState(false);
@@ -54,35 +55,12 @@ const Status = ({ statuses, status, index }) => {
           <Input isRequired value={title} onChange={(e) => setTitle(e.target.value)} w='8rem' />
         </form>
       )}
-      <Popover>
-        <PopoverTrigger>
-          <Button rightIcon={<ChevronDownIcon />} colorScheme={status.color} m='0.5rem 0'>
-            Select Color
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent w='14.2rem'>
-          <PopoverArrow />
-          <PopoverCloseButton />
-          <PopoverHeader>Select Status Color</PopoverHeader>
-          <PopoverBody>
-            {chakraColors.map((chakraColor) => (
-              <Button
-                onClick={() => onChangeColor(chakraColor)}
-                key={chakraColor}
-                value={chakraColor}
-                colorScheme={chakraColor}
-              />
-            ))}
-          </PopoverBody>
-        </PopoverContent>
-      </Popover>
+      <ColorPicker color={status.color} setColor={onChangeColor} />
       <Flex justify='space-between'>
         {index !== 0 ? (
-          <Button onClick={() => onMove(index - 1)} size='sm'>
-            {'<'}
-          </Button>
+          <IconButton icon={<ChevronLeftIcon />} onClick={() => onMove(index - 1)} size='sm' />
         ) : (
-          <Box />
+          <Box w='2rem' />
         )}
         {statuses.length > 3 && (
           <Popover>
@@ -104,11 +82,9 @@ const Status = ({ statuses, status, index }) => {
           </Popover>
         )}
         {index !== statuses.length - 1 ? (
-          <Button onClick={() => onMove(index + 1)} size='sm'>
-            {'>'}
-          </Button>
+          <IconButton icon={<ChevronRightIcon />} onClick={() => onMove(index + 1)} size='sm' />
         ) : (
-          <Box />
+          <Box w='2rem' />
         )}
       </Flex>
     </Box>
