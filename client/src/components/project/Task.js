@@ -39,10 +39,12 @@ import { EditIcon, CloseIcon, DragHandleIcon } from '@chakra-ui/icons';
 import { BiUser } from 'react-icons/bi';
 
 import TooltipAvatar from '../other/TooltipAvatar';
+import ColorPicker from '../other/ColorPicker';
 
 const Task = ({ task }) => {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
+  const [label, setLabel] = useState(task.label);
   const [mouseOver, setMouseOver] = useState(false);
   const projectMembers = useSelector((state) => state.project.project.members);
   const sprintOngoing = useSelector((state) => state.project.project.sprint.ongoing);
@@ -64,7 +66,7 @@ const Task = ({ task }) => {
 
   const onEditSubmit = async (e) => {
     e.preventDefault();
-    dispatch(editTask(task._id, { title }));
+    dispatch(editTask(task._id, { title, label }));
     setEditing(false);
     setMouseOver(false);
   };
@@ -168,6 +170,9 @@ const Task = ({ task }) => {
             />
           </>
         )}
+        {task.label !== 'gray' && (
+          <Box bg={task.label + '.500'} h='8px' w='20%' mb='10px' borderRadius='5px' />
+        )}
         <Text pb={task.members.length > 0 ? '10px' : '15px'}>{task.title}</Text>
         {task.members.length > 0 && (
           <AvatarGroup pb='15px' flexWrap='wrap'>
@@ -218,6 +223,13 @@ const Task = ({ task }) => {
     </Box>
   ) : (
     <Box ref={setNodeRef} style={dndStyle} w='300px' m='0 1rem 1rem 0'>
+      <ColorPicker
+        colorScheme={label}
+        setColor={setLabel}
+        size='xs'
+        mb='0.5rem'
+        prompt='Set Label'
+      />
       <Textarea
         isRequired
         autoFocus
@@ -236,6 +248,7 @@ const Task = ({ task }) => {
               setEditing(false);
               setMouseOver(false);
               setTitle(task.title);
+              setLabel(task.label);
             }}
           >
             <CloseIcon />

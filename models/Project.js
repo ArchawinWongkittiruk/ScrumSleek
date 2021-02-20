@@ -19,6 +19,11 @@ const TaskSchema = new Schema(
       type: Number,
       default: 1,
     },
+    label: {
+      type: String,
+      enum: ['gray', 'red', 'orange', 'yellow', 'green', 'teal', 'blue', 'cyan', 'purple', 'pink'],
+      default: 'gray',
+    },
     location: {
       type: String,
       enum: ['BACKLOG', 'SPRINTPLAN', 'SPRINT', 'COMPLETED'],

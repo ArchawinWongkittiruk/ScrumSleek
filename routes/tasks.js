@@ -17,12 +17,12 @@ router.post(
     }
 
     try {
-      const title = req.body.title;
+      const { title, label } = req.body;
       const projectId = req.header('projectId');
 
       // Create and save the task
       const project = await Project.findById(projectId);
-      const task = { title };
+      const task = { title, label };
       task.status = project.statuses[0].id;
       project.tasks.push(task);
       await project.save();
@@ -35,7 +35,7 @@ router.post(
   }
 );
 
-// Edit a task
+// Edit a task's title and/or label
 router.patch(
   '/edit/:id',
   [auth, member, [check('title', 'Title is required').not().isEmpty()]],
@@ -46,7 +46,7 @@ router.patch(
     }
 
     try {
-      const { title } = req.body;
+      const { title, label } = req.body;
       const project = await Project.findById(req.header('projectId'));
 
       const taskId = req.params.id;
@@ -56,6 +56,7 @@ router.patch(
       }
 
       task.title = title;
+      task.label = label;
       await project.save();
 
       res.json(task);

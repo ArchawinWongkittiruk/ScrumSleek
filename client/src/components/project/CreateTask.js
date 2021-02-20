@@ -4,14 +4,17 @@ import { addTask } from '../../actions/tasks';
 import { Box, Textarea, Button } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 
+import ColorPicker from '../other/ColorPicker';
+
 const CreateTask = () => {
   const [adding, setAdding] = useState(false);
   const [title, setTitle] = useState('');
+  const [label, setLabel] = useState('gray');
   const dispatch = useDispatch();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    dispatch(addTask({ title }));
+    dispatch(addTask({ title, label }));
     setTitle('');
   };
 
@@ -23,6 +26,13 @@ const CreateTask = () => {
         </Button>
       ) : (
         <form onSubmit={(e) => onSubmit(e)}>
+          <ColorPicker
+            colorScheme={label}
+            setColor={setLabel}
+            size='xs'
+            mb='0.5rem'
+            prompt='Set Label'
+          />
           <Textarea
             isRequired
             autoFocus
