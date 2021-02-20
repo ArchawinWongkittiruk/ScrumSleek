@@ -24,9 +24,7 @@ const chakraColors = [
   'pink',
 ];
 
-const ColorPicker = (props) => {
-  const { setColor } = props;
-
+const ColorPicker = ({ setColor, ...props }) => {
   return (
     <Popover>
       <PopoverTrigger>
