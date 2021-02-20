@@ -1,14 +1,14 @@
 const chakraColors = [
+  'gray',
+  'red',
+  'orange',
+  'yellow',
+  'green',
+  'teal',
   'blue',
   'cyan',
-  'gray',
-  'green',
-  'orange',
-  'pink',
   'purple',
-  'red',
-  'teal',
-  'yellow',
+  'pink',
 ];
 
 export default chakraColors;
