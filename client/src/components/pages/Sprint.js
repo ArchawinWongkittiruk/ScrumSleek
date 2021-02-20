@@ -17,8 +17,8 @@ import {
   PopoverCloseButton,
 } from '@chakra-ui/react';
 
-import TaskList from './TaskList';
-import StoryPoints from './StoryPoints';
+import TaskList from '../project/TaskList';
+import StoryPoints from '../project/StoryPoints';
 
 dayjs.extend(relativeTime);
 

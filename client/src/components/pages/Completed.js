@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Flex, Text } from '@chakra-ui/react';
 
-import TaskList from './TaskList';
-import StoryPoints from './StoryPoints';
+import TaskList from '../project/TaskList';
+import StoryPoints from '../project/StoryPoints';
 
 const Completed = () => {
   const tasks = useSelector((state) =>

@@ -15,15 +15,16 @@ import {
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
+import Backlog from '../components/pages/Backlog';
+import PlanSprint from '../components/pages/PlanSprint';
+import Sprint from '../components/pages/Sprint';
+import Completed from '../components/pages/Completed';
+import Statuses from '../components/pages/Statuses';
+
 import Navbar from '../components/other/Navbar';
 import ProjectTitle from '../components/project/ProjectTitle';
-import Backlog from '../components/project/Backlog';
-import PlanSprint from '../components/project/PlanSprint';
-import Sprint from '../components/project/Sprint';
 import ProjectMenu from '../components/project/ProjectMenu';
-import Completed from '../components/project/Completed';
 import Members from '../components/project/Members';
-import Statuses from '../components/project/Statuses';
 
 const Project = ({ match }) => {
   const pages = ['Backlog', 'Sprint', 'Completed', 'Statuses'];

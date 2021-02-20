@@ -8,8 +8,8 @@ import '../../css/DateTimePicker.css';
 import '../../css/Calendar.css';
 import '../../css/Clock.css';
 
-import TaskList from './TaskList';
-import StoryPoints from './StoryPoints';
+import TaskList from '../project/TaskList';
+import StoryPoints from '../project/StoryPoints';
 
 const PlanSprint = () => {
   const { start, end, target } = useSelector((state) => state.forms);
