@@ -49,7 +49,7 @@ const TaskList = ({ location, canCreateTask }) => {
           {tasks.map((task) => (
             <Task key={task._id} task={task} />
           ))}
-          {canCreateTask && <CreateTask />}
+          {canCreateTask && <CreateTask location={location} />}
         </Flex>
       </SortableContext>
     </DndContext>

@@ -6,7 +6,7 @@ const { check, validationResult } = require('express-validator');
 
 const Project = require('../models/Project');
 
-// Add a task to backlog
+// Add a task
 router.post(
   '/',
   [auth, member, [check('title', 'Title is required').not().isEmpty()]],
@@ -17,12 +17,12 @@ router.post(
     }
 
     try {
-      const { title, label } = req.body;
+      const { title, label, location } = req.body;
       const projectId = req.header('projectId');
 
       // Create and save the task
       const project = await Project.findById(projectId);
-      const task = { title, label };
+      const task = { title, label, location };
       task.status = project.statuses[0].id;
       project.tasks.push(task);
       await project.save();

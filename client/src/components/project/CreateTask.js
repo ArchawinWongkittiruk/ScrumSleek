@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { addTask } from '../../actions/tasks';
 import { Box, Textarea, Button } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 
 import ColorPicker from '../other/ColorPicker';
 
-const CreateTask = () => {
+const CreateTask = ({ location }) => {
   const [adding, setAdding] = useState(false);
   const [title, setTitle] = useState('');
   const [label, setLabel] = useState('gray');
@@ -14,7 +15,7 @@ const CreateTask = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    dispatch(addTask({ title, label }));
+    dispatch(addTask({ title, label, location }));
     setTitle('');
   };
 
@@ -58,6 +59,10 @@ const CreateTask = () => {
       )}
     </Box>
   );
+};
+
+CreateTask.propTypes = {
+  location: PropTypes.string.isRequired,
 };
 
 export default CreateTask;
