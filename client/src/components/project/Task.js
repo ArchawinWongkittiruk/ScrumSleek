@@ -8,7 +8,6 @@ import {
   moveTask,
   changeTaskStatus,
   changeTaskStoryPoints,
-  addTaskMember,
   deleteTask,
 } from '../../actions/tasks';
 import {
@@ -16,8 +15,6 @@ import {
   Box,
   Text,
   Textarea,
-  IconButton,
-  Checkbox,
   AvatarGroup,
   Button,
   Radio,
@@ -35,18 +32,17 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from '@chakra-ui/react';
-import { EditIcon, CloseIcon, DragHandleIcon } from '@chakra-ui/icons';
-import { BiUser } from 'react-icons/bi';
+import { CloseIcon } from '@chakra-ui/icons';
 
 import TooltipAvatar from '../other/TooltipAvatar';
 import ColorPicker from '../other/ColorPicker';
+import TaskMouseOver from './TaskMouseOver';
 
 const Task = ({ task }) => {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [label, setLabel] = useState(task.label);
   const [mouseOver, setMouseOver] = useState(false);
-  const projectMembers = useSelector((state) => state.project.project.members);
   const sprintOngoing = useSelector((state) => state.project.project.sprint.ongoing);
   const statuses = useSelector((state) => state.project.project.statuses);
   const status = statuses.find((status) => status._id === task.status);
@@ -71,8 +67,7 @@ const Task = ({ task }) => {
     setMouseOver(false);
   };
 
-  const onMove = async (e) => {
-    e.preventDefault();
+  const onMove = async () => {
     dispatch(moveTask(task._id, { to: task.location === 'BACKLOG' ? 'SPRINTPLAN' : 'BACKLOG' }));
   };
 
@@ -86,18 +81,7 @@ const Task = ({ task }) => {
     }
   };
 
-  const onAddTaskMember = async (e) => {
-    dispatch(
-      addTaskMember({
-        add: e.target.checked,
-        taskId: task._id,
-        userId: e.target.name,
-      })
-    );
-  };
-
-  const onDelete = async (e) => {
-    e.preventDefault();
+  const onDelete = async () => {
     dispatch(deleteTask(task._id));
   };
 
@@ -113,62 +97,12 @@ const Task = ({ task }) => {
         position='relative'
       >
         {mouseOver && (
-          <>
-            <Popover>
-              <PopoverTrigger>
-                <IconButton
-                  icon={<BiUser />}
-                  aria-label='Add Member to User Story'
-                  position='absolute'
-                  left='60%'
-                  top='5px'
-                  zIndex='1'
-                />
-              </PopoverTrigger>
-              <PopoverContent>
-                <PopoverArrow />
-                <PopoverCloseButton />
-                <PopoverHeader>Members</PopoverHeader>
-                <PopoverBody>
-                  <Flex direction='column'>
-                    {projectMembers.map((member) => (
-                      <Checkbox
-                        key={member.user}
-                        isChecked={task.members
-                          .map((taskMember) => taskMember.user)
-                          .includes(member.user)}
-                        onChange={onAddTaskMember}
-                        name={member.user}
-                      >
-                        {member.name}
-                      </Checkbox>
-                    ))}
-                  </Flex>
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
-            <IconButton
-              onClick={() => setEditing(true)}
-              icon={<EditIcon />}
-              aria-label='Edit User Story'
-              position='absolute'
-              left='75%'
-              top='5px'
-              zIndex='1'
-            />
-            <DragHandleIcon
-              cursor='grab'
-              _pressed={{ cursor: 'grabbing' }}
-              color='gray.500'
-              position='absolute'
-              left='89%'
-              top='9px'
-              zIndex='1'
-              {...attributes}
-              {...listeners}
-              boxSize='2rem'
-            />
-          </>
+          <TaskMouseOver
+            task={task}
+            setEditing={setEditing}
+            attributes={attributes}
+            listeners={listeners}
+          />
         )}
         {task.label !== 'gray' && (
           <Box bg={task.label + '.500'} h='8px' w='20%' mb='10px' borderRadius='5px' />
