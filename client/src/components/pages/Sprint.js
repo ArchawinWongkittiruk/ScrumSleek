@@ -52,7 +52,7 @@ const Sprint = () => {
       <Flex justify='space-between' wrap='wrap' pb='1rem'>
         <Text fontSize='xl'>Sprint Progress</Text>
         <Flex wrap='wrap'>
-          <StoryPoints tasks={tasks} />
+          <StoryPoints location='SPRINT' />
           <Popover>
             <PopoverTrigger>
               <Button colorScheme={progress !== 100 ? 'red' : 'green'} ml='0.8rem'>
@@ -90,7 +90,7 @@ const Sprint = () => {
         </Text>
       </Flex>
       <Text>Target - {sprint.target}</Text>
-      <TaskList tasks={tasks} />
+      <TaskList location='SPRINT' />
     </>
   );
 };

@@ -27,7 +27,7 @@ const PlanSprint = () => {
     <>
       <Flex wrap='wrap' justify='space-between'>
         <Text fontSize='xl'>Sprint Plan</Text>
-        <StoryPoints tasks={tasks} />
+        <StoryPoints location='SPRINTPLAN' />
       </Flex>
       <form onSubmit={(e) => onSubmit(e)}>
         <Flex pt='0.5rem' wrap='wrap'>
@@ -61,7 +61,7 @@ const PlanSprint = () => {
         <Box pt='1rem'>
           <Text>Sprint Tasks</Text>
           <Box borderWidth='2px' borderRadius='lg' p='0 1rem' minHeight='10rem'>
-            <TaskList tasks={tasks} />
+            <TaskList location='SPRINTPLAN' />
           </Box>
         </Box>
         <Button
