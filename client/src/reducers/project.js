@@ -5,8 +5,6 @@ import {
   ADD_PROJECT,
   PROJECT_ERROR,
   RENAME_PROJECT,
-  ADD_MEMBER,
-  LEAVE_PROJECT,
   DELETE_PROJECT,
   ADD_TASK,
   EDIT_TASK,
@@ -22,6 +20,10 @@ import {
   MOVE_STATUS,
   CHANGE_STATUS_COLOR,
   DELETE_STATUS,
+  ADD_MEMBER,
+  CHANGE_ROLE,
+  LEAVE_PROJECT,
+  REMOVE_MEMBER,
 } from '../actions/types';
 
 const initialState = {
@@ -62,15 +64,6 @@ export default function Project(state = initialState, action) {
         ...state,
         error: payload,
       };
-    case ADD_MEMBER:
-      return {
-        ...state,
-        project: {
-          ...state.project,
-          members: payload,
-        },
-      };
-    case LEAVE_PROJECT:
     case DELETE_PROJECT:
       return {
         ...state,
@@ -133,6 +126,25 @@ export default function Project(state = initialState, action) {
         project: { ...state.project, statuses: payload },
       };
     case DELETE_STATUS:
+      return {
+        ...state,
+        project: payload,
+      };
+    case ADD_MEMBER:
+    case CHANGE_ROLE:
+      return {
+        ...state,
+        project: {
+          ...state.project,
+          members: payload,
+        },
+      };
+    case LEAVE_PROJECT:
+      return {
+        ...state,
+        projects: state.projects.filter((project) => project._id !== payload._id),
+      };
+    case REMOVE_MEMBER:
       return {
         ...state,
         project: payload,

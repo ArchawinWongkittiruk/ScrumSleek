@@ -15,8 +15,6 @@ export const GET_PROJECT = 'GET_PROJECT';
 export const ADD_PROJECT = 'ADD_PROJECT';
 export const PROJECT_ERROR = 'PROJECT_ERROR';
 export const RENAME_PROJECT = 'RENAME_PROJECT';
-export const ADD_MEMBER = 'ADD_MEMBER';
-export const LEAVE_PROJECT = 'LEAVE_PROJECT';
 export const DELETE_PROJECT = 'DELETE_PROJECT';
 
 export const ADD_TASK = 'ADD_TASK';
@@ -35,6 +33,11 @@ export const EDIT_STATUS = 'EDIT_STATUS';
 export const MOVE_STATUS = 'MOVE_STATUS';
 export const CHANGE_STATUS_COLOR = 'CHANGE_STATUS_COLOR';
 export const DELETE_STATUS = 'DELETE_STATUS';
+
+export const ADD_MEMBER = 'ADD_MEMBER';
+export const CHANGE_ROLE = 'CHANGE_ROLE';
+export const LEAVE_PROJECT = 'LEAVE_PROJECT';
+export const REMOVE_MEMBER = 'REMOVE_MEMBER';
 
 // Sprint Plan Form
 export const RESET_SPRINT_PLAN = 'RESET_SPRINT_PLAN';

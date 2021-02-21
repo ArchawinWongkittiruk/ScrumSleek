@@ -3,7 +3,6 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const member = require('../middleware/member');
 const admin = require('../middleware/admin');
-const { check, validationResult } = require('express-validator');
 
 const User = require('../models/User');
 const Project = require('../models/Project');
@@ -38,7 +37,31 @@ router.put('/addMember/:userId', [auth, admin], async (req, res) => {
   }
 });
 
-// Leave a project
+// Change a member's role
+router.patch('/role/:id', [auth, member], async (req, res) => {
+  try {
+    const { role } = req.body;
+    const project = await Project.findById(req.header('projectId'));
+
+    // Enforce only one each of admin, product owner, and scrum master
+    if (role !== 'Developer') {
+      const existing = project.members.find((member) => member.role === role);
+      if (existing) existing.role = 'Developer';
+    }
+
+    const memberId = req.params.id;
+    const member = project.members.find((member) => member.user == memberId);
+    member.role = role;
+    await project.save();
+
+    res.json(project.members);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Leave a project / remove a member
 router.delete('/leave/:userId', [auth, member], async (req, res) => {
   try {
     const project = await Project.findById(req.header('projectId'));
@@ -51,16 +74,24 @@ router.delete('/leave/:userId', [auth, member], async (req, res) => {
     user.projects.splice(user.projects.indexOf(project.id), 1);
     await user.save();
 
-    // Delete user from project's members and from all involved tasks
-    project.members.splice(project.members.findIndex((member) => member.user == user.id));
+    // Delete user from project's members
+    project.members.splice(
+      project.members.findIndex((member) => member.user == user.id),
+      1
+    );
+
+    // Delete user from all involved tasks
     for (const task of project.tasks) {
       if (task.members.map((member) => member.user).includes(user.id)) {
-        task.members.splice(task.members.findIndex((member) => member.user == user.id));
+        task.members.splice(
+          task.members.findIndex((member) => member.user == user.id),
+          1
+        );
       }
     }
     await project.save();
 
-    res.json(project.id);
+    res.json(project);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

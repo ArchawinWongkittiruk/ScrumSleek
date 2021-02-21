@@ -20,14 +20,16 @@ import PlanSprint from '../components/pages/PlanSprint';
 import Sprint from '../components/pages/Sprint';
 import Completed from '../components/pages/Completed';
 import Statuses from '../components/pages/Statuses';
+import Roles from '../components/pages/Roles';
 
 import Navbar from '../components/other/Navbar';
 import ProjectTitle from '../components/project/ProjectTitle';
 import ProjectMenu from '../components/project/ProjectMenu';
 import Members from '../components/project/Members';
 
+const pages = ['Backlog', 'Sprint', 'Completed', 'Statuses', 'Roles'];
+
 const Project = ({ match }) => {
-  const pages = ['Backlog', 'Sprint', 'Completed', 'Statuses'];
   const [currentPage, setCurrentPage] = useState('Backlog');
   const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.project.project);
@@ -113,8 +115,10 @@ const Project = ({ match }) => {
             <>{project.sprint.ongoing ? <Sprint /> : <PlanSprint />}</>
           ) : currentPage === 'Completed' ? (
             <Completed />
-          ) : (
+          ) : currentPage === 'Statuses' ? (
             <Statuses />
+          ) : (
+            <Roles />
           )}
         </Box>
       )}
