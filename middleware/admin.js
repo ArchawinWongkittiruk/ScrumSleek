@@ -7,7 +7,7 @@ module.exports = async function (req, res, next) {
   }
 
   const admins = project.members
-    .filter((member) => member.role === 'admin')
+    .filter((member) => member.role === 'Admin')
     .map((member) => member.user);
   if (admins.includes(req.user.id)) {
     next();

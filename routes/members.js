@@ -27,7 +27,7 @@ router.put('/addMember/:userId', [auth, admin], async (req, res) => {
     await user.save();
 
     // Add user to project's members with 'normal' role
-    project.members.push({ user: user.id, name: user.name, role: 'normal' });
+    project.members.push({ user: user.id, name: user.name, role: 'Developer' });
 
     await project.save();
 

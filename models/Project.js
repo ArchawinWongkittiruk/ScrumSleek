@@ -71,7 +71,8 @@ const ProjectSchema = new Schema(
         },
         role: {
           type: String,
-          default: 'admin',
+          enum: ['Admin', 'Product Owner', 'Scrum Master', 'Developer'],
+          default: 'Admin',
         },
       },
     ],

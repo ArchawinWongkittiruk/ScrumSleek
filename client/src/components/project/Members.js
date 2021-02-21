@@ -34,10 +34,9 @@ const Members = () => {
   };
 
   const onSubmit = async () => {
-    dispatch(addMember(invitee._id));
+    if (invitee) dispatch(addMember(invitee._id));
     setInvitee(null);
     setInputValue('');
-    setInviting(false);
   };
 
   return (
@@ -58,6 +57,7 @@ const Members = () => {
                 placeholder='Invite users by email'
                 value={inputValue}
                 onChange={(e) => handleInputValue(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && onSubmit(e)}
                 w='20rem'
               />
               <Flex>
