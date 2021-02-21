@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getProject } from '../actions/project';
+import { getProjects, getProject } from '../actions/project';
 import {
   Button,
   Box,
@@ -36,8 +36,9 @@ const Project = ({ match }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (user) dispatch(getProjects());
     dispatch(getProject(match.params.id));
-  }, [dispatch, match.params.id]);
+  }, [dispatch, user, match.params.id]);
 
   useEffect(() => {
     if (project?.title) document.title = project.title + ' | ScrumSleek';

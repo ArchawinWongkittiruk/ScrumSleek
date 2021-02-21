@@ -2,19 +2,52 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as ReactLink } from 'react-router-dom';
 import { logout } from '../../actions/auth';
-import { Flex, Text, Link, Button, useColorMode } from '@chakra-ui/react';
+import {
+  Flex,
+  Text,
+  Link,
+  Button,
+  useColorMode,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from '@chakra-ui/react';
 import { SunIcon, MoonIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const projects = useSelector((state) => state.project.projects);
   const dispatch = useDispatch();
 
   return (
     <Flex as='nav' justify='space-between' p='1rem' borderBottom='2px solid lightgrey'>
-      <Link as={ReactLink} to='/projects'>
-        ScrumSleek
-      </Link>
+      <Flex>
+        <Link as={ReactLink} to='/projects' pr='1rem'>
+          ScrumSleek
+        </Link>
+        {isAuthenticated && projects.length !== 0 && (
+          <Menu>
+            <MenuButton as={Button} rightIcon={<ChevronDownIcon />} size='xs'>
+              Projects
+            </MenuButton>
+            <MenuList>
+              {projects.map((project) => (
+                <MenuItem
+                  as={ReactLink}
+                  key={project._id}
+                  to={`/project/${project._id}`}
+                  textAlign='center'
+                >
+                  {project.title}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+        )}
+      </Flex>
       <Flex>
         <Button onClick={toggleColorMode} mr='1rem' size='xs'>
           {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
