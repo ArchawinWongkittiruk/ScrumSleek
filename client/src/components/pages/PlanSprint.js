@@ -31,7 +31,7 @@ const PlanSprint = () => {
       </Flex>
       <Box pt='1rem'>
         <Text>Sprint Tasks</Text>
-        <Box borderWidth='2px' borderRadius='lg' p='0 1rem' minHeight='10rem'>
+        <Box borderWidth='2px' borderRadius='lg' pl='1rem' minHeight='10rem'>
           <TaskList location='SPRINTPLAN' canCreateTask />
         </Box>
       </Box>
