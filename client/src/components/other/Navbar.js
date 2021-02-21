@@ -20,6 +20,7 @@ const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const projects = useSelector((state) => state.project.projects);
+  const currentProject = useSelector((state) => state.project.project);
   const dispatch = useDispatch();
 
   return (
@@ -40,6 +41,7 @@ const Navbar = () => {
                   key={project._id}
                   to={`/project/${project._id}`}
                   textAlign='center'
+                  isDisabled={project._id === currentProject?._id}
                 >
                   {project.title}
                 </MenuItem>
