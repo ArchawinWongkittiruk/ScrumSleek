@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import isAdmin from '../../utils/isAdmin';
-import { deleteProject } from '../../actions/project';
+import { deleteProject, leaveProject } from '../../actions/project';
 import {
   Button,
   Menu,
@@ -24,9 +24,12 @@ const ProjectMenu = ({ project }) => {
   const dispatch = useDispatch();
   let history = useHistory();
 
-  const onDeleteProject = async (e) => {
-    e.preventDefault();
+  const onDeleteProject = async () => {
     dispatch(deleteProject(project._id, history));
+  };
+
+  const onLeaveProject = async () => {
+    dispatch(leaveProject(user._id, history));
   };
 
   return (
@@ -35,23 +38,39 @@ const ProjectMenu = ({ project }) => {
         Actions
       </MenuButton>
       <MenuList p='1rem'>
-        <Popover>
-          <PopoverTrigger>
-            <Button colorScheme='red' isDisabled={!isAdmin(project, user)}>
-              Delete Project
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <PopoverArrow />
-            <PopoverCloseButton />
-            <PopoverHeader>Are You Sure?</PopoverHeader>
-            <PopoverBody>
-              <Button onClick={onDeleteProject} colorScheme='red'>
-                Yes, Delete the Project
-              </Button>
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
+        {isAdmin(project, user) ? (
+          <Popover>
+            <PopoverTrigger>
+              <Button colorScheme='red'>Delete Project</Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverArrow />
+              <PopoverCloseButton />
+              <PopoverHeader>Are You Sure?</PopoverHeader>
+              <PopoverBody>
+                <Button onClick={onDeleteProject} colorScheme='red'>
+                  Yes, Delete the Project
+                </Button>
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
+        ) : (
+          <Popover>
+            <PopoverTrigger>
+              <Button colorScheme='red'>Leave Project</Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverArrow />
+              <PopoverCloseButton />
+              <PopoverHeader>Are You Sure?</PopoverHeader>
+              <PopoverBody>
+                <Button onClick={onLeaveProject} colorScheme='red'>
+                  Yes, Leave the Project
+                </Button>
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
+        )}
       </MenuList>
     </Menu>
   );

@@ -16,6 +16,7 @@ export const ADD_PROJECT = 'ADD_PROJECT';
 export const PROJECT_ERROR = 'PROJECT_ERROR';
 export const RENAME_PROJECT = 'RENAME_PROJECT';
 export const ADD_MEMBER = 'ADD_MEMBER';
+export const LEAVE_PROJECT = 'LEAVE_PROJECT';
 export const DELETE_PROJECT = 'DELETE_PROJECT';
 
 export const ADD_TASK = 'ADD_TASK';

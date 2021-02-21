@@ -6,6 +6,7 @@ import {
   PROJECT_ERROR,
   RENAME_PROJECT,
   ADD_MEMBER,
+  LEAVE_PROJECT,
   DELETE_PROJECT,
   ADD_TASK,
   EDIT_TASK,
@@ -69,6 +70,7 @@ export default function Project(state = initialState, action) {
           members: payload,
         },
       };
+    case LEAVE_PROJECT:
     case DELETE_PROJECT:
       return {
         ...state,

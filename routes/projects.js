@@ -131,6 +131,35 @@ router.put('/addMember/:userId', [auth, admin], async (req, res) => {
   }
 });
 
+// Leave a project
+router.delete('/leave/:userId', [auth, member], async (req, res) => {
+  try {
+    const project = await Project.findById(req.header('projectId'));
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    // Delete project from user's projects
+    user.projects.splice(user.projects.indexOf(project.id), 1);
+    await user.save();
+
+    // Delete user from project's members and from all involved tasks
+    project.members.splice(project.members.findIndex((member) => member.user == user.id));
+    for (const task of project.tasks) {
+      if (task.members.map((member) => member.user).includes(user.id)) {
+        task.members.splice(task.members.findIndex((member) => member.user == user.id));
+      }
+    }
+    await project.save();
+
+    res.json(project.id);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // Delete a project
 router.delete('/:id', [auth, admin], async (req, res) => {
   try {
