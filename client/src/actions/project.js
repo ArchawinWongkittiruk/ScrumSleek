@@ -40,8 +40,6 @@ export const addProject = (formData, history) => async (dispatch) => {
 // Get projects
 export const getProjects = () => async (dispatch) => {
   try {
-    dispatch({ type: CLEAR_PROJECT });
-
     const res = await axios.get('/api/projects');
 
     dispatch({

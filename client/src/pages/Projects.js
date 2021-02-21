@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, Link as ReactLink } from 'react-router-dom';
+import { CLEAR_PROJECT } from '../actions/types';
 import { getProjects } from '../actions/project';
 import { Text, Flex, Link, CircularProgress } from '@chakra-ui/react';
 
@@ -14,6 +15,7 @@ const Projects = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch({ type: CLEAR_PROJECT });
     if (user) dispatch(getProjects());
   }, [dispatch, user]);
 
