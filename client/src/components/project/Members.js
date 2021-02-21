@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { addMember } from '../../actions/project';
+import { addMember } from '../../actions/members';
 import isAdmin from '../../utils/isAdmin';
 import { Box, Flex, Button, AvatarGroup, Input } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';

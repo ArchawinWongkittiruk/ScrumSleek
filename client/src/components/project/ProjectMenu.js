@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import isAdmin from '../../utils/isAdmin';
-import { deleteProject, leaveProject } from '../../actions/project';
+import { deleteProject } from '../../actions/project';
+import { leaveProject } from '../../actions/members';
 import {
   Button,
   Menu,

@@ -1,5 +1,4 @@
 import axios from 'axios';
-// import { setAlert } from './alert';
 import {
   CLEAR_PROJECT,
   GET_PROJECTS,
@@ -7,8 +6,6 @@ import {
   ADD_PROJECT,
   PROJECT_ERROR,
   RENAME_PROJECT,
-  ADD_MEMBER,
-  LEAVE_PROJECT,
   DELETE_PROJECT,
   RESET_SPRINT_PLAN,
 } from './types';
@@ -30,8 +27,6 @@ export const addProject = (formData, history) => async (dispatch) => {
       type: ADD_PROJECT,
       payload: res.data,
     });
-
-    // dispatch(setAlert('Project Created', 'success'));
 
     history.push(`/project/${res.data._id}`);
   } catch (err) {
@@ -95,44 +90,6 @@ export const renameProject = (projectId, formData) => async (dispatch) => {
       type: RENAME_PROJECT,
       payload: res.data,
     });
-  } catch (err) {
-    dispatch({
-      type: PROJECT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
-
-// Add member
-export const addMember = (userId) => async (dispatch) => {
-  try {
-    const res = await axios.put(`/api/projects/addMember/${userId}`);
-
-    dispatch({
-      type: ADD_MEMBER,
-      payload: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: PROJECT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
-
-// Leave project
-export const leaveProject = (userId, history) => async (dispatch) => {
-  try {
-    const res = await axios.delete(`/api/projects/leave/${userId}`);
-
-    dispatch({
-      type: LEAVE_PROJECT,
-      payload: res.data,
-    });
-
-    dispatch({ type: CLEAR_PROJECT });
-
-    history.push('/projects');
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
