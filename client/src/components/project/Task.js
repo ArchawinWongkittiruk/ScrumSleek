@@ -144,6 +144,7 @@ const Task = ({ task }) => {
           onChange={onChangeTaskStoryPoints}
           min={0}
           max={100}
+          isDisabled={task.location === 'COMPLETED'}
           size='sm'
           w='4.5rem'
         >

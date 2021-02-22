@@ -44,7 +44,10 @@ router.post('/end', [auth, member], async (req, res) => {
     sprint.end = new Date();
 
     for (const task of project.tasks) {
-      if (task.status == project.statuses[project.statuses.length - 1].id) {
+      if (
+        task.status == project.statuses[project.statuses.length - 1].id &&
+        !task.sprintCompleted
+      ) {
         task.location = 'COMPLETED';
         task.sprintCompleted = sprint.id;
       } else if (task.location === 'SPRINT') {

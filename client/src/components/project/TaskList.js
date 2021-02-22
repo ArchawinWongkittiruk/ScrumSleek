@@ -20,9 +20,11 @@ import { Flex } from '@chakra-ui/react';
 import CreateTask from './CreateTask';
 import Task from './Task';
 
-const TaskList = ({ location, canCreateTask }) => {
+const TaskList = ({ location, sprintId, canCreateTask }) => {
   const allTasks = useSelector((state) => state.project.project.tasks);
-  const tasks = allTasks.filter((task) => task.location === location);
+  const tasks = sprintId
+    ? allTasks.filter((task) => task.sprintCompleted === sprintId)
+    : allTasks.filter((task) => task.location === location);
   const dispatch = useDispatch();
 
   const sensors = useSensors(
@@ -58,6 +60,7 @@ const TaskList = ({ location, canCreateTask }) => {
 
 TaskList.propTypes = {
   location: PropTypes.string.isRequired,
+  sprintId: PropTypes.string,
   canCreateTask: PropTypes.bool,
 };
 
