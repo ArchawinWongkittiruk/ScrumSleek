@@ -25,7 +25,7 @@ const Sprint = () => {
     state.project.project.tasks.filter((task) => task.location === 'SPRINT')
   );
   const statuses = useSelector((state) => state.project.project.statuses);
-  const sprint = useSelector((state) => state.project.project.sprint);
+  const sprint = useSelector((state) => state.project.project.sprints[0]);
   const dispatch = useDispatch();
 
   useEffect(() => {

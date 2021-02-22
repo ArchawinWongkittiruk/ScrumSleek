@@ -48,12 +48,12 @@ const Project = ({ match }) => {
   }, [dispatch, user, project?.title]);
 
   useEffect(() => {
-    if (project?.sprint?.ongoing) {
+    if (project?.sprintOngoing) {
       setCurrentPage('Sprint');
     } else {
       setCurrentPage('Backlog');
     }
-  }, [project?.sprint?.ongoing]);
+  }, [project?.sprintOngoing]);
 
   return (
     <>
@@ -113,7 +113,7 @@ const Project = ({ match }) => {
           {currentPage === 'Backlog' ? (
             <Backlog />
           ) : currentPage === 'Sprint' ? (
-            <>{project.sprint.ongoing ? <Sprint /> : <PlanSprint />}</>
+            <>{project.sprintOngoing ? <Sprint /> : <PlanSprint />}</>
           ) : currentPage === 'Completed' ? (
             <Completed />
           ) : currentPage === 'Statuses' ? (

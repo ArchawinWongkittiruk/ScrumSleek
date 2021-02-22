@@ -9,6 +9,24 @@ const StatusSchema = new Schema({
   },
 });
 
+const SprintSchema = new Schema({
+  start: {
+    type: Date,
+  },
+  end: {
+    type: Date,
+  },
+  target: {
+    type: String,
+  },
+  review: {
+    type: String,
+  },
+  retrospective: {
+    type: String,
+  },
+});
+
 const TaskSchema = new Schema(
   {
     title: {
@@ -32,6 +50,10 @@ const TaskSchema = new Schema(
     status: {
       type: Schema.Types.ObjectId,
       ref: 'statuses',
+    },
+    sprintCompleted: {
+      type: Schema.Types.ObjectId,
+      ref: 'sprints',
     },
     members: [
       {
@@ -85,21 +107,10 @@ const ProjectSchema = new Schema(
         { title: 'Done', color: 'green' },
       ],
     },
-    sprint: {
-      _id: false,
-      start: {
-        type: Date,
-      },
-      end: {
-        type: Date,
-      },
-      target: {
-        type: String,
-      },
-      ongoing: {
-        type: Boolean,
-        default: false,
-      },
+    sprints: [SprintSchema],
+    sprintOngoing: {
+      type: Boolean,
+      default: false,
     },
   },
   {

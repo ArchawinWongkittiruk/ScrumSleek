@@ -9,12 +9,13 @@ const Project = require('../models/Project');
 // Start a sprint
 router.post('/', [auth, member], async (req, res) => {
   try {
+    const { start, end, target } = req.body;
     const projectId = req.header('projectId');
 
     // Create and save the sprint
     const project = await Project.findById(projectId);
-    project.sprint = req.body;
-    project.sprint.ongoing = true;
+    project.sprints.unshift({ start, end, target });
+    project.sprintOngoing = true;
 
     for (let task of project.tasks) {
       if (task.location === 'SPRINTPLAN') {
@@ -37,11 +38,15 @@ router.post('/end', [auth, member], async (req, res) => {
     const projectId = req.header('projectId');
 
     const project = await Project.findById(projectId);
-    project.sprint.ongoing = false;
+    project.sprintOngoing = false;
+
+    const sprint = project.sprints[0];
+    sprint.end = new Date();
 
     for (const task of project.tasks) {
       if (task.status == project.statuses[project.statuses.length - 1].id) {
         task.location = 'COMPLETED';
+        task.sprintCompleted = sprint.id;
       } else if (task.location === 'SPRINT') {
         task.location = 'BACKLOG';
       }

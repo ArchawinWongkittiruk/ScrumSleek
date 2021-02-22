@@ -43,7 +43,7 @@ const Task = ({ task }) => {
   const [title, setTitle] = useState(task.title);
   const [label, setLabel] = useState(task.label);
   const [mouseOver, setMouseOver] = useState(false);
-  const sprintOngoing = useSelector((state) => state.project.project.sprint.ongoing);
+  const sprintOngoing = useSelector((state) => state.project.project.sprintOngoing);
   const statuses = useSelector((state) => state.project.project.statuses);
   const status = statuses.find((status) => status._id === task.status);
   const dispatch = useDispatch();
