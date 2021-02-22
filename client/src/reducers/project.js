@@ -15,6 +15,7 @@ import {
   DELETE_TASK,
   START_SPRINT,
   END_SPRINT,
+  EDIT_REVIEW_RETROSPECTIVE,
   ADD_STATUS,
   EDIT_STATUS,
   MOVE_STATUS,
@@ -103,6 +104,16 @@ export default function Project(state = initialState, action) {
       return {
         ...state,
         project: payload,
+      };
+    case EDIT_REVIEW_RETROSPECTIVE:
+      return {
+        ...state,
+        project: {
+          ...state.project,
+          sprints: state.project.sprints.map((sprint) =>
+            sprint._id === payload._id ? payload : sprint
+          ),
+        },
       };
     case ADD_STATUS:
       return {

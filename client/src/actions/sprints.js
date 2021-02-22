@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PROJECT_ERROR, START_SPRINT, END_SPRINT } from './types';
+import { PROJECT_ERROR, START_SPRINT, END_SPRINT, EDIT_REVIEW_RETROSPECTIVE } from './types';
 
 const config = {
   headers: {
@@ -33,6 +33,25 @@ export const endSprint = () => async (dispatch) => {
 
     dispatch({
       type: END_SPRINT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Edit sprint review and/or retrospective
+export const editReviewRetrospective = (sprintId, formData) => async (dispatch) => {
+  try {
+    const body = JSON.stringify(formData);
+
+    const res = await axios.put(`/api/sprints/reviewRetrospective/${sprintId}`, body, config);
+
+    dispatch({
+      type: EDIT_REVIEW_RETROSPECTIVE,
       payload: res.data,
     });
   } catch (err) {

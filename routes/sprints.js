@@ -64,4 +64,24 @@ router.post('/end', [auth, member], async (req, res) => {
   }
 });
 
+// Edit a sprint's review and/or retrospective
+router.put('/reviewRetrospective/:id', [auth, member], async (req, res) => {
+  try {
+    const { review, retrospective } = req.body;
+    const project = await Project.findById(req.header('projectId'));
+
+    const sprintId = req.params.id;
+    const sprint = project.sprints.find((sprint) => sprint.id === sprintId);
+
+    sprint.review = review;
+    sprint.retrospective = retrospective;
+    await project.save();
+
+    res.json(sprint);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;

@@ -27,6 +27,7 @@ export const DELETE_TASK = 'DELETE_TASK';
 
 export const START_SPRINT = 'START_SPRINT';
 export const END_SPRINT = 'END_SPRINT';
+export const EDIT_REVIEW_RETROSPECTIVE = 'EDIT_REVIEW_RETROSPECTIVE';
 
 export const ADD_STATUS = 'ADD_STATUS';
 export const EDIT_STATUS = 'EDIT_STATUS';

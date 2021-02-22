@@ -17,7 +17,11 @@ const Completed = () => {
         <StoryPoints location='COMPLETED' />
       </Flex>
       {completedSprints.map((sprint, index) => (
-        <CompletedSprint sprint={sprint} number={completedSprints.length - index} />
+        <CompletedSprint
+          key={sprint._id}
+          sprint={sprint}
+          number={completedSprints.length - index}
+        />
       ))}
     </>
   );
