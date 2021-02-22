@@ -44,11 +44,17 @@ const CompletedSprint = ({ sprint, number }) => {
       <Flex wrap='wrap' mb='0.5rem'>
         <Box mr={{ base: 0, md: '1rem' }} w='30rem'>
           <Text>Review</Text>
-          {<Textarea value={review} onChange={(e) => setReview(e.target.value)} />}
+          {<Textarea value={review} onChange={(e) => setReview(e.target.value)} h='10rem' />}
         </Box>
         <Box w='30rem'>
           <Text>Retrospective</Text>
-          {<Textarea value={retrospective} onChange={(e) => setRetrospective(e.target.value)} />}
+          {
+            <Textarea
+              value={retrospective}
+              onChange={(e) => setRetrospective(e.target.value)}
+              h='10rem'
+            />
+          }
         </Box>
       </Flex>
       <Button
