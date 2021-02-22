@@ -43,8 +43,9 @@ const Project = ({ match }) => {
   }, [dispatch, user, match.params.id]);
 
   useEffect(() => {
+    if (user) dispatch(getProjects());
     if (project?.title) document.title = project.title + ' | ScrumSleek';
-  }, [project?.title]);
+  }, [dispatch, user, project?.title]);
 
   useEffect(() => {
     if (project?.sprint?.ongoing) {
