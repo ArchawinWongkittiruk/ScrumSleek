@@ -60,7 +60,7 @@ const PlanSprint = () => {
             isRequired
             value={target}
             onChange={(e) => dispatch({ type: SET_SPRINT_TARGET, payload: e.target.value })}
-            maxWidth='30rem'
+            maxWidth='60rem'
             h='10rem'
           />
         </Box>

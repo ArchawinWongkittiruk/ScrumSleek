@@ -32,7 +32,9 @@ const CompletedSprint = ({ sprint, number }) => {
         <Text pr='1rem'>Start: {getDateDisplay(sprint.start)}</Text>
         <Text>End: {getDateDisplay(sprint.end)}</Text>
       </Flex>
-      <Text mb='1rem'>Target - {sprint.target}</Text>
+      <Text mb='1rem' maxW='60rem'>
+        Target - {sprint.target}
+      </Text>
       {tasks.filter((task) => task.sprintCompleted === sprint._id).length === 0 ? (
         <Text mb='1rem'>No user stories were completed!</Text>
       ) : (

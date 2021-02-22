@@ -82,7 +82,7 @@ const Sprint = () => {
         <Text pr='1rem'>Start: {getDateDisplay(sprint.start)}</Text>
         <Text>End: {getDateDisplay(sprint.end)}</Text>
       </Flex>
-      <Text>Target - {sprint.target}</Text>
+      <Text maxW='60rem'>Target - {sprint.target}</Text>
       <TaskList location='SPRINT' />
     </>
   );
