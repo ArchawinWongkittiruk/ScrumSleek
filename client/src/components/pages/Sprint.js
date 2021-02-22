@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import { endSprint } from '../../actions/sprints';
+import getDateDisplay from '../../utils/getDateDisplay';
 import {
   Flex,
   Text,
@@ -19,8 +18,6 @@ import {
 
 import TaskList from '../project/TaskList';
 import StoryPoints from '../project/StoryPoints';
-
-dayjs.extend(relativeTime);
 
 const Sprint = () => {
   const [progress, setProgress] = useState(0);
@@ -82,12 +79,8 @@ const Sprint = () => {
         }
       />
       <Flex wrap='wrap' pb='1rem'>
-        <Text pr='1rem'>
-          Start: {dayjs(sprint.start).format('DD/MM/YYYY HH:mm')} ({dayjs(sprint.start).fromNow()})
-        </Text>
-        <Text>
-          End: {dayjs(sprint.end).format('DD/MM/YYYY HH:mm')} ({dayjs(sprint.end).fromNow()})
-        </Text>
+        <Text pr='1rem'>Start: {getDateDisplay(sprint.start)}</Text>
+        <Text>End: {getDateDisplay(sprint.end)}</Text>
       </Flex>
       <Text>Target - {sprint.target}</Text>
       <TaskList location='SPRINT' />
