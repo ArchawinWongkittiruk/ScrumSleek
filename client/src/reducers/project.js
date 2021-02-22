@@ -45,7 +45,7 @@ export default function Project(state = initialState, action) {
     case GET_PROJECTS:
       return {
         ...state,
-        projects: payload,
+        projects: payload.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)),
         projectsLoading: false,
       };
     case GET_PROJECT:
