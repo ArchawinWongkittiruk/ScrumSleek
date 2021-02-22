@@ -21,9 +21,11 @@ const SprintSchema = new Schema({
   },
   review: {
     type: String,
+    default: '',
   },
   retrospective: {
     type: String,
+    default: '',
   },
 });
 
