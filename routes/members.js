@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const member = require('../middleware/member');
 const admin = require('../middleware/admin');
+const getMembers = require('../utils/getMembers');
 
 const User = require('../models/User');
 const Project = require('../models/Project');
@@ -25,12 +26,12 @@ router.put('/addMember/:userId', [auth, admin], async (req, res) => {
     user.projects.unshift(project.id);
     await user.save();
 
-    // Add user to project's members with 'normal' role
-    project.members.push({ user: user.id, name: user.name, role: 'Developer' });
-
+    // Add user to project's members with 'Developer' role
+    project.members.push({ user: user.id, role: 'Developer' });
     await project.save();
 
-    res.json(project.members);
+    const { name, avatar } = user;
+    res.json({ user: user.id, role: 'Developer', name, avatar });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -54,7 +55,7 @@ router.patch('/role/:id', [auth, member], async (req, res) => {
     member.role = role;
     await project.save();
 
-    res.json(project.members);
+    res.json(await getMembers(project));
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -91,7 +92,7 @@ router.delete('/leave/:userId', [auth, member], async (req, res) => {
     }
     await project.save();
 
-    res.json(project);
+    res.json({ project, members: await getMembers(project) });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

@@ -52,7 +52,7 @@ export default function Project(state = initialState, action) {
     case GET_PROJECT:
       return {
         ...state,
-        project: payload,
+        project: { ...payload.project, members: payload.members },
       };
     case RENAME_PROJECT:
       return {
@@ -146,6 +146,10 @@ export default function Project(state = initialState, action) {
         project: payload,
       };
     case ADD_MEMBER:
+      return {
+        ...state,
+        project: { ...state.project, members: [...state.project.members, payload] },
+      };
     case CHANGE_ROLE:
       return {
         ...state,
@@ -162,7 +166,7 @@ export default function Project(state = initialState, action) {
     case REMOVE_MEMBER:
       return {
         ...state,
-        project: payload,
+        project: { ...payload.project, members: payload.members },
       };
     default:
       return state;

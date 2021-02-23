@@ -160,7 +160,7 @@ router.put('/addMember/:add/:taskId/:userId', [auth, member], async (req, res) =
     }
 
     if (add) {
-      task.members.push({ user: user.user, name: user.name });
+      task.members.push({ user: user.user });
     } else {
       task.members.splice(index, 1);
     }

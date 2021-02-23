@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const member = require('../middleware/member');
 const admin = require('../middleware/admin');
+const getMembers = require('../utils/getMembers');
 const { check, validationResult } = require('express-validator');
 
 const User = require('../models/User');
@@ -31,7 +32,7 @@ router.post(
       await user.save();
 
       // Add user to project's members as admin
-      project.members.push({ user: user.id, name: user.name });
+      project.members.push({ user: user.id });
       await project.save();
 
       res.json(project);
@@ -67,7 +68,7 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ msg: 'Project not found' });
     }
 
-    res.json(project);
+    res.json({ project, members: await getMembers(project) });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
