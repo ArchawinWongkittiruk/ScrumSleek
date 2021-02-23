@@ -37,7 +37,7 @@ const Account = () => {
 
   const onEditUser = async (e) => {
     e.preventDefault();
-    if (name) dispatch(editUser(user._id, { name, avatar }));
+    dispatch(editUser(user._id, { name, avatar }));
   };
 
   return (
