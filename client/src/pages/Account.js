@@ -29,6 +29,7 @@ const Account = () => {
     if (user?.name) setName(user.name);
     if (user?.avatar) {
       setAvatar(user.avatar);
+      setAvatarValid(true);
     } else {
       setAvatarValid(false);
     }
