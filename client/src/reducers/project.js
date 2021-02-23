@@ -167,7 +167,7 @@ export default function Project(state = initialState, action) {
     case LEAVE_PROJECT:
       return {
         ...state,
-        projects: state.projects.filter((project) => project._id !== payload._id),
+        projects: state.projects.filter((project) => project._id !== payload.project._id),
       };
     case REMOVE_MEMBER:
       return {
