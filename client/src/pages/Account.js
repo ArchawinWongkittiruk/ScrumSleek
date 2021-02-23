@@ -41,7 +41,7 @@ const Account = () => {
   };
 
   return (
-    <Box>
+    <>
       <Navbar />
       {user && (
         <Box pt='10vh'>
@@ -60,7 +60,7 @@ const Account = () => {
               size='2xl'
               m='1rem'
             />
-            <Flex direction='column' alignItems='center'>
+            <Box w={{ base: '18rem', md: '30rem' }}>
               <form onSubmit={(e) => onEditUser(e)}>
                 <Text>Email</Text>
                 <Text as='h1' fontSize='1.2rem' pb='1rem'>
@@ -98,11 +98,11 @@ const Account = () => {
                   Save
                 </Button>
               </form>
-            </Flex>
+            </Box>
           </Flex>
         </Box>
       )}
-    </Box>
+    </>
   );
 };
 
