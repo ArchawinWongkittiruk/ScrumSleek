@@ -50,10 +50,14 @@ export default function Project(state = initialState, action) {
         projectsLoading: false,
       };
     case GET_PROJECT:
-    case RENAME_PROJECT:
       return {
         ...state,
         project: payload,
+      };
+    case RENAME_PROJECT:
+      return {
+        ...state,
+        project: { ...state.project, title: payload },
       };
     case ADD_PROJECT:
       return {

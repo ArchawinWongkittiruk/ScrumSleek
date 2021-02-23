@@ -93,7 +93,7 @@ router.patch(
       project.title = req.body.title;
       await project.save();
 
-      res.json(project);
+      res.json(project.title);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
