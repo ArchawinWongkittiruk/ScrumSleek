@@ -23,10 +23,10 @@ router.post(
       // Create and save the status
       const project = await Project.findById(projectId);
       const status = { title, color };
-      project.statuses.push(status);
+      project.statuses.splice(project.statuses.length - 1, 0, status);
       await project.save();
 
-      res.json(project.statuses[project.statuses.length - 1]);
+      res.json(project.statuses);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');

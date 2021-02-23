@@ -118,7 +118,7 @@ export default function Project(state = initialState, action) {
     case ADD_STATUS:
       return {
         ...state,
-        project: { ...state.project, statuses: [...state.project.statuses, payload] },
+        project: { ...state.project, statuses: payload },
       };
     case EDIT_STATUS:
     case CHANGE_STATUS_COLOR:

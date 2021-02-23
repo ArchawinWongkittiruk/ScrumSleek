@@ -57,12 +57,12 @@ const Status = ({ statuses, status, index }) => {
       )}
       <ColorPicker colorScheme={status.color} setColor={onChangeColor} m='0.5rem 0' />
       <Flex justify='space-between'>
-        {index !== 0 ? (
+        {index > 1 && index < statuses.length - 1 ? (
           <IconButton icon={<ChevronLeftIcon />} onClick={() => onMove(index - 1)} size='sm' />
         ) : (
           <Box w='2rem' />
         )}
-        {statuses.length > 3 && (
+        {index > 0 && index < statuses.length - 1 && (
           <Popover>
             <PopoverTrigger>
               <IconButton icon={<DeleteIcon />} colorScheme='red' size='sm'>
@@ -81,7 +81,7 @@ const Status = ({ statuses, status, index }) => {
             </PopoverContent>
           </Popover>
         )}
-        {index !== statuses.length - 1 ? (
+        {index > 0 && index < statuses.length - 2 ? (
           <IconButton icon={<ChevronRightIcon />} onClick={() => onMove(index + 1)} size='sm' />
         ) : (
           <Box w='2rem' />

@@ -19,14 +19,14 @@ const CreateStatus = () => {
   };
 
   return (
-    <Box>
+    <Box mr='0.5rem'>
       {!adding ? (
-        <Button onClick={() => setAdding(true)} mr='0.5rem'>
-          +
+        <Button onClick={() => setAdding(true)} mb='1rem'>
+          + Add a Status
         </Button>
       ) : (
         <form onSubmit={(e) => onSubmit(e)}>
-          <Flex direction='column'>
+          <Flex direction='column' mb='0.5rem'>
             <Input
               isRequired
               autoFocus
