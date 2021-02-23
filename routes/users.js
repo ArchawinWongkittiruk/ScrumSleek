@@ -77,4 +77,35 @@ router.get('/:input', auth, async (req, res) => {
   }
 });
 
+// Edit user's name and/or avatar
+router.put(
+  '/:userId',
+  [auth, [check('name', 'Name is required').not().isEmpty()]],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { name, avatar } = req.body;
+
+    try {
+      const userId = req.params.userId;
+      if (req.user.id !== userId) {
+        return res.status(401).json({ msg: 'You cannot edit the details of other users' });
+      }
+
+      const user = await User.findById(userId);
+      user.name = name;
+      user.avatar = avatar;
+      await user.save();
+
+      res.json(user);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  }
+);
+
 module.exports = router;

@@ -8,8 +8,15 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  EDIT_USER,
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
+
+const config = {
+  headers: {
+    'Content-Type': 'application/json',
+  },
+};
 
 // Load User
 export const loadUser = () => async (dispatch) => {
@@ -33,12 +40,6 @@ export const loadUser = () => async (dispatch) => {
 
 // Register User
 export const register = ({ name, email, password }) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
   const body = JSON.stringify({ name, email, password });
 
   try {
@@ -65,12 +66,6 @@ export const register = ({ name, email, password }) => async (dispatch) => {
 
 // Login User
 export const login = (email, password) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
   const body = JSON.stringify({ email, password });
 
   try {
@@ -99,4 +94,28 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   setAuthToken(null);
   dispatch({ type: LOGOUT });
+};
+
+// Edit user name/avatar
+export const editUser = (userId, formData) => async (dispatch) => {
+  try {
+    const body = JSON.stringify(formData);
+
+    const res = await axios.put(`/api/users/${userId}`, body, config);
+
+    dispatch({
+      type: EDIT_USER,
+      payload: res.data,
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+    }
+
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
 };

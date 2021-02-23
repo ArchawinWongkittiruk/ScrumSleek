@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link as ReactLink } from 'react-router-dom';
+import { Link as ReactLink, useLocation } from 'react-router-dom';
 import { logout } from '../../actions/auth';
 import {
   Flex,
@@ -16,12 +16,15 @@ import {
 import { SunIcon, MoonIcon } from '@chakra-ui/icons';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
+import TooltipAvatar from './TooltipAvatar';
+
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
   const projects = useSelector((state) => state.project.projects);
   const currentProject = useSelector((state) => state.project.project);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   return (
     <Flex as='nav' justify='space-between' p='1rem' borderBottom='2px solid lightgrey'>
@@ -51,13 +54,23 @@ const Navbar = () => {
         )}
       </Flex>
       <Flex>
-        <Button onClick={toggleColorMode} mr='1rem' size='xs'>
+        <Button onClick={toggleColorMode} mr='0.5rem' size='xs'>
           {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
         </Button>
-        {isAuthenticated ? (
-          <Link as={ReactLink} to='/' onClick={() => dispatch(logout())}>
-            Logout
-          </Link>
+        {isAuthenticated && user ? (
+          <Menu>
+            <MenuButton as={Button} variant='ghost' rightIcon={<ChevronDownIcon />} size='xs'>
+              <TooltipAvatar member={user} size='xs' />
+            </MenuButton>
+            <MenuList>
+              <MenuItem as={ReactLink} to='/account' isDisabled={location.pathname === '/account'}>
+                Your Account
+              </MenuItem>
+              <MenuItem as={ReactLink} to='/' onClick={() => dispatch(logout())}>
+                Logout
+              </MenuItem>
+            </MenuList>
+          </Menu>
         ) : (
           <>
             <Text display={{ base: 'none', md: 'block' }} mr='0.5rem'>

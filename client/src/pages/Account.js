@@ -1,0 +1,108 @@
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { CLEAR_PROJECT } from '../actions/types';
+import { getProjects } from '../actions/project';
+import { editUser } from '../actions/auth';
+import { Box, Text, Flex, Input, Button } from '@chakra-ui/react';
+import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
+
+import Navbar from '../components/other/Navbar';
+import TooltipAvatar from '../components/other/TooltipAvatar';
+
+const Account = () => {
+  const [name, setName] = useState('');
+  const [avatar, setAvatar] = useState('');
+  const [avatarValid, setAvatarValid] = useState(true);
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({ type: CLEAR_PROJECT });
+    if (user) dispatch(getProjects());
+  }, [dispatch, user]);
+
+  useEffect(() => {
+    document.title = 'Your Account | ScrumSleek';
+  }, []);
+
+  useEffect(() => {
+    if (user?.name) setName(user.name);
+    if (user?.avatar) {
+      setAvatar(user.avatar);
+    } else {
+      setAvatarValid(false);
+    }
+  }, [user]);
+
+  const onEditUser = async (e) => {
+    e.preventDefault();
+    if (name) dispatch(editUser(user._id, { name, avatar }));
+  };
+
+  return (
+    <Box>
+      <Navbar />
+      {user && (
+        <Box pt='10vh'>
+          <Flex
+            direction='column'
+            w='40rem'
+            maxWidth='90vw'
+            margin='auto'
+            align='center'
+            p='2rem'
+            boxShadow='xl'
+          >
+            <TooltipAvatar
+              member={{ name, avatar }}
+              onError={() => setAvatarValid(false)}
+              size='2xl'
+              m='1rem'
+            />
+            <Flex direction='column' alignItems='center'>
+              <form onSubmit={(e) => onEditUser(e)}>
+                <Text>Email</Text>
+                <Text as='h1' fontSize='1.2rem' pb='1rem'>
+                  {user.email}
+                </Text>
+                <Text>Name</Text>
+                <Input
+                  isRequired
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  size='lg'
+                  mb='1rem'
+                />
+                <Flex>
+                  <Text pr='0.5rem'>Avatar URL</Text>
+                  {avatarValid ? <CheckIcon boxSize='1rem' /> : <CloseIcon boxSize='1rem' />}
+                </Flex>
+                <Input
+                  value={avatar}
+                  onChange={(e) => {
+                    setAvatar(e.target.value);
+                    setAvatarValid(true);
+                  }}
+                  size='lg'
+                  mb='1rem'
+                />
+                <Button
+                  type='submit'
+                  isDisabled={
+                    ((name === '' || name === user.name) && avatar === user.avatar) ||
+                    (!avatarValid && avatar !== '')
+                  }
+                  colorScheme='blue'
+                >
+                  Save
+                </Button>
+              </form>
+            </Flex>
+          </Flex>
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+export default Account;
