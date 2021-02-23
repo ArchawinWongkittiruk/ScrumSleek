@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const member = require('../middleware/member');
-const { check, validationResult } = require('express-validator');
 
 const Project = require('../models/Project');
 
@@ -25,7 +24,7 @@ router.post('/', [auth, member], async (req, res) => {
 
     await project.save();
 
-    res.json(project);
+    res.json({ tasks: project.tasks, sprints: project.sprints, sprintOngoing: true });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -57,7 +56,7 @@ router.post('/end', [auth, member], async (req, res) => {
 
     await project.save();
 
-    res.json(project);
+    res.json({ tasks: project.tasks, sprints: project.sprints, sprintOngoing: false });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

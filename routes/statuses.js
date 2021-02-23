@@ -129,7 +129,7 @@ router.delete('/:id', [auth, member], async (req, res) => {
     }
     await project.save();
 
-    res.json(project);
+    res.json({ statuses: project.statuses, tasks: project.tasks });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

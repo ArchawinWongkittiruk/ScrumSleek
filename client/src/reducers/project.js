@@ -107,7 +107,10 @@ export default function Project(state = initialState, action) {
     case END_SPRINT:
       return {
         ...state,
-        project: payload,
+        project: {
+          ...state.project,
+          ...payload,
+        },
       };
     case EDIT_REVIEW_RETROSPECTIVE:
       return {
@@ -143,7 +146,10 @@ export default function Project(state = initialState, action) {
     case DELETE_STATUS:
       return {
         ...state,
-        project: payload,
+        project: {
+          ...state.project,
+          ...payload,
+        },
       };
     case ADD_MEMBER:
       return {
