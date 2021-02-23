@@ -38,13 +38,14 @@ const Project = ({ match }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user) dispatch(getProjects());
     dispatch(getProject(match.params.id));
-  }, [dispatch, user, match.params.id]);
+  }, [dispatch, match.params.id]);
 
   useEffect(() => {
-    if (user) dispatch(getProjects());
-    if (project?.title) document.title = project.title + ' | ScrumSleek';
+    if (project?.title) {
+      if (user) dispatch(getProjects());
+      document.title = project.title + ' | ScrumSleek';
+    }
   }, [dispatch, user, project?.title]);
 
   useEffect(() => {
