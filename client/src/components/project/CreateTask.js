@@ -20,7 +20,7 @@ const CreateTask = ({ location }) => {
   };
 
   return (
-    <Box width='300px' m='0 1rem 1rem 0'>
+    <Box w='330px' mb='1rem'>
       {!adding ? (
         <Button onClick={() => setAdding(true)} colorScheme='green'>
           + Add a User Story

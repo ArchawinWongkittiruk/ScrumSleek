@@ -39,7 +39,7 @@ const TaskMouseOver = ({ task, setEditing, attributes, listeners }) => {
             icon={<BiUser />}
             aria-label='Add Member to User Story'
             position='absolute'
-            left='60%'
+            left='63%'
             top='5px'
             zIndex='1'
           />
@@ -71,7 +71,7 @@ const TaskMouseOver = ({ task, setEditing, attributes, listeners }) => {
         icon={<EditIcon />}
         aria-label='Edit User Story'
         position='absolute'
-        left='75%'
+        left='77%'
         top='5px'
         zIndex='1'
       />
@@ -80,7 +80,7 @@ const TaskMouseOver = ({ task, setEditing, attributes, listeners }) => {
         _pressed={{ cursor: 'grabbing' }}
         color='gray.500'
         position='absolute'
-        left='89%'
+        left='90%'
         top='9px'
         zIndex='1'
         boxSize='2rem'
