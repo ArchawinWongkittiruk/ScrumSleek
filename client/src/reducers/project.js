@@ -172,7 +172,10 @@ export default function Project(state = initialState, action) {
     case REMOVE_MEMBER:
       return {
         ...state,
-        project: { ...payload.project, members: payload.members },
+        project: {
+          ...payload.project,
+          members: state.project.members.filter((member) => member.user !== payload.memberId),
+        },
       };
     default:
       return state;

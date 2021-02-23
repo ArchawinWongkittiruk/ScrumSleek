@@ -92,7 +92,7 @@ router.delete('/leave/:userId', [auth, member], async (req, res) => {
     }
     await project.save();
 
-    res.json({ project, members: await getMembers(project) });
+    res.json({ project, memberId: user.id });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
