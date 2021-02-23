@@ -60,7 +60,7 @@ const Status = ({ statuses, status, index }) => {
         {index > 1 && index < statuses.length - 1 ? (
           <IconButton icon={<ChevronLeftIcon />} onClick={() => onMove(index - 1)} size='sm' />
         ) : (
-          <Box w='2rem' />
+          <Box w='2rem' h='2rem' />
         )}
         {index > 0 && index < statuses.length - 1 && (
           <Popover>
@@ -84,7 +84,7 @@ const Status = ({ statuses, status, index }) => {
         {index > 0 && index < statuses.length - 2 ? (
           <IconButton icon={<ChevronRightIcon />} onClick={() => onMove(index + 1)} size='sm' />
         ) : (
-          <Box w='2rem' />
+          <Box w='2rem' h='2rem' />
         )}
       </Flex>
     </Box>
