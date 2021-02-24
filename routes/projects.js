@@ -3,7 +3,6 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const member = require('../middleware/member');
 const admin = require('../middleware/admin');
-const getMembers = require('../utils/getMembers');
 const { check, validationResult } = require('express-validator');
 
 const User = require('../models/User');
@@ -68,7 +67,14 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ msg: 'Project not found' });
     }
 
-    res.json({ project, members: await getMembers(project) });
+    // 'Join' data of project members (user ID and role) and their users (name and avatar)
+    const members = [];
+    for (const member of project.members) {
+      const { name, avatar } = await User.findById(member.user);
+      members.push({ user: member.user, role: member.role, name, avatar });
+    }
+
+    res.json({ project, members });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

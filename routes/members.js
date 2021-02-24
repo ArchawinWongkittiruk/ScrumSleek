@@ -3,7 +3,6 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const member = require('../middleware/member');
 const admin = require('../middleware/admin');
-const getMembers = require('../utils/getMembers');
 
 const User = require('../models/User');
 const Project = require('../models/Project');
@@ -55,7 +54,14 @@ router.patch('/role/:id', [auth, member], async (req, res) => {
     member.role = role;
     await project.save();
 
-    res.json(await getMembers(project));
+    // 'Join' data of project members (user ID and role) and their users (name and avatar)
+    const members = [];
+    for (const member of project.members) {
+      const { name, avatar } = await User.findById(member.user);
+      members.push({ user: member.user, role: member.role, name, avatar });
+    }
+
+    res.json(members);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
