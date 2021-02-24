@@ -49,7 +49,7 @@ router.get('/', auth, async (req, res) => {
 
     const projects = [];
     for (const projectId of user.projects) {
-      projects.push(await Project.findById(projectId));
+      projects.push(await Project.findById(projectId).select('id title'));
     }
 
     res.json(projects);
