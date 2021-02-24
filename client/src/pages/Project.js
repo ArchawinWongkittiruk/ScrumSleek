@@ -32,6 +32,7 @@ const pages = ['Backlog', 'Sprint', 'Completed', 'Statuses', 'Roles'];
 const Project = ({ match }) => {
   const [currentPage, setCurrentPage] = useState('Backlog');
   const user = useSelector((state) => state.auth.user);
+  const projects = useSelector((state) => state.project.projects);
   const project = useSelector((state) => state.project.project);
   const isMember =
     user && project ? project.members.map((member) => member.user).includes(user._id) : false;
@@ -42,11 +43,12 @@ const Project = ({ match }) => {
   }, [dispatch, match.params.id]);
 
   useEffect(() => {
-    if (project?.title) {
-      if (user) dispatch(getProjects());
-      document.title = project.title + ' | ScrumSleek';
-    }
-  }, [dispatch, user, project?.title]);
+    if (project?.title) document.title = project.title + ' | ScrumSleek';
+  }, [dispatch, project?.title]);
+
+  useEffect(() => {
+    if (user && projects.length === 0) dispatch(getProjects());
+  }, [dispatch, user, projects.length]);
 
   useEffect(() => {
     if (project?.sprintOngoing) {

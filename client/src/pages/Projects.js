@@ -15,13 +15,15 @@ const Projects = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: CLEAR_PROJECT });
-    if (user) dispatch(getProjects());
-  }, [dispatch, user]);
-
-  useEffect(() => {
     document.title = 'Your Projects | ScrumSleek';
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      dispatch({ type: CLEAR_PROJECT });
+      dispatch(getProjects());
+    }
+  }, [dispatch, user]);
 
   if (!isAuthenticated) {
     return <Redirect to='/' />;

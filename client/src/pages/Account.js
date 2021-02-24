@@ -17,13 +17,15 @@ const Account = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: CLEAR_PROJECT });
-    if (user) dispatch(getProjects());
-  }, [dispatch, user]);
-
-  useEffect(() => {
     document.title = 'Your Account | ScrumSleek';
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      dispatch({ type: CLEAR_PROJECT });
+      dispatch(getProjects());
+    }
+  }, [dispatch, user]);
 
   useEffect(() => {
     if (user?.name) setName(user.name);
