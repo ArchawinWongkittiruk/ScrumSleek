@@ -142,7 +142,7 @@ router.patch('/storyPoints/:id', [auth, member], async (req, res) => {
 });
 
 // Add/Remove a member
-router.put('/addMember/:add/:taskId/:userId', [auth, member], async (req, res) => {
+router.put('/setMember/:add/:taskId/:userId', [auth, member], async (req, res) => {
   try {
     const { taskId, userId } = req.params;
     const project = await Project.findById(req.header('projectId'));

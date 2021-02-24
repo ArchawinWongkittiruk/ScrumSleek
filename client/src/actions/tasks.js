@@ -6,7 +6,7 @@ import {
   MOVE_TASK,
   CHANGE_TASK_STATUS,
   CHANGE_TASK_STORY_POINTS,
-  ADD_TASK_MEMBER,
+  SET_TASK_MEMBER,
   DELETE_TASK,
 } from './types';
 
@@ -111,15 +111,15 @@ export const changeTaskStoryPoints = (taskId, formData) => async (dispatch) => {
   }
 };
 
-// Add task member
-export const addTaskMember = (formData) => async (dispatch) => {
+// Add/remove task member
+export const setTaskMember = (formData) => async (dispatch) => {
   try {
     const { add, taskId, userId } = formData;
 
-    const res = await axios.put(`/api/tasks/addMember/${add}/${taskId}/${userId}`);
+    const res = await axios.put(`/api/tasks/setMember/${add}/${taskId}/${userId}`);
 
     dispatch({
-      type: ADD_TASK_MEMBER,
+      type: SET_TASK_MEMBER,
       payload: res.data,
     });
   } catch (err) {

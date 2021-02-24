@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addTaskMember } from '../../actions/tasks';
+import { setTaskMember } from '../../actions/tasks';
 import {
   Flex,
   IconButton,
@@ -21,9 +21,9 @@ const TaskMouseOver = ({ task, setEditing, attributes, listeners }) => {
   const projectMembers = useSelector((state) => state.project.project.members);
   const dispatch = useDispatch();
 
-  const onAddTaskMember = async (e) => {
+  const onSetTaskMember = async (e) => {
     dispatch(
-      addTaskMember({
+      setTaskMember({
         add: e.target.checked,
         taskId: task._id,
         userId: e.target.name,
@@ -37,7 +37,7 @@ const TaskMouseOver = ({ task, setEditing, attributes, listeners }) => {
         <PopoverTrigger>
           <IconButton
             icon={<BiUser />}
-            aria-label='Add Member to User Story'
+            aria-label='Set Members for User Story'
             position='absolute'
             left='63%'
             top='5px'
@@ -56,7 +56,7 @@ const TaskMouseOver = ({ task, setEditing, attributes, listeners }) => {
                   isChecked={task.members
                     .map((taskMember) => taskMember.user)
                     .includes(member.user)}
-                  onChange={onAddTaskMember}
+                  onChange={onSetTaskMember}
                   name={member.user}
                 >
                   {member.name}
