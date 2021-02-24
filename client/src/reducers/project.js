@@ -57,7 +57,10 @@ export default function Project(state = initialState, action) {
     case RENAME_PROJECT:
       return {
         ...state,
-        project: { ...state.project, title: payload },
+        project: { ...state.project, title: payload.title },
+        projects: state.projects.map((project) =>
+          project._id === payload._id ? { ...project, title: payload.title } : project
+        ),
       };
     case ADD_PROJECT:
       return {
