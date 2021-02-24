@@ -10,7 +10,7 @@ const getInitials = (name) => {
 const TooltipAvatar = ({ member, ...props }) => {
   const { name, avatar } = member;
 
-  return name ? (
+  return (
     <Tooltip hasArrow label={name}>
       <Avatar
         bg='gray.300'
@@ -21,8 +21,6 @@ const TooltipAvatar = ({ member, ...props }) => {
         src={avatar}
       />
     </Tooltip>
-  ) : (
-    <Avatar />
   );
 };
 
