@@ -44,7 +44,7 @@ const Account = () => {
     <>
       <Navbar />
       {user && (
-        <Box pt='10vh'>
+        <Box pt='5vh'>
           <Flex
             direction='column'
             w='40rem'
