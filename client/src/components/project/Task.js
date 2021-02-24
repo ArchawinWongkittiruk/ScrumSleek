@@ -124,21 +124,25 @@ const Task = ({ task }) => {
                 ))}
               </AvatarGroup>
             )}
-            <Box bg={status.color + '.500'} h='4px' w='100%' mb='10px' borderRadius='5px' />
-            <RadioGroup onChange={onChangeStatus} value={status._id}>
-              <Flex wrap='wrap'>
-                {statuses.map((status) => (
-                  <Radio
-                    key={status._id}
-                    value={status._id}
-                    isDisabled={task.location !== 'SPRINT'}
-                    mr='15px'
-                  >
-                    {status.title}
-                  </Radio>
-                ))}
-              </Flex>
-            </RadioGroup>
+            {task.location !== 'COMPLETED' && (
+              <>
+                <Box bg={status.color + '.500'} h='4px' w='100%' mb='10px' borderRadius='5px' />
+                <RadioGroup onChange={onChangeStatus} value={status._id}>
+                  <Flex wrap='wrap'>
+                    {statuses.map((status) => (
+                      <Radio
+                        key={status._id}
+                        value={status._id}
+                        isDisabled={task.location !== 'SPRINT'}
+                        mr='15px'
+                      >
+                        {status.title}
+                      </Radio>
+                    ))}
+                  </Flex>
+                </RadioGroup>
+              </>
+            )}
           </Box>
           <Flex justify='space-between'>
             {!['SPRINT', 'COMPLETED'].includes(task.location) && !sprintOngoing ? (
