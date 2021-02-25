@@ -52,7 +52,7 @@ export default function Project(state = initialState, action) {
     case GET_PROJECT:
       return {
         ...state,
-        project: { ...payload.project, members: payload.members },
+        project: payload,
       };
     case RENAME_PROJECT:
       return {

@@ -74,7 +74,7 @@ router.get('/:id', async (req, res) => {
       members.push({ user: member.user, role: member.role, name, avatar });
     }
 
-    res.json({ project, members });
+    res.json({ ...project._doc, members });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
