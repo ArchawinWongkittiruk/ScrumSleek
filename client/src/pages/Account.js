@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { CLEAR_PROJECT } from '../actions/types';
-import { getProjects } from '../actions/project';
 import { editUser } from '../actions/auth';
 import { Box, Text, Flex, Input, Button } from '@chakra-ui/react';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
@@ -19,13 +17,6 @@ const Account = () => {
   useEffect(() => {
     document.title = 'Your Account | ScrumSleek';
   }, []);
-
-  useEffect(() => {
-    if (user) {
-      dispatch({ type: CLEAR_PROJECT });
-      dispatch(getProjects());
-    }
-  }, [dispatch, user]);
 
   useEffect(() => {
     if (user?.name) setName(user.name);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getProjects, getProject } from '../actions/project';
+import { getProject } from '../actions/project';
 import {
   Button,
   Box,
@@ -32,7 +32,6 @@ const pages = ['Backlog', 'Sprint', 'Completed', 'Statuses', 'Roles'];
 const Project = ({ match }) => {
   const [currentPage, setCurrentPage] = useState('Backlog');
   const user = useSelector((state) => state.auth.user);
-  const projects = useSelector((state) => state.project.projects);
   const project = useSelector((state) => state.project.project);
   const isMember =
     user && project ? project.members.map((member) => member.user).includes(user._id) : false;
@@ -45,10 +44,6 @@ const Project = ({ match }) => {
   useEffect(() => {
     if (project?.title) document.title = project.title + ' | ScrumSleek';
   }, [project?.title]);
-
-  useEffect(() => {
-    if (user && projects.length === 0) dispatch(getProjects());
-  }, [dispatch, user, projects.length]);
 
   useEffect(() => {
     if (project?.sprintOngoing) {

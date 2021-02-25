@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as ReactLink, useLocation } from 'react-router-dom';
 import { logout } from '../../actions/auth';
+import { getProjects } from '../../actions/project';
+import { CLEAR_PROJECT } from '../../actions/types';
 import {
   Flex,
   Text,
@@ -25,6 +27,14 @@ const Navbar = () => {
   const currentProject = useSelector((state) => state.project.project);
   const dispatch = useDispatch();
   const location = useLocation();
+
+  useEffect(() => {
+    if (['/projects', '/account'].includes(location.pathname)) dispatch({ type: CLEAR_PROJECT });
+  }, [dispatch, location.pathname]);
+
+  useEffect(() => {
+    if (user && projects.length === 0) dispatch(getProjects());
+  }, [dispatch, user, projects.length]);
 
   return (
     <Flex as='nav' justify='space-between' p='1rem' borderBottom='2px solid lightgrey'>

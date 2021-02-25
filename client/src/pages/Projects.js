@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Redirect, Link as ReactLink } from 'react-router-dom';
-import { CLEAR_PROJECT } from '../actions/types';
-import { getProjects } from '../actions/project';
 import { Text, Flex, Link, CircularProgress } from '@chakra-ui/react';
 
 import Navbar from '../components/other/Navbar';
@@ -12,18 +10,10 @@ const Projects = () => {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
   const projects = useSelector((state) => state.project.projects);
   const loading = useSelector((state) => state.project.projectsLoading);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     document.title = 'Your Projects | ScrumSleek';
   }, []);
-
-  useEffect(() => {
-    if (user) {
-      dispatch({ type: CLEAR_PROJECT });
-      dispatch(getProjects());
-    }
-  }, [dispatch, user]);
 
   if (!isAuthenticated) {
     return <Redirect to='/' />;
