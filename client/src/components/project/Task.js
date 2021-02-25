@@ -170,7 +170,7 @@ const Task = ({ task }) => {
               value={task.storyPoints}
               onChange={onChangeTaskStoryPoints}
               min={0}
-              max={100}
+              max={999}
               isDisabled={task.location === 'COMPLETED'}
               size='sm'
               w='4.5rem'
