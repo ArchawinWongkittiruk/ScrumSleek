@@ -31,6 +31,7 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  useColorMode,
 } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 
@@ -39,6 +40,7 @@ import ColorPicker from '../other/ColorPicker';
 import TaskMouseOver from './TaskMouseOver';
 
 const Task = ({ task }) => {
+  const { colorMode } = useColorMode();
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [label, setLabel] = useState(task.label);
@@ -108,7 +110,13 @@ const Task = ({ task }) => {
               />
             )}
             {task.label !== 'gray' && (
-              <Box bg={task.label + '.500'} h='8px' w='20%' mb='10px' borderRadius='5px' />
+              <Box
+                bg={task.label + (colorMode === 'light' ? '.500' : '.300')}
+                h='8px'
+                w='20%'
+                mb='10px'
+                borderRadius='5px'
+              />
             )}
             <Text pb={task.members.length > 0 ? '10px' : '15px'}>{task.title}</Text>
             {task.members.length > 0 && (
@@ -126,7 +134,13 @@ const Task = ({ task }) => {
             )}
             {task.location !== 'COMPLETED' && (
               <>
-                <Box bg={status.color + '.500'} h='4px' w='100%' mb='10px' borderRadius='5px' />
+                <Box
+                  bg={status.color + (colorMode === 'light' ? '.500' : '.300')}
+                  h='4px'
+                  w='100%'
+                  mb='10px'
+                  borderRadius='5px'
+                />
                 <RadioGroup onChange={onChangeStatus} value={status._id}>
                   <Flex wrap='wrap'>
                     {statuses.map((status) => (
