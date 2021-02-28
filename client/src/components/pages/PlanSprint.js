@@ -60,7 +60,7 @@ const PlanSprint = () => {
         <Text>Sprint Tasks</Text>
         <TaskList location='SPRINTPLAN' canCreateTask />
       </Box>
-      <Flex wrap='wrap' alignItems='center' pb='0.5rem' minH='3.5rem'>
+      <Flex wrap='wrap' alignItems='center' pb='0.5rem' minH='3rem'>
         <Text mr='0.5rem'>Velocity Limit</Text>
         <Switch isChecked={velocityLimited} onChange={onSetVelocityLimited} mr='1rem' />
         {velocityLimited && (
