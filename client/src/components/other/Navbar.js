@@ -29,8 +29,10 @@ const Navbar = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (['/projects', '/account'].includes(location.pathname)) dispatch({ type: CLEAR_PROJECT });
-  }, [dispatch, location.pathname]);
+    if (['/projects', '/account'].includes(location.pathname) && currentProject) {
+      dispatch({ type: CLEAR_PROJECT });
+    }
+  }, [dispatch, location.pathname, currentProject]);
 
   useEffect(() => {
     if (user && projects.length === 0) dispatch(getProjects());
