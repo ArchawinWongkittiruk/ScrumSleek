@@ -102,6 +102,14 @@ const ProjectSchema = new Schema(
       ],
     },
     sprints: [SprintSchema],
+    velocityLimited: {
+      type: Boolean,
+      default: false,
+    },
+    velocityLimit: {
+      type: Number,
+      default: 0,
+    },
     sprintOngoing: {
       type: Boolean,
       default: false,

@@ -16,6 +16,8 @@ import {
   START_SPRINT,
   END_SPRINT,
   EDIT_REVIEW_RETROSPECTIVE,
+  SET_VELOCITY_LIMITED,
+  SET_VELOCITY_LIMIT,
   ADD_STATUS,
   EDIT_STATUS,
   MOVE_STATUS,
@@ -123,6 +125,22 @@ export default function Project(state = initialState, action) {
           sprints: state.project.sprints.map((sprint) =>
             sprint._id === payload._id ? payload : sprint
           ),
+        },
+      };
+    case SET_VELOCITY_LIMITED:
+      return {
+        ...state,
+        project: {
+          ...state.project,
+          velocityLimited: payload,
+        },
+      };
+    case SET_VELOCITY_LIMIT:
+      return {
+        ...state,
+        project: {
+          ...state.project,
+          velocityLimit: payload,
         },
       };
     case ADD_STATUS:

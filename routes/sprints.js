@@ -83,4 +83,36 @@ router.put('/reviewRetrospective/:id', [auth, member], async (req, res) => {
   }
 });
 
+// Set enforcement of velocity limit
+router.put('/velocityLimited', [auth, member], async (req, res) => {
+  try {
+    const { limited } = req.body;
+    const project = await Project.findById(req.header('projectId'));
+
+    project.velocityLimited = limited;
+    await project.save();
+
+    res.json(project.velocityLimited);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Set velocity limit
+router.put('/velocityLimit', [auth, member], async (req, res) => {
+  try {
+    const { limit } = req.body;
+    const project = await Project.findById(req.header('projectId'));
+
+    project.velocityLimit = limit ? limit : 0;
+    await project.save();
+
+    res.json(project.velocityLimit);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;

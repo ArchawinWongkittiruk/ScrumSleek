@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { PROJECT_ERROR, START_SPRINT, END_SPRINT, EDIT_REVIEW_RETROSPECTIVE } from './types';
+import {
+  PROJECT_ERROR,
+  START_SPRINT,
+  END_SPRINT,
+  EDIT_REVIEW_RETROSPECTIVE,
+  SET_VELOCITY_LIMITED,
+  SET_VELOCITY_LIMIT,
+} from './types';
 
 const config = {
   headers: {
@@ -52,6 +59,44 @@ export const editReviewRetrospective = (sprintId, formData) => async (dispatch) 
 
     dispatch({
       type: EDIT_REVIEW_RETROSPECTIVE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Set enforcement of velocity limit
+export const setVelocityLimited = (formData) => async (dispatch) => {
+  try {
+    const body = JSON.stringify(formData);
+
+    const res = await axios.put('/api/sprints/velocityLimited', body, config);
+
+    dispatch({
+      type: SET_VELOCITY_LIMITED,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROJECT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Set velocity limit
+export const setVelocityLimit = (formData) => async (dispatch) => {
+  try {
+    const body = JSON.stringify(formData);
+
+    const res = await axios.put('/api/sprints/velocityLimit', body, config);
+
+    dispatch({
+      type: SET_VELOCITY_LIMIT,
       payload: res.data,
     });
   } catch (err) {
