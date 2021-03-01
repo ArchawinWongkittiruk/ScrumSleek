@@ -72,6 +72,7 @@ const PlanSprint = () => {
               min={0}
               max={99999}
               isDisabled={!velocityLimited}
+              isInvalid={storyPoints > velocityLimit}
               w='6rem'
             >
               <NumberInputField />
