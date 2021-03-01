@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProject } from '../actions/project';
+import { RESET_SPRINT_PLAN } from '../actions/types';
 import {
   Button,
   Box,
@@ -49,8 +50,9 @@ const Project = ({ match }) => {
       setCurrentPage('Sprint');
     } else {
       setCurrentPage('Backlog');
+      dispatch({ type: RESET_SPRINT_PLAN });
     }
-  }, [project?.sprintOngoing]);
+  }, [dispatch, project?.sprintOngoing, project?._id]);
 
   return !project ? (
     <Box textAlign='center' mt='20%'>
