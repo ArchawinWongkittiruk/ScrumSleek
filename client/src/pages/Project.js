@@ -46,9 +46,9 @@ const Project = ({ match }) => {
   }, [project?.title]);
 
   useEffect(() => {
-    if (project?.sprintOngoing) {
+    if (project?.sprintOngoing === true) {
       setCurrentPage('Sprint');
-    } else {
+    } else if (project?.sprintOngoing === false) {
       setCurrentPage('Backlog');
       dispatch({ type: RESET_SPRINT_PLAN });
     }
