@@ -51,18 +51,18 @@ const TaskSchema = new Schema(
     },
     status: {
       type: Schema.Types.ObjectId,
-      ref: 'statuses',
+      ref: 'status',
     },
     sprintCompleted: {
       type: Schema.Types.ObjectId,
-      ref: 'sprints',
+      ref: 'sprint',
     },
     members: [
       {
         _id: false,
         user: {
           type: Schema.Types.ObjectId,
-          ref: 'users',
+          ref: 'user',
         },
       },
     ],
@@ -83,7 +83,7 @@ const ProjectSchema = new Schema(
         _id: false,
         user: {
           type: Schema.Types.ObjectId,
-          ref: 'users',
+          ref: 'user',
         },
         role: {
           type: String,
