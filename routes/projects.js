@@ -45,14 +45,7 @@ router.post(
 // Get user's projects
 router.get('/', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
-
-    const projects = [];
-    for (const projectId of user.projects) {
-      projects.push(await Project.findById(projectId).select('id title'));
-    }
-
-    res.json(projects);
+    res.json((await User.findById(req.user.id).populate('projects', 'title')).projects);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
