@@ -9,11 +9,11 @@ import {
   Text,
   Link,
   Button,
-  useColorMode,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
+  useColorMode,
 } from '@chakra-ui/react';
 import { SunIcon, MoonIcon } from '@chakra-ui/icons';
 import { ChevronDownIcon } from '@chakra-ui/icons';
@@ -35,8 +35,8 @@ const Navbar = () => {
   }, [dispatch, location.pathname, currentProject]);
 
   useEffect(() => {
-    if (user && projects.length === 0) dispatch(getProjects());
-  }, [dispatch, user, projects.length]);
+    if (user?._id) dispatch(getProjects());
+  }, [dispatch, user?._id]);
 
   return (
     <Flex as='nav' justify='space-between' p='1rem' borderBottom='2px solid lightgrey'>
