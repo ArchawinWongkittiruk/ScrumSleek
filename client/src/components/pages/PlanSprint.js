@@ -47,7 +47,9 @@ const PlanSprint = () => {
   };
 
   const onSetVelocityLimit = async (newLimit) => {
-    dispatch(setVelocityLimit({ limit: newLimit }));
+    if (Number(newLimit) !== velocityLimit) {
+      dispatch(setVelocityLimit({ limit: newLimit }));
+    }
   };
 
   return (
