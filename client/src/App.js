@@ -2,13 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Landing from './pages/Landing';
-import Register from './pages/Register';
-import Login from './pages/Login';
-import Projects from './pages/Projects';
-import Project from './pages/Project';
-import Account from './pages/Account';
-
-import Alert from './components/other/Alert';
+import Routes from './Routes';
 
 // Redux
 import { Provider } from 'react-redux';
@@ -28,14 +22,9 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <Alert />
         <Switch>
           <Route exact path='/' component={Landing} />
-          <Route exact path='/register' component={Register} />
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/projects' component={Projects} />
-          <Route exact path='/project/:id' component={Project} />
-          <Route exact path='/account' component={Account} />
+          <Route component={Routes} />
         </Switch>
       </Router>
     </Provider>

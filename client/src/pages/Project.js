@@ -22,7 +22,6 @@ import Completed from '../components/pages/Completed';
 import Statuses from '../components/pages/Statuses';
 import Roles from '../components/pages/Roles';
 
-import Navbar from '../components/other/Navbar';
 import ProjectTitle from '../components/project/ProjectTitle';
 import ProjectMenu from '../components/project/ProjectMenu';
 import Members from '../components/project/Members';
@@ -53,75 +52,70 @@ const Project = ({ match }) => {
     }
   }, [project?.sprintOngoing]);
 
-  return (
-    <>
-      <Navbar />
-      {!project ? (
-        <Box textAlign='center' mt='20%'>
-          <CircularProgress isIndeterminate />
-        </Box>
-      ) : (
-        <Box p='1.5rem'>
-          {!isMember && (
-            <AlertCUI mb='1rem'>
-              <AlertIcon />
-              You cannot make changes to this project.
-            </AlertCUI>
-          )}
-          <Flex justify='space-between' alignItems='center' wrap='wrap' minHeight='4rem'>
-            <Flex direction={{ base: 'column', md: 'row' }} pb='1rem'>
-              <ProjectTitle project={project} />
-              <Members />
-            </Flex>
-            <Flex pb='1rem'>
-              <Box display={{ base: 'none', md: 'block' }}>
-                {pages.map((page) => (
-                  <Button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    isDisabled={page === currentPage}
-                  >
-                    {page}
-                  </Button>
-                ))}
-              </Box>
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rightIcon={<ChevronDownIcon />}
-                  display={{ base: 'block', md: 'none' }}
-                >
-                  Pages
-                </MenuButton>
-                <MenuList>
-                  {pages.map((page) => (
-                    <MenuItem
-                      key={page}
-                      onClick={() => setCurrentPage(page)}
-                      isDisabled={page === currentPage}
-                    >
-                      {page}
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </Menu>
-              <ProjectMenu project={project} />
-            </Flex>
-          </Flex>
-          {currentPage === 'Backlog' ? (
-            <Backlog />
-          ) : currentPage === 'Sprint' ? (
-            <>{project.sprintOngoing ? <Sprint /> : <PlanSprint />}</>
-          ) : currentPage === 'Completed' ? (
-            <Completed />
-          ) : currentPage === 'Statuses' ? (
-            <Statuses />
-          ) : (
-            <Roles />
-          )}
-        </Box>
+  return !project ? (
+    <Box textAlign='center' mt='20%'>
+      <CircularProgress isIndeterminate />
+    </Box>
+  ) : (
+    <Box p='1.5rem'>
+      {!isMember && (
+        <AlertCUI mb='1rem'>
+          <AlertIcon />
+          You cannot make changes to this project.
+        </AlertCUI>
       )}
-    </>
+      <Flex justify='space-between' alignItems='center' wrap='wrap' minHeight='4rem'>
+        <Flex direction={{ base: 'column', md: 'row' }} pb='1rem'>
+          <ProjectTitle project={project} />
+          <Members />
+        </Flex>
+        <Flex pb='1rem'>
+          <Box display={{ base: 'none', md: 'block' }}>
+            {pages.map((page) => (
+              <Button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                isDisabled={page === currentPage}
+              >
+                {page}
+              </Button>
+            ))}
+          </Box>
+          <Menu>
+            <MenuButton
+              as={Button}
+              rightIcon={<ChevronDownIcon />}
+              display={{ base: 'block', md: 'none' }}
+            >
+              Pages
+            </MenuButton>
+            <MenuList>
+              {pages.map((page) => (
+                <MenuItem
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  isDisabled={page === currentPage}
+                >
+                  {page}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+          <ProjectMenu project={project} />
+        </Flex>
+      </Flex>
+      {currentPage === 'Backlog' ? (
+        <Backlog />
+      ) : currentPage === 'Sprint' ? (
+        <>{project.sprintOngoing ? <Sprint /> : <PlanSprint />}</>
+      ) : currentPage === 'Completed' ? (
+        <Completed />
+      ) : currentPage === 'Statuses' ? (
+        <Statuses />
+      ) : (
+        <Roles />
+      )}
+    </Box>
   );
 };
 
