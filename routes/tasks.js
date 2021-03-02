@@ -146,10 +146,9 @@ router.put('/setMember/:add/:taskId/:userId', [auth, member], async (req, res) =
   try {
     const { taskId, userId } = req.params;
     const project = await Project.findById(req.header('projectId'));
-    const user = project.members.find((member) => member.user == userId);
     const task = project.tasks.find((task) => task.id === taskId);
-    if (!task || !user) {
-      return res.status(404).json({ msg: 'Task/user not found' });
+    if (!task) {
+      return res.status(404).json({ msg: 'Task not found' });
     }
 
     const add = req.params.add === 'true';
@@ -160,7 +159,7 @@ router.put('/setMember/:add/:taskId/:userId', [auth, member], async (req, res) =
     }
 
     if (add) {
-      task.members.push({ user: user.user });
+      task.members.push({ user: userId });
     } else {
       task.members.splice(index, 1);
     }
