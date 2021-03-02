@@ -48,7 +48,7 @@ const Sprint = () => {
     <>
       <Flex justify='space-between' wrap='wrap' pb='1rem'>
         <Text fontSize='xl'>Sprint Progress</Text>
-        <Flex wrap='wrap'>
+        <Flex pt={{ base: '0.5rem', md: 0 }}>
           <StoryPoints location='SPRINT' />
           <Popover>
             <PopoverTrigger>
