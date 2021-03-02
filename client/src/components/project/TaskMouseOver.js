@@ -52,14 +52,12 @@ const TaskMouseOver = ({ task, setEditing, attributes, listeners }) => {
             <Flex direction='column'>
               {projectMembers.map((member) => (
                 <Checkbox
-                  key={member.user}
-                  isChecked={task.members
-                    .map((taskMember) => taskMember.user)
-                    .includes(member.user)}
+                  key={member.user._id}
+                  isChecked={task.members.some((taskMember) => taskMember.user === member.user._id)}
                   onChange={onSetTaskMember}
-                  name={member.user}
+                  name={member.user._id}
                 >
-                  {member.name}
+                  {member.user.name}
                 </Checkbox>
               ))}
             </Flex>

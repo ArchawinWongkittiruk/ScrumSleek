@@ -55,19 +55,12 @@ router.get('/', auth, async (req, res) => {
 // Get a project by id
 router.get('/:id', async (req, res) => {
   try {
-    const project = await Project.findById(req.params.id);
+    const project = await Project.findById(req.params.id).populate('members.user', 'name avatar');
     if (!project) {
       return res.status(404).json({ msg: 'Project not found' });
     }
 
-    // 'Join' data of project members (user ID and role) and their users (name and avatar)
-    const members = [];
-    for (const member of project.members) {
-      const { name, avatar } = await User.findById(member.user);
-      members.push({ user: member.user, role: member.role, name, avatar });
-    }
-
-    res.json({ ...project._doc, members });
+    res.json(project);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

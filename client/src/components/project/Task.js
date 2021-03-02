@@ -121,12 +121,10 @@ const Task = ({ task }) => {
             <Text pb={task.members.length > 0 ? '10px' : '15px'}>{task.title}</Text>
             {task.members.length > 0 && (
               <AvatarGroup pb='15px' flexWrap='wrap'>
-                {task.members.map((member) => (
+                {task.members.map((taskMember) => (
                   <TooltipAvatar
-                    key={member.user}
-                    user={projectMembers.find(
-                      (projectMember) => projectMember.user === member.user
-                    )}
+                    key={taskMember.user}
+                    user={projectMembers.find((member) => member.user._id === taskMember.user).user}
                     size='sm'
                   />
                 ))}

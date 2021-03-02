@@ -33,11 +33,11 @@ const Roles = () => {
   const dispatch = useDispatch();
 
   const onChangeRole = async (member, newRole) => {
-    dispatch(changeRole(member.user, { role: newRole }));
+    dispatch(changeRole(member.user._id, { role: newRole }));
   };
 
   const onRemoveMember = async (member) => {
-    dispatch(removeMember(member.user));
+    dispatch(removeMember(member.user._id));
   };
 
   return (
@@ -45,14 +45,14 @@ const Roles = () => {
       <Text fontSize='xl'>Roles</Text>
       <Flex direction='column' mt='0.5rem'>
         {members.map((member) => (
-          <Box key={member.user}>
+          <Box key={member.user._id}>
             <Flex
               wrap={{ base: 'wrap', md: 'nowrap' }}
               m='0.5rem 0'
               alignItems='center'
               justify={{ base: 'center', md: 'flex-start' }}
             >
-              <TooltipAvatar user={member} size='xl' m='1rem 0' />
+              <TooltipAvatar user={member.user} size='xl' m='1rem 0' />
               <Box m='1rem 0 1rem 1.5rem'>
                 <RadioGroup
                   onChange={(newRole) => onChangeRole(member, newRole)}
@@ -64,7 +64,7 @@ const Roles = () => {
                       value={role}
                       isDisabled={
                         role === 'Admin' ||
-                        (admin && member.user === user._id) ||
+                        (admin && member.user._id === user._id) ||
                         (!admin && member.role === 'Admin')
                       }
                       mr='1rem'
@@ -75,7 +75,7 @@ const Roles = () => {
                     </Radio>
                   ))}
                 </RadioGroup>
-                {admin && member.user !== user._id && (
+                {admin && member.user._id !== user._id && (
                   <Flex wrap='wrap' mt='1rem'>
                     <Popover>
                       <PopoverTrigger>

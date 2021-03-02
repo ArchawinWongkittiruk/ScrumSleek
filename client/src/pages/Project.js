@@ -34,7 +34,7 @@ const Project = ({ match }) => {
   const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.project.project);
   const isMember =
-    user && project ? project.members.map((member) => member.user).includes(user._id) : false;
+    user && project ? project.members.some((member) => member.user._id === user._id) : false;
   const dispatch = useDispatch();
 
   useEffect(() => {

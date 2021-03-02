@@ -30,7 +30,7 @@ router.put('/addMember/:userId', [auth, admin], async (req, res) => {
     await project.save();
 
     const { name, avatar } = user;
-    res.json({ user: user.id, role: 'Developer', name, avatar });
+    res.json({ user: { _id: user.id, name, avatar }, role: 'Developer' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -41,7 +41,10 @@ router.put('/addMember/:userId', [auth, admin], async (req, res) => {
 router.patch('/role/:id', [auth, member], async (req, res) => {
   try {
     const { role } = req.body;
-    const project = await Project.findById(req.header('projectId'));
+    const project = await Project.findById(req.header('projectId')).populate(
+      'members.user',
+      'name avatar'
+    );
 
     // Enforce only one each of admin, product owner, and scrum master
     if (role !== 'Developer') {
@@ -50,18 +53,11 @@ router.patch('/role/:id', [auth, member], async (req, res) => {
     }
 
     const memberId = req.params.id;
-    const member = project.members.find((member) => member.user == memberId);
+    const member = project.members.find((member) => member.user._id == memberId);
     member.role = role;
     await project.save();
 
-    // 'Join' data of project members (user ID and role) and their users (name and avatar)
-    const members = [];
-    for (const member of project.members) {
-      const { name, avatar } = await User.findById(member.user);
-      members.push({ user: member.user, role: member.role, name, avatar });
-    }
-
-    res.json(members);
+    res.json(project.members);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
