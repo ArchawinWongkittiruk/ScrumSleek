@@ -7,8 +7,8 @@ const getInitials = (name) => {
   return ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
 };
 
-const TooltipAvatar = ({ member, ...props }) => {
-  const { name, avatar } = member;
+const TooltipAvatar = ({ user, ...props }) => {
+  const { name, avatar } = user;
 
   return (
     <Tooltip hasArrow label={name}>
@@ -25,7 +25,7 @@ const TooltipAvatar = ({ member, ...props }) => {
 };
 
 TooltipAvatar.propTypes = {
-  member: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default TooltipAvatar;

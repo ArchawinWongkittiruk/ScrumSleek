@@ -124,7 +124,7 @@ const Task = ({ task }) => {
                 {task.members.map((member) => (
                   <TooltipAvatar
                     key={member.user}
-                    member={projectMembers.find(
+                    user={projectMembers.find(
                       (projectMember) => projectMember.user === member.user
                     )}
                     size='sm'

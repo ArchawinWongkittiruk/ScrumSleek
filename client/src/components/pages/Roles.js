@@ -52,7 +52,7 @@ const Roles = () => {
               alignItems='center'
               justify={{ base: 'center', md: 'flex-start' }}
             >
-              <TooltipAvatar member={member} size='xl' m='1rem 0' />
+              <TooltipAvatar user={member} size='xl' m='1rem 0' />
               <Box m='1rem 0 1rem 1.5rem'>
                 <RadioGroup
                   onChange={(newRole) => onChangeRole(member, newRole)}

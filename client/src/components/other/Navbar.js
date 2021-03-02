@@ -72,7 +72,7 @@ const Navbar = () => {
         {isAuthenticated && user ? (
           <Menu>
             <MenuButton as={Button} variant='ghost' rightIcon={<ChevronDownIcon />} size='xs'>
-              <TooltipAvatar member={user} size='xs' />
+              <TooltipAvatar user={user} size='xs' />
             </MenuButton>
             <MenuList>
               <MenuItem as={ReactLink} to='/account' isDisabled={location.pathname === '/account'}>

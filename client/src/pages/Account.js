@@ -45,7 +45,7 @@ const Account = () => {
           boxShadow='xl'
         >
           <TooltipAvatar
-            member={{ name, avatar }}
+            user={{ name, avatar }}
             onError={() => setAvatarValid(false)}
             size='2xl'
             m='1rem'
