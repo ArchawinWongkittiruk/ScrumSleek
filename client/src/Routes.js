@@ -14,7 +14,7 @@ const Routes = () => {
   const location = useLocation();
 
   return (
-    <section className='container'>
+    <>
       {!['/register', '/login'].includes(location.pathname) && <Navbar />}
       <Alert />
       <Switch>
@@ -24,7 +24,7 @@ const Routes = () => {
         <Route exact path='/project/:id' component={Project} />
         <Route exact path='/account' component={Account} />
       </Switch>
-    </section>
+    </>
   );
 };
 
