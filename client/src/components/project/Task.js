@@ -195,7 +195,9 @@ const Task = ({ task }) => {
             autoFocus
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && onEditSubmit(e)}
+            onKeyPress={(e) =>
+              e.key === 'Enter' && (title !== '' ? onEditSubmit(e) : e.preventDefault())
+            }
             h='10rem'
           />
           <Flex justify='space-between'>

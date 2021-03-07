@@ -39,7 +39,9 @@ const CreateTask = ({ location }) => {
             autoFocus
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && onSubmit(e)}
+            onKeyPress={(e) =>
+              e.key === 'Enter' && (title !== '' ? onSubmit(e) : e.preventDefault())
+            }
             h='10rem'
           />
           <Box>
