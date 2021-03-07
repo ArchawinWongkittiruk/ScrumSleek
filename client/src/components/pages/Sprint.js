@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { endSprint } from '../../actions/sprints';
 import getDateDisplay from '../../utils/getDateDisplay';
 import {
@@ -19,7 +20,7 @@ import {
 import TaskList from '../project/TaskList';
 import StoryPoints from '../project/StoryPoints';
 
-const Sprint = () => {
+const Sprint = ({ setPage }) => {
   const [progress, setProgress] = useState(0);
   const tasks = useSelector((state) =>
     state.project.project.tasks.filter((task) => task.location === 'SPRINT')
@@ -42,6 +43,7 @@ const Sprint = () => {
   const onEndSprint = async (e) => {
     e.preventDefault();
     dispatch(endSprint());
+    setPage('Completed');
   };
 
   return (
@@ -86,6 +88,10 @@ const Sprint = () => {
       <TaskList location='SPRINT' />
     </>
   );
+};
+
+Sprint.propTypes = {
+  setPage: PropTypes.func.isRequired,
 };
 
 export default Sprint;

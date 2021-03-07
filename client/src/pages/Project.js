@@ -48,10 +48,11 @@ const Project = ({ match }) => {
   useEffect(() => {
     if (project?.sprintOngoing === true) {
       setCurrentPage('Sprint');
-    } else if (project?.sprintOngoing === false) {
+    } else if (project?.sprintOngoing === false && currentPage !== 'Completed') {
       setCurrentPage('Backlog');
       dispatch({ type: RESET_SPRINT_PLAN });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, project?.sprintOngoing, project?._id]);
 
   return !project ? (
@@ -109,7 +110,7 @@ const Project = ({ match }) => {
       {currentPage === 'Backlog' ? (
         <Backlog />
       ) : currentPage === 'Sprint' ? (
-        <>{project.sprintOngoing ? <Sprint /> : <PlanSprint />}</>
+        <>{project.sprintOngoing ? <Sprint setPage={setCurrentPage} /> : <PlanSprint />}</>
       ) : currentPage === 'Completed' ? (
         <Completed />
       ) : currentPage === 'Statuses' ? (
