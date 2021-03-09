@@ -77,9 +77,9 @@ export const getProject = (id) => async (dispatch) => {
 };
 
 // Rename project
-export const renameProject = (projectId, formData) => (dispatch) => {
+export const renameProject = (projectId, formData) => async (dispatch) => {
   try {
-    axios.patch(`/api/projects/rename/${projectId}`, formData, config);
+    await axios.patch(`/api/projects/rename/${projectId}`, formData, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
