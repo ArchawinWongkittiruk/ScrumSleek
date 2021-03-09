@@ -48,3 +48,6 @@ export const RESET_SPRINT_PLAN = 'RESET_SPRINT_PLAN';
 export const SET_SPRINT_START = 'SET_SPRINT_START';
 export const SET_SPRINT_END = 'SET_SPRINT_END';
 export const SET_SPRINT_TARGET = 'SET_SPRINT_TARGET';
+
+// Socket Events
+export const SET_ACTIVE_MEMBERS = 'SET_ACTIVE_MEMBERS';
