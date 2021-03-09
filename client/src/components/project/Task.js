@@ -61,7 +61,8 @@ const Task = ({ task }) => {
 
   useEffect(() => {
     setTitle(task.title);
-  }, [task.title]);
+    setLabel(task.label);
+  }, [task.title, task.label]);
 
   const onEditSubmit = async (e) => {
     e.preventDefault();
