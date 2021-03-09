@@ -86,8 +86,8 @@ router.patch(
       project.title = req.body.title;
       await project.save();
 
-      const toReturn = { _id: project.id, title: project.title };
-      await req.app.get('io').to(project.id).emit('RENAME_PROJECT', toReturn);
+      const payload = { _id: project.id, title: project.title };
+      await req.app.get('io').to(project.id).emit('RENAME_PROJECT', payload);
       res.end();
     } catch (err) {
       console.error(err.message);
