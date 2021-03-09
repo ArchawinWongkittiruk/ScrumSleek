@@ -27,6 +27,8 @@ import {
   CHANGE_ROLE,
   LEAVE_PROJECT,
   REMOVE_MEMBER,
+  // Socket Events
+  SET_ACTIVE_MEMBERS,
 } from '../actions/types';
 
 const initialState = {
@@ -196,6 +198,19 @@ export default function Project(state = initialState, action) {
         project: {
           ...payload.project,
           members: state.project.members.filter((member) => member.user._id !== payload.memberId),
+        },
+      };
+    // Socket Events
+    case SET_ACTIVE_MEMBERS:
+      return {
+        ...state,
+        project: {
+          ...state.project,
+          members: state.project.members.map((member) =>
+            payload.includes(member.user._id)
+              ? { ...member, active: true }
+              : { ...member, active: false }
+          ),
         },
       };
     default:

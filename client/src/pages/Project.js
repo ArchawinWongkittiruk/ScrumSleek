@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import socket from '../socket';
 import { getProject } from '../actions/project';
-import { RESET_SPRINT_PLAN } from '../actions/types';
+import { RESET_SPRINT_PLAN, SET_ACTIVE_MEMBERS } from '../actions/types';
 import {
   Button,
   Box,
@@ -44,6 +45,22 @@ const Project = ({ match }) => {
   useEffect(() => {
     if (project?.title) document.title = project.title + ' | ScrumSleek';
   }, [project?.title]);
+
+  useEffect(() => {
+    if (user && project?._id) {
+      socket.emit('ENTER_PROJECT', { userId: user._id, projectId: project._id });
+
+      return () => {
+        socket.emit('EXIT_PROJECT', { projectId: project._id });
+      };
+    }
+  }, [dispatch, user, project?._id]);
+
+  useEffect(() => {
+    socket.on(SET_ACTIVE_MEMBERS, (members) => {
+      dispatch({ type: SET_ACTIVE_MEMBERS, payload: members });
+    });
+  }, [dispatch]);
 
   useEffect(() => {
     if (project?.sprintOngoing === true) {
