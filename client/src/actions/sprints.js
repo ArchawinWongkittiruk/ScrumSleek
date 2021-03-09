@@ -1,11 +1,11 @@
 import axios from 'axios';
 import {
   PROJECT_ERROR,
-  START_SPRINT,
-  END_SPRINT,
-  EDIT_REVIEW_RETROSPECTIVE,
-  SET_VELOCITY_LIMITED,
-  SET_VELOCITY_LIMIT,
+  // START_SPRINT,
+  // END_SPRINT,
+  // EDIT_REVIEW_RETROSPECTIVE,
+  // SET_VELOCITY_LIMITED,
+  // SET_VELOCITY_LIMIT,
 } from './types';
 
 const config = {
@@ -19,12 +19,7 @@ export const startSprint = (formData) => async (dispatch) => {
   try {
     const body = JSON.stringify(formData);
 
-    const res = await axios.post('/api/sprints', body, config);
-
-    dispatch({
-      type: START_SPRINT,
-      payload: res.data,
-    });
+    await axios.post('/api/sprints', body, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -36,12 +31,7 @@ export const startSprint = (formData) => async (dispatch) => {
 // End sprint
 export const endSprint = () => async (dispatch) => {
   try {
-    const res = await axios.post('/api/sprints/end');
-
-    dispatch({
-      type: END_SPRINT,
-      payload: res.data,
-    });
+    await axios.post('/api/sprints/end');
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -55,12 +45,7 @@ export const editReviewRetrospective = (sprintId, formData) => async (dispatch) 
   try {
     const body = JSON.stringify(formData);
 
-    const res = await axios.put(`/api/sprints/reviewRetrospective/${sprintId}`, body, config);
-
-    dispatch({
-      type: EDIT_REVIEW_RETROSPECTIVE,
-      payload: res.data,
-    });
+    await axios.put(`/api/sprints/reviewRetrospective/${sprintId}`, body, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -74,12 +59,7 @@ export const setVelocityLimited = (formData) => async (dispatch) => {
   try {
     const body = JSON.stringify(formData);
 
-    const res = await axios.put('/api/sprints/velocityLimited', body, config);
-
-    dispatch({
-      type: SET_VELOCITY_LIMITED,
-      payload: res.data,
-    });
+    await axios.put('/api/sprints/velocityLimited', body, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -93,12 +73,7 @@ export const setVelocityLimit = (formData) => async (dispatch) => {
   try {
     const body = JSON.stringify(formData);
 
-    const res = await axios.put('/api/sprints/velocityLimit', body, config);
-
-    dispatch({
-      type: SET_VELOCITY_LIMIT,
-      payload: res.data,
-    });
+    await axios.put('/api/sprints/velocityLimit', body, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,

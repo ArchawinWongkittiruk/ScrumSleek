@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { editReviewRetrospective } from '../../actions/sprints';
@@ -15,6 +15,11 @@ const CompletedSprint = ({ sprint, number }) => {
     state.project.project.tasks.filter((task) => task.location === 'COMPLETED')
   );
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setReview(sprint.review);
+    setRetrospective(sprint.retrospective);
+  }, [sprint.review, sprint.retrospective]);
 
   const onEditReviewRetrospective = () => {
     dispatch(editReviewRetrospective(sprint._id, { review, retrospective }));

@@ -24,7 +24,9 @@ router.post('/', [auth, member], async (req, res) => {
 
     await project.save();
 
-    res.json({ tasks: project.tasks, sprints: project.sprints, sprintOngoing: true });
+    const payload = { tasks: project.tasks, sprints: project.sprints, sprintOngoing: true };
+    await req.app.get('io').to(project.id).emit('START_SPRINT', payload);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -56,7 +58,9 @@ router.post('/end', [auth, member], async (req, res) => {
 
     await project.save();
 
-    res.json({ tasks: project.tasks, sprints: project.sprints, sprintOngoing: false });
+    const payload = { tasks: project.tasks, sprints: project.sprints, sprintOngoing: false };
+    await req.app.get('io').to(project.id).emit('END_SPRINT', payload);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -76,7 +80,8 @@ router.put('/reviewRetrospective/:id', [auth, member], async (req, res) => {
     sprint.retrospective = retrospective;
     await project.save();
 
-    res.json(sprint);
+    await req.app.get('io').to(project.id).emit('EDIT_REVIEW_RETROSPECTIVE', sprint);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -92,7 +97,8 @@ router.put('/velocityLimited', [auth, member], async (req, res) => {
     project.velocityLimited = limited;
     await project.save();
 
-    res.json(project.velocityLimited);
+    await req.app.get('io').to(project.id).emit('SET_VELOCITY_LIMITED', project.velocityLimited);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -108,7 +114,8 @@ router.put('/velocityLimit', [auth, member], async (req, res) => {
     project.velocityLimit = limit ? limit : 0;
     await project.save();
 
-    res.json(project.velocityLimit);
+    await req.app.get('io').to(project.id).emit('SET_VELOCITY_LIMIT', project.velocityLimit);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
