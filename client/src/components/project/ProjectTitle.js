@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { renameProject } from '../../actions/project';
+import { renameProject } from '../../actions/projects';
 import { Box, Text, Input } from '@chakra-ui/react';
 
 const ProjectTitle = ({ project }) => {

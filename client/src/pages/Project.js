@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import socket from '../socket';
-import { getProject } from '../actions/project';
+import { getProject } from '../actions/projects';
 import { RESET_SPRINT_PLAN } from '../actions/types';
 import {
   Button,

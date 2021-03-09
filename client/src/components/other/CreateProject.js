@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { addProject } from '../../actions/project';
+import { addProject } from '../../actions/projects';
 import {
   Input,
   Button,

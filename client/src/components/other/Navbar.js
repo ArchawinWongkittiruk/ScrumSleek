@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as ReactLink, useLocation } from 'react-router-dom';
 import { logout } from '../../actions/auth';
-import { getProjects } from '../../actions/project';
+import { getProjects } from '../../actions/projects';
 import { CLEAR_PROJECT } from '../../actions/types';
 import {
   Flex,
