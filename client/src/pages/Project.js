@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import socket from '../socket';
 import { getProject } from '../actions/project';
-import { RESET_SPRINT_PLAN, SET_ACTIVE_MEMBERS } from '../actions/types';
+import { RESET_SPRINT_PLAN } from '../actions/types';
 import {
   Button,
   Box,
@@ -57,8 +57,8 @@ const Project = ({ match }) => {
   }, [dispatch, user, project?._id]);
 
   useEffect(() => {
-    socket.on(SET_ACTIVE_MEMBERS, (members) => {
-      dispatch({ type: SET_ACTIVE_MEMBERS, payload: members });
+    socket.onAny((type, payload) => {
+      dispatch({ type, payload });
     });
   }, [dispatch]);
 

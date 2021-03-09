@@ -86,7 +86,10 @@ router.patch(
       project.title = req.body.title;
       await project.save();
 
-      res.json({ _id: project.id, title: project.title });
+      req.app
+        .get('io')
+        .to(project.id)
+        .emit('RENAME_PROJECT', { _id: project.id, title: project.title });
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');

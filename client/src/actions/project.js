@@ -5,7 +5,7 @@ import {
   GET_PROJECT,
   ADD_PROJECT,
   PROJECT_ERROR,
-  RENAME_PROJECT,
+  // RENAME_PROJECT,
   DELETE_PROJECT,
 } from './types';
 
@@ -77,14 +77,9 @@ export const getProject = (id) => async (dispatch) => {
 };
 
 // Rename project
-export const renameProject = (projectId, formData) => async (dispatch) => {
+export const renameProject = (projectId, formData) => (dispatch) => {
   try {
-    const res = await axios.patch(`/api/projects/rename/${projectId}`, formData, config);
-
-    dispatch({
-      type: RENAME_PROJECT,
-      payload: res.data,
-    });
+    axios.patch(`/api/projects/rename/${projectId}`, formData, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
