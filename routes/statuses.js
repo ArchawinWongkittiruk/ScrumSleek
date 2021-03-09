@@ -26,7 +26,8 @@ router.post(
       project.statuses.splice(project.statuses.length - 1, 0, status);
       await project.save();
 
-      res.json(project.statuses);
+      await req.app.get('io').to(project.id).emit('ADD_STATUS', project.statuses);
+      res.end();
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -57,7 +58,8 @@ router.patch(
       status.title = title;
       await project.save();
 
-      res.json(status);
+      await req.app.get('io').to(project.id).emit('EDIT_STATUS', status);
+      res.end();
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -83,7 +85,8 @@ router.patch('/move/:id', [auth, member], async (req, res) => {
     }
     await project.save();
 
-    res.json(project.statuses);
+    await req.app.get('io').to(project.id).emit('MOVE_STATUS', project.statuses);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -105,7 +108,8 @@ router.patch('/color/:id', [auth, member], async (req, res) => {
     status.color = color;
     await project.save();
 
-    res.json(status);
+    await req.app.get('io').to(project.id).emit('CHANGE_STATUS_COLOR', status);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -129,7 +133,9 @@ router.delete('/:id', [auth, member], async (req, res) => {
     }
     await project.save();
 
-    res.json({ statuses: project.statuses, tasks: project.tasks });
+    const payload = { statuses: project.statuses, tasks: project.tasks };
+    await req.app.get('io').to(project.id).emit('DELETE_STATUS', payload);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

@@ -1,11 +1,11 @@
 import axios from 'axios';
 import {
-  ADD_STATUS,
   PROJECT_ERROR,
-  EDIT_STATUS,
-  MOVE_STATUS,
-  CHANGE_STATUS_COLOR,
-  DELETE_STATUS,
+  // ADD_STATUS,
+  // EDIT_STATUS,
+  // MOVE_STATUS,
+  // CHANGE_STATUS_COLOR,
+  // DELETE_STATUS,
 } from './types';
 
 const config = {
@@ -19,12 +19,7 @@ export const addStatus = (formData) => async (dispatch) => {
   try {
     const body = JSON.stringify(formData);
 
-    const res = await axios.post('/api/statuses', body, config);
-
-    dispatch({
-      type: ADD_STATUS,
-      payload: res.data,
-    });
+    await axios.post('/api/statuses', body, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -38,12 +33,7 @@ export const editStatus = (statusId, formData) => async (dispatch) => {
   try {
     const body = JSON.stringify(formData);
 
-    const res = await axios.patch(`/api/statuses/edit/${statusId}`, body, config);
-
-    dispatch({
-      type: EDIT_STATUS,
-      payload: res.data,
-    });
+    await axios.patch(`/api/statuses/edit/${statusId}`, body, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -57,12 +47,7 @@ export const moveStatus = (statusId, formData) => async (dispatch) => {
   try {
     const body = JSON.stringify(formData);
 
-    const res = await axios.patch(`/api/statuses/move/${statusId}`, body, config);
-
-    dispatch({
-      type: MOVE_STATUS,
-      payload: res.data,
-    });
+    await axios.patch(`/api/statuses/move/${statusId}`, body, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -76,12 +61,7 @@ export const changeStatusColor = (statusId, formData) => async (dispatch) => {
   try {
     const body = JSON.stringify(formData);
 
-    const res = await axios.patch(`/api/statuses/color/${statusId}`, body, config);
-
-    dispatch({
-      type: CHANGE_STATUS_COLOR,
-      payload: res.data,
-    });
+    await axios.patch(`/api/statuses/color/${statusId}`, body, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -93,12 +73,7 @@ export const changeStatusColor = (statusId, formData) => async (dispatch) => {
 // Delete status
 export const deleteStatus = (statusId) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/statuses/${statusId}`);
-
-    dispatch({
-      type: DELETE_STATUS,
-      payload: res.data,
-    });
+    await axios.delete(`/api/statuses/${statusId}`);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,

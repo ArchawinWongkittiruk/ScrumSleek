@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { editStatus, changeStatusColor, moveStatus, deleteStatus } from '../../actions/statuses';
@@ -25,6 +25,10 @@ const Status = ({ statuses, status, index }) => {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(status.title);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setTitle(status.title);
+  }, [status.title]);
 
   const onEditSubmit = async (e) => {
     e.preventDefault();
