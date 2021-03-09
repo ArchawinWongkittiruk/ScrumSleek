@@ -22,12 +22,14 @@ router.post(
 
       // Create and save the task
       const project = await Project.findById(projectId);
-      const task = { title, label, location };
+      let task = { title, label, location };
       task.status = project.statuses[0].id;
       project.tasks.push(task);
       await project.save();
 
-      res.json(project.tasks[project.tasks.length - 1]);
+      task = project.tasks[project.tasks.length - 1];
+      await req.app.get('io').to(project.id).emit('ADD_TASK', task);
+      res.end();
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -59,7 +61,8 @@ router.patch(
       task.label = label;
       await project.save();
 
-      res.json(task);
+      await req.app.get('io').to(project.id).emit('EDIT_TASK', task);
+      res.end();
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -90,7 +93,8 @@ router.patch('/move/:id', [auth, member], async (req, res) => {
 
     await project.save();
 
-    res.json(project.tasks);
+    await req.app.get('io').to(project.id).emit('MOVE_TASK', project.tasks);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -112,7 +116,8 @@ router.patch('/status/:id', [auth, member], async (req, res) => {
     task.status = status;
     await project.save();
 
-    res.json(task);
+    await req.app.get('io').to(project.id).emit('CHANGE_TASK_STATUS', task);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -134,7 +139,8 @@ router.patch('/storyPoints/:id', [auth, member], async (req, res) => {
     task.storyPoints = storyPoints ? storyPoints : 0;
     await project.save();
 
-    res.json(task);
+    await req.app.get('io').to(project.id).emit('CHANGE_TASK_STORY_POINTS', task);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -165,7 +171,8 @@ router.put('/setMember/:add/:taskId/:userId', [auth, member], async (req, res) =
     }
     await project.save();
 
-    res.json(task);
+    await req.app.get('io').to(project.id).emit('SET_TASK_MEMBER', task);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -184,7 +191,8 @@ router.delete('/:id', [auth, member], async (req, res) => {
     );
     await project.save();
 
-    res.json(taskId);
+    await req.app.get('io').to(project.id).emit('DELETE_TASK', taskId);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

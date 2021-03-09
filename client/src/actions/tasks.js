@@ -1,13 +1,13 @@
 import axios from 'axios';
 import {
-  ADD_TASK,
   PROJECT_ERROR,
-  EDIT_TASK,
-  MOVE_TASK,
-  CHANGE_TASK_STATUS,
-  CHANGE_TASK_STORY_POINTS,
-  SET_TASK_MEMBER,
-  DELETE_TASK,
+  // ADD_TASK,
+  // EDIT_TASK,
+  // MOVE_TASK,
+  // CHANGE_TASK_STATUS,
+  // CHANGE_TASK_STORY_POINTS,
+  // SET_TASK_MEMBER,
+  // DELETE_TASK,
 } from './types';
 
 const config = {
@@ -21,12 +21,7 @@ export const addTask = (formData) => async (dispatch) => {
   try {
     const body = JSON.stringify(formData);
 
-    const res = await axios.post('/api/tasks', body, config);
-
-    dispatch({
-      type: ADD_TASK,
-      payload: res.data,
-    });
+    await axios.post('/api/tasks', body, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -40,12 +35,7 @@ export const editTask = (taskId, formData) => async (dispatch) => {
   try {
     const body = JSON.stringify(formData);
 
-    const res = await axios.patch(`/api/tasks/edit/${taskId}`, body, config);
-
-    dispatch({
-      type: EDIT_TASK,
-      payload: res.data,
-    });
+    await axios.patch(`/api/tasks/edit/${taskId}`, body, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -59,12 +49,7 @@ export const moveTask = (taskId, formData) => async (dispatch) => {
   try {
     const body = JSON.stringify(formData);
 
-    const res = await axios.patch(`/api/tasks/move/${taskId}`, body, config);
-
-    dispatch({
-      type: MOVE_TASK,
-      payload: res.data,
-    });
+    await axios.patch(`/api/tasks/move/${taskId}`, body, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -78,12 +63,7 @@ export const changeTaskStatus = (taskId, formData) => async (dispatch) => {
   try {
     const body = JSON.stringify(formData);
 
-    const res = await axios.patch(`/api/tasks/status/${taskId}`, body, config);
-
-    dispatch({
-      type: CHANGE_TASK_STATUS,
-      payload: res.data,
-    });
+    await axios.patch(`/api/tasks/status/${taskId}`, body, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -97,12 +77,7 @@ export const changeTaskStoryPoints = (taskId, formData) => async (dispatch) => {
   try {
     const body = JSON.stringify(formData);
 
-    const res = await axios.patch(`/api/tasks/storyPoints/${taskId}`, body, config);
-
-    dispatch({
-      type: CHANGE_TASK_STORY_POINTS,
-      payload: res.data,
-    });
+    await axios.patch(`/api/tasks/storyPoints/${taskId}`, body, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -116,12 +91,7 @@ export const setTaskMember = (formData) => async (dispatch) => {
   try {
     const { add, taskId, userId } = formData;
 
-    const res = await axios.put(`/api/tasks/setMember/${add}/${taskId}/${userId}`);
-
-    dispatch({
-      type: SET_TASK_MEMBER,
-      payload: res.data,
-    });
+    await axios.put(`/api/tasks/setMember/${add}/${taskId}/${userId}`);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -133,12 +103,7 @@ export const setTaskMember = (formData) => async (dispatch) => {
 // Delete task
 export const deleteTask = (taskId) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/tasks/${taskId}`);
-
-    dispatch({
-      type: DELETE_TASK,
-      payload: res.data,
-    });
+    await axios.delete(`/api/tasks/${taskId}`);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
