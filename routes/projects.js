@@ -112,7 +112,8 @@ router.delete('/:id', [auth, admin], async (req, res) => {
     }
     await project.remove();
 
-    res.json(projectId);
+    await req.app.get('io').to(project.id).emit('DELETE_PROJECT', projectId);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

@@ -26,7 +26,7 @@ const ProjectMenu = ({ project }) => {
   let history = useHistory();
 
   const onDeleteProject = async () => {
-    dispatch(deleteProject(project._id, history));
+    dispatch(deleteProject(project._id));
   };
 
   const onLeaveProject = async () => {

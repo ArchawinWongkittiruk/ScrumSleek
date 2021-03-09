@@ -1,12 +1,11 @@
 import axios from 'axios';
 import {
-  CLEAR_PROJECT,
   GET_PROJECTS,
   GET_PROJECT,
   ADD_PROJECT,
   PROJECT_ERROR,
   // RENAME_PROJECT,
-  DELETE_PROJECT,
+  // DELETE_PROJECT,
 } from './types';
 
 const config = {
@@ -89,18 +88,9 @@ export const renameProject = (projectId, formData) => async (dispatch) => {
 };
 
 // Delete project
-export const deleteProject = (projectId, history) => async (dispatch) => {
+export const deleteProject = (projectId) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/projects/${projectId}`);
-
-    dispatch({
-      type: DELETE_PROJECT,
-      payload: res.data,
-    });
-
-    dispatch({ type: CLEAR_PROJECT });
-
-    history.push('/projects');
+    await axios.delete(`/api/projects/${projectId}`);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,

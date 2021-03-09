@@ -202,17 +202,21 @@ export default function Project(state = initialState, action) {
       };
     // Socket Events
     case SET_ACTIVE_MEMBERS:
-      return {
-        ...state,
-        project: {
-          ...state.project,
-          members: state.project.members.map((member) =>
-            payload.includes(member.user._id)
-              ? { ...member, active: true }
-              : { ...member, active: false }
-          ),
-        },
-      };
+      if (state.project) {
+        return {
+          ...state,
+          project: {
+            ...state.project,
+            members: state.project.members.map((member) =>
+              payload.includes(member.user._id)
+                ? { ...member, active: true }
+                : { ...member, active: false }
+            ),
+          },
+        };
+      } else {
+        return state;
+      }
     default:
       return state;
   }

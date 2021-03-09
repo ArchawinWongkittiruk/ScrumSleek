@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import socket from '../socket';
 import { getProject } from '../actions/projects';
-import { RESET_SPRINT_PLAN } from '../actions/types';
+import { RESET_SPRINT_PLAN, CLEAR_PROJECT, DELETE_PROJECT } from '../actions/types';
 import {
   Button,
   Box,
@@ -37,6 +38,7 @@ const Project = ({ match }) => {
   const isMember =
     user && project ? project.members.some((member) => member.user._id === user._id) : false;
   const dispatch = useDispatch();
+  let history = useHistory();
 
   useEffect(() => {
     dispatch(getProject(match.params.id));
@@ -59,8 +61,13 @@ const Project = ({ match }) => {
   useEffect(() => {
     socket.onAny((type, payload) => {
       dispatch({ type, payload });
+
+      if (type === DELETE_PROJECT) {
+        dispatch({ type: CLEAR_PROJECT });
+        history.push('/projects');
+      }
     });
-  }, [dispatch]);
+  }, [dispatch, history]);
 
   useEffect(() => {
     if (project?.sprintOngoing === true) {
