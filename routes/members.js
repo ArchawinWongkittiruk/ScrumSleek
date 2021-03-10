@@ -32,6 +32,7 @@ router.put('/addMember/:userId', [auth, admin], async (req, res) => {
     const { name, avatar } = user;
     const payload = { user: { _id: user.id, name, avatar }, role: 'Developer' };
     await req.app.get('io').to(project.id).emit('ADD_MEMBER', payload);
+    await req.app.get('io').emitActiveMembers(project.id);
     res.end();
   } catch (err) {
     console.error(err.message);

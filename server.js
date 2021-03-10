@@ -42,29 +42,30 @@ app.use('/api/sprints', require('./routes/sprints'));
 app.use('/api/statuses', require('./routes/statuses'));
 app.use('/api/members', require('./routes/members'));
 
-// Socket event handles
-io.on('connection', (socket) => {
-  function setActiveMembers(projectId) {
-    const clients = io.sockets.adapter.rooms.get(projectId);
-    if (clients) {
-      const activeMembers = [];
-      for (const clientId of clients) {
-        activeMembers.push(io.sockets.sockets.get(clientId).userId);
-      }
-      io.to(projectId).emit('SET_ACTIVE_MEMBERS', activeMembers);
+// Function for emitting active status for members of a given project
+io.emitActiveMembers = function (projectId) {
+  const clients = io.sockets.adapter.rooms.get(projectId);
+  if (clients) {
+    const activeMembers = [];
+    for (const clientId of clients) {
+      activeMembers.push(io.sockets.sockets.get(clientId).userId);
     }
+    io.to(projectId).emit('SET_ACTIVE_MEMBERS', activeMembers);
   }
+};
 
+// Socket event handlers
+io.on('connection', (socket) => {
   socket.on('ENTER_PROJECT', async ({ userId, projectId }) => {
     socket.userId = userId;
     socket.projectId = projectId;
     await socket.join(projectId);
-    setActiveMembers(projectId);
+    io.emitActiveMembers(projectId);
   });
 
   socket.on('EXIT_PROJECT', async ({ projectId }) => {
     await socket.leave(projectId);
-    setActiveMembers(projectId);
+    io.emitActiveMembers(projectId);
   });
 });
 
