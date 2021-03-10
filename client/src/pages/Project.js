@@ -55,9 +55,9 @@ const Project = ({ match }) => {
   }, [project?.title]);
 
   useEffect(() => {
-    if (project?._id) {
-      socket.connect();
+    socket.connect();
 
+    if (project?._id) {
       socket.emit('ENTER_PROJECT', { userId: user?._id, projectId: project._id });
 
       socket.onAny((type, payload) => {
