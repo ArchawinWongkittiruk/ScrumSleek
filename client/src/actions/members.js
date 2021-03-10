@@ -2,10 +2,10 @@ import axios from 'axios';
 import {
   CLEAR_PROJECT,
   PROJECT_ERROR,
-  ADD_MEMBER,
-  CHANGE_ROLE,
+  // ADD_MEMBER,
+  // CHANGE_ROLE,
   LEAVE_PROJECT,
-  REMOVE_MEMBER,
+  // REMOVE_MEMBER,
 } from './types';
 
 const config = {
@@ -17,12 +17,7 @@ const config = {
 // Add member
 export const addMember = (userId) => async (dispatch) => {
   try {
-    const res = await axios.put(`/api/members/addMember/${userId}`);
-
-    dispatch({
-      type: ADD_MEMBER,
-      payload: res.data,
-    });
+    await axios.put(`/api/members/addMember/${userId}`);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -36,12 +31,7 @@ export const changeRole = (userId, formData) => async (dispatch) => {
   try {
     const body = JSON.stringify(formData);
 
-    const res = await axios.patch(`/api/members/role/${userId}`, body, config);
-
-    dispatch({
-      type: CHANGE_ROLE,
-      payload: res.data,
-    });
+    await axios.patch(`/api/members/role/${userId}`, body, config);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,
@@ -74,12 +64,7 @@ export const leaveProject = (userId, history) => async (dispatch) => {
 // Remove member
 export const removeMember = (userId) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/members/leave/${userId}`);
-
-    dispatch({
-      type: REMOVE_MEMBER,
-      payload: res.data,
-    });
+    await axios.delete(`/api/members/leave/${userId}`);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,

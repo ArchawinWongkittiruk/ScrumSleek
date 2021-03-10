@@ -30,7 +30,9 @@ router.put('/addMember/:userId', [auth, admin], async (req, res) => {
     await project.save();
 
     const { name, avatar } = user;
-    res.json({ user: { _id: user.id, name, avatar }, role: 'Developer' });
+    const payload = { user: { _id: user.id, name, avatar }, role: 'Developer' };
+    await req.app.get('io').to(project.id).emit('ADD_MEMBER', payload);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -57,7 +59,8 @@ router.patch('/role/:id', [auth, member], async (req, res) => {
     member.role = role;
     await project.save();
 
-    res.json(project.members);
+    await req.app.get('io').to(project.id).emit('CHANGE_ROLE', project.members);
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -94,7 +97,9 @@ router.delete('/leave/:userId', [auth, member], async (req, res) => {
     }
     await project.save();
 
-    res.json({ project, memberId: user.id });
+    const payload = { project, memberId: user.id };
+    await req.app.get('io').to(project.id).emit('REMOVE_MEMBER', payload);
+    res.json(project.id); // For leaving
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

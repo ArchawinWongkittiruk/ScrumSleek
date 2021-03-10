@@ -184,13 +184,16 @@ export default function Project(state = initialState, action) {
         ...state,
         project: {
           ...state.project,
-          members: payload,
+          members: state.project.members.map((projectMember) => ({
+            ...payload.find((member) => member.user._id === projectMember.user._id),
+            active: projectMember.active,
+          })),
         },
       };
     case LEAVE_PROJECT:
       return {
         ...state,
-        projects: state.projects.filter((project) => project._id !== payload.project._id),
+        projects: state.projects.filter((project) => project._id !== payload),
       };
     case REMOVE_MEMBER:
       return {

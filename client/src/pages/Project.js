@@ -3,7 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import socket from '../socket';
 import { getProject } from '../actions/projects';
-import { RESET_SPRINT_PLAN, CLEAR_PROJECT, DELETE_PROJECT } from '../actions/types';
+import {
+  RESET_SPRINT_PLAN,
+  CLEAR_PROJECT,
+  DELETE_PROJECT,
+  LEAVE_PROJECT,
+  REMOVE_MEMBER,
+} from '../actions/types';
 import {
   Button,
   Box,
@@ -49,25 +55,25 @@ const Project = ({ match }) => {
   }, [project?.title]);
 
   useEffect(() => {
-    if (user && project?._id) {
-      socket.emit('ENTER_PROJECT', { userId: user._id, projectId: project._id });
+    if (project?._id) {
+      socket.emit('ENTER_PROJECT', { userId: user?._id, projectId: project._id });
+
+      socket.onAny((type, payload) => {
+        dispatch({ type, payload });
+
+        if (type === DELETE_PROJECT || (type === REMOVE_MEMBER && payload.memberId === user?._id)) {
+          dispatch({ type: CLEAR_PROJECT });
+          dispatch({ type: LEAVE_PROJECT, payload: project._id });
+          history.push('/projects');
+        }
+      });
 
       return () => {
+        socket.offAny();
         socket.emit('EXIT_PROJECT', { projectId: project._id });
       };
     }
-  }, [dispatch, user, project?._id]);
-
-  useEffect(() => {
-    socket.onAny((type, payload) => {
-      dispatch({ type, payload });
-
-      if (type === DELETE_PROJECT) {
-        dispatch({ type: CLEAR_PROJECT });
-        history.push('/projects');
-      }
-    });
-  }, [dispatch, history]);
+  }, [dispatch, history, user?._id, project?._id]);
 
   useEffect(() => {
     if (project?.sprintOngoing === true) {
