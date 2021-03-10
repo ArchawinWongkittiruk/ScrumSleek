@@ -58,16 +58,17 @@ const Project = ({ match }) => {
 
   useEffect(() => {
     socket.connect();
+    setEntered(false);
 
     if (project?._id) {
-      setEntered(false);
-
+      console.log(`Joining ${project._id}`);
       socket.emit(
         'ENTER_PROJECT',
         { userId: isMember ? user._id : null, projectId: project._id },
         (activeMembers) => {
           if (activeMembers) dispatch({ type: SET_ACTIVE_MEMBERS, payload: activeMembers });
           setEntered(true);
+          console.log(`Joined ${project._id}`);
         }
       );
 
@@ -83,7 +84,9 @@ const Project = ({ match }) => {
 
       return () => {
         socket.offAny();
+        console.log(`Leaving ${project._id}`);
         socket.disconnect();
+        console.log(`Left ${project._id}`);
       };
     }
   }, [dispatch, history, isMember, user?._id, project?._id]);

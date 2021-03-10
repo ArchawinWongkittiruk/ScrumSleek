@@ -10,6 +10,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server, {
   cors: { origin: '*' },
+  transports: ['websocket'],
 });
 app.set('io', io);
 
@@ -64,9 +65,11 @@ io.on('connection', (socket) => {
   socket.on('ENTER_PROJECT', async ({ userId, projectId }, callback) => {
     socket.userId = userId;
     socket.projectId = projectId;
+    console.log(`${userId ? userId : 'Guest'} is joining ${projectId}`);
     await socket.join(projectId);
+    console.log(`${userId ? userId : 'Guest'} has joined ${projectId}`);
     if (userId) {
-      io.emitActiveMembers(projectId);
+      await io.emitActiveMembers(projectId);
       callback();
     } else {
       callback(io.getActiveMembers(projectId));
@@ -74,8 +77,11 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', async () => {
-    await socket.leave(socket.projectId);
-    if (socket.userId) io.emitActiveMembers(socket.projectId);
+    const { userId, projectId } = socket;
+    console.log(`${userId ? userId : 'Guest'} is leaving ${projectId}`);
+    await socket.leave(projectId);
+    console.log(`${userId ? userId : 'Guest'} has left ${projectId}`);
+    if (userId) io.emitActiveMembers(projectId);
   });
 });
 
