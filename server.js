@@ -61,14 +61,15 @@ io.emitActiveMembers = function (projectId) {
 
 // Socket event handlers
 io.on('connection', (socket) => {
-  socket.on('ENTER_PROJECT', async ({ userId, projectId }, sendActiveMembers) => {
+  socket.on('ENTER_PROJECT', async ({ userId, projectId }, callback) => {
     socket.userId = userId;
     socket.projectId = projectId;
     await socket.join(projectId);
     if (userId) {
       io.emitActiveMembers(projectId);
+      callback();
     } else {
-      sendActiveMembers(io.getActiveMembers(projectId));
+      callback(io.getActiveMembers(projectId));
     }
   });
 

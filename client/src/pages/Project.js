@@ -40,6 +40,7 @@ const pages = ['Backlog', 'Sprint', 'Completed', 'Statuses', 'Roles'];
 
 const Project = ({ match }) => {
   const [currentPage, setCurrentPage] = useState('Backlog');
+  const [entered, setEntered] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.project.project);
   const isMember =
@@ -59,11 +60,14 @@ const Project = ({ match }) => {
     socket.connect();
 
     if (project?._id) {
+      setEntered(false);
+
       socket.emit(
         'ENTER_PROJECT',
         { userId: isMember ? user._id : null, projectId: project._id },
         (activeMembers) => {
           if (activeMembers) dispatch({ type: SET_ACTIVE_MEMBERS, payload: activeMembers });
+          setEntered(true);
         }
       );
 
@@ -94,7 +98,7 @@ const Project = ({ match }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, project?.sprintOngoing, project?._id]);
 
-  return !project || !socket.connected ? (
+  return !project || !entered ? (
     <Box textAlign='center' mt='20%'>
       <CircularProgress isIndeterminate />
     </Box>
