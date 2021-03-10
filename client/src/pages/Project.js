@@ -9,6 +9,7 @@ import {
   DELETE_PROJECT,
   LEAVE_PROJECT,
   REMOVE_MEMBER,
+  SET_ACTIVE_MEMBERS,
 } from '../actions/types';
 import {
   Button,
@@ -58,7 +59,13 @@ const Project = ({ match }) => {
     socket.connect();
 
     if (project?._id) {
-      socket.emit('ENTER_PROJECT', { userId: user?._id, projectId: project._id });
+      socket.emit(
+        'ENTER_PROJECT',
+        { userId: isMember ? user._id : null, projectId: project._id },
+        (activeMembers) => {
+          if (activeMembers) dispatch({ type: SET_ACTIVE_MEMBERS, payload: activeMembers });
+        }
+      );
 
       socket.onAny((type, payload) => {
         dispatch({ type, payload });
@@ -75,7 +82,7 @@ const Project = ({ match }) => {
         socket.disconnect();
       };
     }
-  }, [dispatch, history, user?._id, project?._id]);
+  }, [dispatch, history, isMember, user?._id, project?._id]);
 
   useEffect(() => {
     if (project?.sprintOngoing === true) {
