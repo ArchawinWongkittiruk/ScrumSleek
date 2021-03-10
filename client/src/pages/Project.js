@@ -87,7 +87,7 @@ const Project = ({ match }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, project?.sprintOngoing, project?._id]);
 
-  return !project ? (
+  return !project || !socket.connected ? (
     <Box textAlign='center' mt='20%'>
       <CircularProgress isIndeterminate />
     </Box>
