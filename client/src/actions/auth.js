@@ -9,6 +9,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   EDIT_USER,
+  CAN_GET_PROJECT,
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
@@ -31,10 +32,14 @@ export const loadUser = () => async (dispatch) => {
       type: USER_LOADED,
       payload: res.data,
     });
+
+    dispatch({ type: CAN_GET_PROJECT });
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
     });
+
+    dispatch({ type: CAN_GET_PROJECT });
   }
 };
 

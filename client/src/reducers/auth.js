@@ -7,6 +7,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   EDIT_USER,
+  CAN_GET_PROJECT,
 } from '../actions/types';
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   isAuthenticated: null,
   loading: true,
   user: null,
+  canGetProject: false,
 };
 
 export default function Auth(state = initialState, action) {
@@ -52,6 +54,11 @@ export default function Auth(state = initialState, action) {
       return {
         ...state,
         user: payload,
+      };
+    case CAN_GET_PROJECT:
+      return {
+        ...state,
+        canGetProject: true,
       };
     default:
       return state;

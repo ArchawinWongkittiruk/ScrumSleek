@@ -65,9 +65,7 @@ io.on('connection', (socket) => {
   socket.on('ENTER_PROJECT', async ({ userId, projectId }, callback) => {
     socket.userId = userId;
     socket.projectId = projectId;
-    console.log(`${userId ? userId : 'Guest'} is joining ${projectId}`);
     await socket.join(projectId);
-    console.log(`${userId ? userId : 'Guest'} has joined ${projectId}`);
     if (userId) {
       await io.emitActiveMembers(projectId);
       callback();
@@ -76,12 +74,14 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('disconnect', async () => {
-    const { userId, projectId } = socket;
-    console.log(`${userId ? userId : 'Guest'} is leaving ${projectId}`);
+  socket.on('EXIT_PROJECT', async ({ userId, projectId }) => {
     await socket.leave(projectId);
-    console.log(`${userId ? userId : 'Guest'} has left ${projectId}`);
     if (userId) io.emitActiveMembers(projectId);
+  });
+
+  socket.on('disconnect', async () => {
+    await socket.leave(socket.projectId);
+    if (socket.userId) io.emitActiveMembers(socket.projectId);
   });
 });
 

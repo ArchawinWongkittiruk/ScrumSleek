@@ -42,6 +42,7 @@ const Project = ({ match }) => {
   const [currentPage, setCurrentPage] = useState('Backlog');
   const [entered, setEntered] = useState(false);
   const user = useSelector((state) => state.auth.user);
+  const canGetProject = useSelector((state) => state.auth.canGetProject);
   const project = useSelector((state) => state.project.project);
   const isMember =
     user && project ? project.members.some((member) => member.user._id === user._id) : false;
@@ -49,18 +50,17 @@ const Project = ({ match }) => {
   let history = useHistory();
 
   useEffect(() => {
-    dispatch(getProject(match.params.id));
-  }, [dispatch, match.params.id]);
+    if (canGetProject) dispatch(getProject(match.params.id));
+  }, [dispatch, canGetProject, match.params.id]);
 
   useEffect(() => {
     if (project?.title) document.title = project.title + ' | ScrumSleek';
   }, [project?.title]);
 
   useEffect(() => {
-    socket.connect();
-    setEntered(false);
-
     if (project?._id) {
+      setEntered(false);
+
       console.log(`Joining ${project._id}`);
       socket.emit(
         'ENTER_PROJECT',
@@ -85,7 +85,10 @@ const Project = ({ match }) => {
       return () => {
         socket.offAny();
         console.log(`Leaving ${project._id}`);
-        socket.disconnect();
+        socket.emit('EXIT_PROJECT', {
+          userId: isMember ? user._id : null,
+          projectId: project._id,
+        });
         console.log(`Left ${project._id}`);
       };
     }
