@@ -56,6 +56,8 @@ const Project = ({ match }) => {
 
   useEffect(() => {
     if (project?._id) {
+      socket.connect();
+
       socket.emit('ENTER_PROJECT', { userId: user?._id, projectId: project._id });
 
       socket.onAny((type, payload) => {
@@ -70,7 +72,7 @@ const Project = ({ match }) => {
 
       return () => {
         socket.offAny();
-        socket.emit('EXIT_PROJECT', { projectId: project._id });
+        socket.disconnect();
       };
     }
   }, [dispatch, history, user?._id, project?._id]);

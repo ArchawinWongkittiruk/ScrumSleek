@@ -63,9 +63,9 @@ io.on('connection', (socket) => {
     io.emitActiveMembers(projectId);
   });
 
-  socket.on('EXIT_PROJECT', async ({ projectId }) => {
-    await socket.leave(projectId);
-    io.emitActiveMembers(projectId);
+  socket.on('disconnect', async () => {
+    await socket.leave(socket.projectId);
+    io.emitActiveMembers(socket.projectId);
   });
 });
 
