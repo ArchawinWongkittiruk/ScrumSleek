@@ -82,10 +82,7 @@ const Project = ({ match }) => {
 
       return () => {
         socket.offAny();
-        socket.emit('EXIT_PROJECT', {
-          userId: isMember ? user._id : null,
-          projectId: project._id,
-        });
+        socket.emit('EXIT_PROJECT', { userId: user?._id, projectId: project._id });
       };
     }
   }, [dispatch, history, isMember, user?._id, project?._id]);
