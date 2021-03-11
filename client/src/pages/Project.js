@@ -71,7 +71,7 @@ const Project = ({ match }) => {
 
       socket.onAny((type, payload) => {
         if (type === DELETE_PROJECT) {
-          dispatch({ type: DELETE_PROJECT, payload: project._id });
+          dispatch({ type, payload });
           history.push('/projects');
         } else if (type === REMOVE_MEMBER && payload.memberId === user?._id) {
           dispatch({ type: LEAVE_PROJECT, payload: project._id });
