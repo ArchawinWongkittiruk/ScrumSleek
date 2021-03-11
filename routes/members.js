@@ -97,8 +97,16 @@ router.delete('/leave/:userId', [auth, member], async (req, res) => {
     }
     await project.save();
 
+    const io = req.app.get('io');
+
+    const clients = io.sockets.adapter.rooms.get(project.id);
+    for (const clientId of clients) {
+      const client = io.sockets.sockets.get(clientId);
+      if (client.userId == user.id) await io.to(clientId).emit('LEAVE_PROJECT', project.id);
+    }
+
     const payload = { project, memberId: user.id };
-    await req.app.get('io').to(project.id).emit('REMOVE_MEMBER', payload);
+    await io.to(project.id).emit('REMOVE_MEMBER', payload);
     res.end();
   } catch (err) {
     console.error(err.message);
