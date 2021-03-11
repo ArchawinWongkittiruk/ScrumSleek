@@ -10,7 +10,6 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server, {
   cors: { origin: '*' },
-  transports: ['websocket'],
 });
 app.set('io', io);
 
