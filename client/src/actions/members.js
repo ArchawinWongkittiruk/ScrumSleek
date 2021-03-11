@@ -1,10 +1,9 @@
 import axios from 'axios';
 import {
-  CLEAR_PROJECT,
   PROJECT_ERROR,
   // ADD_MEMBER,
   // CHANGE_ROLE,
-  LEAVE_PROJECT,
+  // LEAVE_PROJECT,
   // REMOVE_MEMBER,
 } from './types';
 
@@ -41,18 +40,9 @@ export const changeRole = (userId, formData) => async (dispatch) => {
 };
 
 // Leave project
-export const leaveProject = (userId, history) => async (dispatch) => {
+export const leaveProject = (userId) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/members/leave/${userId}`);
-
-    dispatch({
-      type: LEAVE_PROJECT,
-      payload: res.data,
-    });
-
-    dispatch({ type: CLEAR_PROJECT });
-
-    history.push('/projects');
+    await axios.delete(`/api/members/leave/${userId}`);
   } catch (err) {
     dispatch({
       type: PROJECT_ERROR,

@@ -5,7 +5,6 @@ import socket from '../socket';
 import { getProject } from '../actions/projects';
 import {
   RESET_SPRINT_PLAN,
-  CLEAR_PROJECT,
   DELETE_PROJECT,
   LEAVE_PROJECT,
   REMOVE_MEMBER,
@@ -71,12 +70,14 @@ const Project = ({ match }) => {
       );
 
       socket.onAny((type, payload) => {
-        dispatch({ type, payload });
-
-        if (type === DELETE_PROJECT || (type === REMOVE_MEMBER && payload.memberId === user?._id)) {
-          dispatch({ type: CLEAR_PROJECT });
+        if (type === DELETE_PROJECT) {
+          dispatch({ type: DELETE_PROJECT, payload: project._id });
+          history.push('/projects');
+        } else if (type === REMOVE_MEMBER && payload.memberId === user?._id) {
           dispatch({ type: LEAVE_PROJECT, payload: project._id });
           history.push('/projects');
+        } else {
+          dispatch({ type, payload });
         }
       });
 

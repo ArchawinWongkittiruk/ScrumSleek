@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import isAdmin from '../../utils/isAdmin';
 import { deleteProject } from '../../actions/projects';
@@ -23,14 +22,13 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 const ProjectMenu = ({ project }) => {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
-  let history = useHistory();
 
   const onDeleteProject = async () => {
     dispatch(deleteProject(project._id));
   };
 
   const onLeaveProject = async () => {
-    dispatch(leaveProject(user._id, history));
+    dispatch(leaveProject(user._id));
   };
 
   return (

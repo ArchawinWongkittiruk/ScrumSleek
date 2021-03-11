@@ -100,7 +100,7 @@ router.delete('/leave/:userId', [auth, member], async (req, res) => {
 
     const payload = { project, memberId: user.id };
     await req.app.get('io').to(project.id).emit('REMOVE_MEMBER', payload);
-    res.json(project.id); // For leaving
+    res.end();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
