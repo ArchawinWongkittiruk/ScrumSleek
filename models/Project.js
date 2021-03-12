@@ -1,11 +1,26 @@
 const { Schema, model } = require('mongoose');
 
+const chakraColors = [
+  'gray',
+  'red',
+  'orange',
+  'yellow',
+  'green',
+  'teal',
+  'blue',
+  'cyan',
+  'purple',
+  'pink',
+];
+
 const StatusSchema = new Schema({
   title: {
     type: String,
   },
   color: {
     type: String,
+    enum: chakraColors,
+    default: 'gray',
   },
 });
 
@@ -41,7 +56,7 @@ const TaskSchema = new Schema(
     },
     label: {
       type: String,
-      enum: ['gray', 'red', 'orange', 'yellow', 'green', 'teal', 'blue', 'cyan', 'purple', 'pink'],
+      enum: chakraColors,
       default: 'gray',
     },
     location: {
