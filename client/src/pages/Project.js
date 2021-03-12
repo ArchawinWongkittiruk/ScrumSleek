@@ -88,6 +88,7 @@ const Project = ({ match }) => {
       setCurrentPage('Sprint');
     } else if (project?.sprintOngoing === false) {
       setCurrentPage('Backlog');
+      dispatch({ type: RESET_SPRINT_PLAN });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, project?._id]);
