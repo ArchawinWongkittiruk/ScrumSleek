@@ -20,7 +20,7 @@ import {
 import TaskList from '../project/TaskList';
 import StoryPoints from '../project/StoryPoints';
 
-const Sprint = ({ setPage }) => {
+const Sprint = ({ setPage, isMember }) => {
   const [progress, setProgress] = useState(0);
   const tasks = useSelector((state) =>
     state.project.project.tasks.filter((task) => task.location === 'SPRINT')
@@ -43,7 +43,7 @@ const Sprint = ({ setPage }) => {
   const onEndSprint = async (e) => {
     e.preventDefault();
     dispatch(endSprint());
-    setPage('Completed');
+    if (isMember) setPage('Completed');
   };
 
   return (
@@ -92,6 +92,7 @@ const Sprint = ({ setPage }) => {
 
 Sprint.propTypes = {
   setPage: PropTypes.func.isRequired,
+  isMember: PropTypes.bool,
 };
 
 export default Sprint;

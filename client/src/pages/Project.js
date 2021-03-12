@@ -148,7 +148,13 @@ const Project = ({ match }) => {
       {currentPage === 'Backlog' ? (
         <Backlog />
       ) : currentPage === 'Sprint' ? (
-        <>{project.sprintOngoing ? <Sprint setPage={setCurrentPage} /> : <PlanSprint />}</>
+        <>
+          {project.sprintOngoing ? (
+            <Sprint setPage={setCurrentPage} isMember={isMember} />
+          ) : (
+            <PlanSprint />
+          )}
+        </>
       ) : currentPage === 'Completed' ? (
         <Completed />
       ) : currentPage === 'Statuses' ? (
