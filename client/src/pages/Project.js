@@ -7,6 +7,7 @@ import {
   RESET_SPRINT_PLAN,
   DELETE_PROJECT,
   LEAVE_PROJECT,
+  END_SPRINT,
   SET_ACTIVE_MEMBERS,
 } from '../actions/types';
 import {
@@ -72,6 +73,7 @@ const Project = ({ match }) => {
         dispatch({ type, payload });
 
         if (type === DELETE_PROJECT || type === LEAVE_PROJECT) history.push('/projects');
+        if (type === END_SPRINT) dispatch({ type: RESET_SPRINT_PLAN });
       });
 
       return () => {
@@ -84,12 +86,11 @@ const Project = ({ match }) => {
   useEffect(() => {
     if (project?.sprintOngoing === true) {
       setCurrentPage('Sprint');
-    } else if (project?.sprintOngoing === false && currentPage !== 'Completed') {
+    } else if (project?.sprintOngoing === false) {
       setCurrentPage('Backlog');
-      dispatch({ type: RESET_SPRINT_PLAN });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, project?.sprintOngoing, project?._id]);
+  }, [dispatch, project?._id]);
 
   return !project || !entered ? (
     <Box textAlign='center' mt='20%'>
