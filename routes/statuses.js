@@ -26,7 +26,7 @@ router.post(
       project.statuses.splice(project.statuses.length - 1, 0, status);
       await project.save();
 
-      await req.app.get('io').to(project.id).emit('ADD_STATUS', project.statuses);
+      req.app.get('io').to(project.id).emit('ADD_STATUS', project.statuses);
       res.end();
     } catch (err) {
       console.error(err.message);
@@ -58,7 +58,7 @@ router.patch(
       status.title = title;
       await project.save();
 
-      await req.app.get('io').to(project.id).emit('EDIT_STATUS', status);
+      req.app.get('io').to(project.id).emit('EDIT_STATUS', status);
       res.end();
     } catch (err) {
       console.error(err.message);
@@ -85,7 +85,7 @@ router.patch('/move/:id', [auth, member], async (req, res) => {
     }
     await project.save();
 
-    await req.app.get('io').to(project.id).emit('MOVE_STATUS', project.statuses);
+    req.app.get('io').to(project.id).emit('MOVE_STATUS', project.statuses);
     res.end();
   } catch (err) {
     console.error(err.message);
@@ -108,7 +108,7 @@ router.patch('/color/:id', [auth, member], async (req, res) => {
     status.color = color;
     await project.save();
 
-    await req.app.get('io').to(project.id).emit('CHANGE_STATUS_COLOR', status);
+    req.app.get('io').to(project.id).emit('CHANGE_STATUS_COLOR', status);
     res.end();
   } catch (err) {
     console.error(err.message);
@@ -134,7 +134,7 @@ router.delete('/:id', [auth, member], async (req, res) => {
     await project.save();
 
     const payload = { statuses: project.statuses, tasks: project.tasks };
-    await req.app.get('io').to(project.id).emit('DELETE_STATUS', payload);
+    req.app.get('io').to(project.id).emit('DELETE_STATUS', payload);
     res.end();
   } catch (err) {
     console.error(err.message);

@@ -87,7 +87,7 @@ router.patch(
       await project.save();
 
       const payload = { _id: project.id, title: project.title };
-      await req.app.get('io').to(project.id).emit('RENAME_PROJECT', payload);
+      req.app.get('io').to(project.id).emit('RENAME_PROJECT', payload);
       res.end();
     } catch (err) {
       console.error(err.message);
@@ -112,7 +112,7 @@ router.delete('/:id', [auth, admin], async (req, res) => {
     }
     await project.remove();
 
-    await req.app.get('io').to(project.id).emit('DELETE_PROJECT', projectId);
+    req.app.get('io').to(project.id).emit('DELETE_PROJECT', projectId);
     res.end();
   } catch (err) {
     console.error(err.message);

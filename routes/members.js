@@ -31,7 +31,7 @@ router.put('/addMember/:userId', [auth, admin], async (req, res) => {
 
     const { name, avatar } = user;
     const payload = { user: { _id: user.id, name, avatar }, role: 'Developer' };
-    await req.app.get('io').to(project.id).emit('ADD_MEMBER', payload);
+    req.app.get('io').to(project.id).emit('ADD_MEMBER', payload);
     res.end();
   } catch (err) {
     console.error(err.message);
@@ -59,7 +59,7 @@ router.patch('/role/:id', [auth, member], async (req, res) => {
     member.role = role;
     await project.save();
 
-    await req.app.get('io').to(project.id).emit('CHANGE_ROLE', project.members);
+    req.app.get('io').to(project.id).emit('CHANGE_ROLE', project.members);
     res.end();
   } catch (err) {
     console.error(err.message);
@@ -102,11 +102,11 @@ router.delete('/leave/:userId', [auth, member], async (req, res) => {
     const clients = io.sockets.adapter.rooms.get(project.id);
     for (const clientId of clients) {
       const client = io.sockets.sockets.get(clientId);
-      if (client.userId == user.id) await io.to(clientId).emit('LEAVE_PROJECT', project.id);
+      if (client.userId == user.id) io.to(clientId).emit('LEAVE_PROJECT', project.id);
     }
 
     const payload = { project, memberId: user.id };
-    await io.to(project.id).emit('REMOVE_MEMBER', payload);
+    io.to(project.id).emit('REMOVE_MEMBER', payload);
     res.end();
   } catch (err) {
     console.error(err.message);

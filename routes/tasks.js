@@ -28,7 +28,7 @@ router.post(
       await project.save();
 
       task = project.tasks[project.tasks.length - 1];
-      await req.app.get('io').to(project.id).emit('ADD_TASK', task);
+      req.app.get('io').to(project.id).emit('ADD_TASK', task);
       res.end();
     } catch (err) {
       console.error(err.message);
@@ -61,7 +61,7 @@ router.patch(
       task.label = label;
       await project.save();
 
-      await req.app.get('io').to(project.id).emit('EDIT_TASK', task);
+      req.app.get('io').to(project.id).emit('EDIT_TASK', task);
       res.end();
     } catch (err) {
       console.error(err.message);
@@ -93,7 +93,7 @@ router.patch('/move/:id', [auth, member], async (req, res) => {
 
     await project.save();
 
-    await req.app.get('io').to(project.id).emit('MOVE_TASK', project.tasks);
+    req.app.get('io').to(project.id).emit('MOVE_TASK', project.tasks);
     res.end();
   } catch (err) {
     console.error(err.message);
@@ -116,7 +116,7 @@ router.patch('/status/:id', [auth, member], async (req, res) => {
     task.status = status;
     await project.save();
 
-    await req.app.get('io').to(project.id).emit('CHANGE_TASK_STATUS', task);
+    req.app.get('io').to(project.id).emit('CHANGE_TASK_STATUS', task);
     res.end();
   } catch (err) {
     console.error(err.message);
@@ -139,7 +139,7 @@ router.patch('/storyPoints/:id', [auth, member], async (req, res) => {
     task.storyPoints = storyPoints ? storyPoints : 0;
     await project.save();
 
-    await req.app.get('io').to(project.id).emit('CHANGE_TASK_STORY_POINTS', task);
+    req.app.get('io').to(project.id).emit('CHANGE_TASK_STORY_POINTS', task);
     res.end();
   } catch (err) {
     console.error(err.message);
@@ -171,7 +171,7 @@ router.put('/setMember/:add/:taskId/:userId', [auth, member], async (req, res) =
     }
     await project.save();
 
-    await req.app.get('io').to(project.id).emit('SET_TASK_MEMBER', task);
+    req.app.get('io').to(project.id).emit('SET_TASK_MEMBER', task);
     res.end();
   } catch (err) {
     console.error(err.message);
@@ -191,7 +191,7 @@ router.delete('/:id', [auth, member], async (req, res) => {
     );
     await project.save();
 
-    await req.app.get('io').to(project.id).emit('DELETE_TASK', taskId);
+    req.app.get('io').to(project.id).emit('DELETE_TASK', taskId);
     res.end();
   } catch (err) {
     console.error(err.message);

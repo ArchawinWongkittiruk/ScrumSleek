@@ -66,7 +66,7 @@ io.on('connection', (socket) => {
     socket.projectId = projectId;
     await socket.join(projectId);
     if (userId) {
-      await io.emitActiveMembers(projectId);
+      io.emitActiveMembers(projectId);
       callback();
     } else {
       callback(io.getActiveMembers(projectId));

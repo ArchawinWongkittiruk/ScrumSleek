@@ -25,7 +25,7 @@ router.post('/', [auth, member], async (req, res) => {
     await project.save();
 
     const payload = { tasks: project.tasks, sprints: project.sprints, sprintOngoing: true };
-    await req.app.get('io').to(project.id).emit('START_SPRINT', payload);
+    req.app.get('io').to(project.id).emit('START_SPRINT', payload);
     res.end();
   } catch (err) {
     console.error(err.message);
@@ -59,7 +59,7 @@ router.post('/end', [auth, member], async (req, res) => {
     await project.save();
 
     const payload = { tasks: project.tasks, sprints: project.sprints, sprintOngoing: false };
-    await req.app.get('io').to(project.id).emit('END_SPRINT', payload);
+    req.app.get('io').to(project.id).emit('END_SPRINT', payload);
     res.end();
   } catch (err) {
     console.error(err.message);
@@ -80,7 +80,7 @@ router.put('/reviewRetrospective/:id', [auth, member], async (req, res) => {
     sprint.retrospective = retrospective;
     await project.save();
 
-    await req.app.get('io').to(project.id).emit('EDIT_REVIEW_RETROSPECTIVE', sprint);
+    req.app.get('io').to(project.id).emit('EDIT_REVIEW_RETROSPECTIVE', sprint);
     res.end();
   } catch (err) {
     console.error(err.message);
@@ -97,7 +97,7 @@ router.put('/velocityLimited', [auth, member], async (req, res) => {
     project.velocityLimited = limited;
     await project.save();
 
-    await req.app.get('io').to(project.id).emit('SET_VELOCITY_LIMITED', project.velocityLimited);
+    req.app.get('io').to(project.id).emit('SET_VELOCITY_LIMITED', project.velocityLimited);
     res.end();
   } catch (err) {
     console.error(err.message);
@@ -114,7 +114,7 @@ router.put('/velocityLimit', [auth, member], async (req, res) => {
     project.velocityLimit = limit ? limit : 0;
     await project.save();
 
-    await req.app.get('io').to(project.id).emit('SET_VELOCITY_LIMIT', project.velocityLimit);
+    req.app.get('io').to(project.id).emit('SET_VELOCITY_LIMIT', project.velocityLimit);
     res.end();
   } catch (err) {
     console.error(err.message);
