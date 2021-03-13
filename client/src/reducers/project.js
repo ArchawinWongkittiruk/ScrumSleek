@@ -199,7 +199,8 @@ export default function Project(state = initialState, action) {
       return {
         ...state,
         project: {
-          ...payload.project,
+          ...state.project,
+          tasks: payload.tasks,
           members: state.project.members.filter((member) => member.user._id !== payload.memberId),
         },
       };

@@ -105,7 +105,7 @@ router.delete('/leave/:userId', [auth, member], async (req, res) => {
       if (client.userId == user.id) io.to(clientId).emit('LEAVE_PROJECT', project.id);
     }
 
-    const payload = { project, memberId: user.id };
+    const payload = { tasks: project.tasks, memberId: user.id };
     io.to(project.id).emit('REMOVE_MEMBER', payload);
     res.end();
   } catch (err) {
