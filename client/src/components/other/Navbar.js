@@ -57,6 +57,7 @@ const Navbar = () => {
                   to={`/project/${project._id}`}
                   textAlign='center'
                   isDisabled={project._id === currentProject?._id}
+                  onClick={() => currentProject && dispatch({ type: CLEAR_PROJECT })}
                 >
                   {project.title}
                 </MenuItem>
