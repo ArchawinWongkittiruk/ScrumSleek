@@ -61,11 +61,12 @@ const Project = ({ match }) => {
   }, [project?.title]);
 
   useEffect(() => {
-    if (isMember !== undefined && isAdmin !== undefined) {
-      dispatch({ type: SET_IS_MEMBER, payload: isMember });
-      dispatch({ type: SET_IS_ADMIN, payload: isAdmin });
-    }
-  }, [dispatch, isMember, isAdmin]);
+    if (isMember !== undefined) dispatch({ type: SET_IS_MEMBER, payload: isMember });
+  }, [dispatch, isMember]);
+
+  useEffect(() => {
+    if (isAdmin !== undefined) dispatch({ type: SET_IS_ADMIN, payload: isAdmin });
+  }, [dispatch, isAdmin]);
 
   useEffect(() => {
     if (project?._id) {
