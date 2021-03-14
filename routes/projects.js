@@ -34,7 +34,7 @@ router.post(
       project.members.push({ user: user.id });
       await project.save();
 
-      res.json(project);
+      res.json({ _id: project.id, title, updatedAt: project.updatedAt });
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
