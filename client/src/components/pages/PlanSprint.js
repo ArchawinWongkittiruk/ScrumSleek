@@ -79,7 +79,7 @@ const PlanSprint = () => {
               onChange={onSetVelocityLimit}
               min={0}
               max={99999}
-              isDisabled={!velocityLimited || !isMember}
+              isDisabled={!isMember}
               isInvalid={storyPoints > velocityLimit}
               w='6rem'
             >

@@ -57,7 +57,7 @@ const Project = ({ match }) => {
   }, [project?.title]);
 
   useEffect(() => {
-    if (isMember === true || isMember === false) {
+    if (isMember !== undefined) {
       dispatch({ type: SET_IS_MEMBER, payload: isMember });
     }
   }, [dispatch, isMember]);
@@ -154,13 +154,7 @@ const Project = ({ match }) => {
       {currentPage === 'Backlog' ? (
         <Backlog />
       ) : currentPage === 'Sprint' ? (
-        <>
-          {project.sprintOngoing ? (
-            <Sprint setPage={setCurrentPage} isMember={isMember} />
-          ) : (
-            <PlanSprint />
-          )}
-        </>
+        <>{project.sprintOngoing ? <Sprint setPage={setCurrentPage} /> : <PlanSprint />}</>
       ) : currentPage === 'Completed' ? (
         <Completed />
       ) : currentPage === 'Statuses' ? (
