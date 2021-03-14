@@ -9,6 +9,7 @@ import {
   LEAVE_PROJECT,
   END_SPRINT,
   SET_ACTIVE_MEMBERS,
+  SET_IS_MEMBER,
 } from '../actions/types';
 import {
   Button,
@@ -43,8 +44,7 @@ const Project = ({ match }) => {
   const user = useSelector((state) => state.auth.user);
   const canGetProject = useSelector((state) => state.auth.canGetProject);
   const project = useSelector((state) => state.project.project);
-  const isMember =
-    user && project ? project.members.some((member) => member.user._id === user._id) : false;
+  const isMember = project?.members?.some((member) => member.user._id === user?._id);
   const dispatch = useDispatch();
   let history = useHistory();
 
@@ -55,6 +55,12 @@ const Project = ({ match }) => {
   useEffect(() => {
     if (project?.title) document.title = project.title + ' | ScrumSleek';
   }, [project?.title]);
+
+  useEffect(() => {
+    if (isMember === true || isMember === false) {
+      dispatch({ type: SET_IS_MEMBER, payload: isMember });
+    }
+  }, [dispatch, isMember]);
 
   useEffect(() => {
     if (project?._id) {
@@ -142,7 +148,7 @@ const Project = ({ match }) => {
               ))}
             </MenuList>
           </Menu>
-          <ProjectMenu project={project} />
+          {isMember && <ProjectMenu project={project} />}
         </Flex>
       </Flex>
       {currentPage === 'Backlog' ? (

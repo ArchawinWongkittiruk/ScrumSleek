@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { renameProject } from '../../actions/projects';
 import { Box, Text, Input } from '@chakra-ui/react';
 
 const ProjectTitle = ({ project }) => {
+  const isMember = useSelector((state) => state.project.isMember);
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(project.title);
   const dispatch = useDispatch();
@@ -22,7 +23,12 @@ const ProjectTitle = ({ project }) => {
   return (
     <Box minHeight='3rem' pr='1.5rem'>
       {!editing ? (
-        <Text onClick={() => setEditing(true)} fontSize='2xl' cursor='pointer' w='fit-content'>
+        <Text
+          onClick={() => isMember && setEditing(true)}
+          fontSize='2xl'
+          cursor='pointer'
+          w='fit-content'
+        >
           {project.title}
         </Text>
       ) : (

@@ -29,6 +29,7 @@ const Roles = () => {
   const members = useSelector((state) => state.project.project.members);
   const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.project.project);
+  const isMember = useSelector((state) => state.project.isMember);
   const admin = isAdmin(project, user);
   const dispatch = useDispatch();
 
@@ -65,7 +66,8 @@ const Roles = () => {
                       isDisabled={
                         role === 'Admin' ||
                         (admin && member.user._id === user._id) ||
-                        (!admin && member.role === 'Admin')
+                        (!admin && member.role === 'Admin') ||
+                        !isMember
                       }
                       mr='1rem'
                       mb={{ base: '0.4rem', md: 0 }}

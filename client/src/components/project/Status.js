@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { editStatus, changeStatusColor, moveStatus, deleteStatus } from '../../actions/statuses';
 import {
@@ -22,6 +22,7 @@ import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon } from '@chakra-ui/icons'
 import ColorPicker from '../other/ColorPicker';
 
 const Status = ({ statuses, status, index }) => {
+  const isMember = useSelector((state) => state.project.isMember);
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(status.title);
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ const Status = ({ statuses, status, index }) => {
   return (
     <Box pr='0.5rem' pb='0.5rem'>
       {!editing ? (
-        <Text onClick={() => setEditing(true)} cursor='pointer'>
+        <Text onClick={() => isMember && setEditing(true)} cursor='pointer'>
           {status.title}
         </Text>
       ) : (
@@ -59,14 +60,19 @@ const Status = ({ statuses, status, index }) => {
           <Input isRequired value={title} onChange={(e) => setTitle(e.target.value)} w='8rem' />
         </form>
       )}
-      <ColorPicker colorScheme={status.color} setColor={onChangeColor} m='0.5rem 0' />
+      <ColorPicker
+        colorScheme={status.color}
+        setColor={onChangeColor}
+        isDisabled={!isMember}
+        m='0.5rem 0'
+      />
       <Flex justify='space-between'>
-        {index > 1 && index < statuses.length - 1 ? (
+        {index > 1 && index < statuses.length - 1 && isMember ? (
           <IconButton icon={<ChevronLeftIcon />} onClick={() => onMove(index - 1)} size='sm' />
         ) : (
           <Box w='2rem' h='2rem' />
         )}
-        {index > 0 && index < statuses.length - 1 && (
+        {index > 0 && index < statuses.length - 1 && isMember && (
           <Popover>
             <PopoverTrigger>
               <IconButton icon={<DeleteIcon />} colorScheme='red' size='sm'>
@@ -85,7 +91,7 @@ const Status = ({ statuses, status, index }) => {
             </PopoverContent>
           </Popover>
         )}
-        {index > 0 && index < statuses.length - 2 ? (
+        {index > 0 && index < statuses.length - 2 && isMember ? (
           <IconButton icon={<ChevronRightIcon />} onClick={() => onMove(index + 1)} size='sm' />
         ) : (
           <Box w='2rem' h='2rem' />

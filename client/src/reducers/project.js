@@ -29,6 +29,8 @@ import {
   REMOVE_MEMBER,
   // Socket Events
   SET_ACTIVE_MEMBERS,
+  // Authorization
+  SET_IS_MEMBER,
 } from '../actions/types';
 
 const initialState = {
@@ -36,6 +38,7 @@ const initialState = {
   project: null,
   projectsLoading: true,
   error: {},
+  isMember: false,
 };
 
 export default function Project(state = initialState, action) {
@@ -221,6 +224,12 @@ export default function Project(state = initialState, action) {
       } else {
         return state;
       }
+    // Authorization
+    case SET_IS_MEMBER:
+      return {
+        ...state,
+        isMember: payload,
+      };
     default:
       return state;
   }

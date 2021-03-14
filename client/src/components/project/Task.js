@@ -48,6 +48,7 @@ const Task = ({ task }) => {
   const projectMembers = useSelector((state) => state.project.project.members);
   const sprintOngoing = useSelector((state) => state.project.project.sprintOngoing);
   const statuses = useSelector((state) => state.project.project.statuses);
+  const isMember = useSelector((state) => state.project.isMember);
   const status = statuses.find((status) => status._id === task.status);
   const dispatch = useDispatch();
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
@@ -102,7 +103,7 @@ const Task = ({ task }) => {
             h='fit-content'
             position='relative'
           >
-            {mouseOver && (
+            {mouseOver && isMember && (
               <TaskMouseOver
                 task={task}
                 setEditing={setEditing}
@@ -146,7 +147,7 @@ const Task = ({ task }) => {
                       <Radio
                         key={status._id}
                         value={status._id}
-                        isDisabled={task.location !== 'SPRINT'}
+                        isDisabled={task.location !== 'SPRINT' || !isMember}
                         mr='15px'
                       >
                         {status.title}
@@ -158,7 +159,7 @@ const Task = ({ task }) => {
             )}
           </Box>
           <Flex justify='space-between'>
-            {!['SPRINT', 'COMPLETED'].includes(task.location) && !sprintOngoing ? (
+            {!['SPRINT', 'COMPLETED'].includes(task.location) && !sprintOngoing && isMember ? (
               <Button onClick={onMove} size='sm'>
                 Move to {task.location === 'BACKLOG' ? 'Sprint Plan' : 'Backlog'}
               </Button>
@@ -170,7 +171,7 @@ const Task = ({ task }) => {
               onChange={onChangeTaskStoryPoints}
               min={0}
               max={999}
-              isDisabled={task.location === 'COMPLETED'}
+              isDisabled={task.location === 'COMPLETED' || !isMember}
               size='sm'
               w='4.5rem'
             >

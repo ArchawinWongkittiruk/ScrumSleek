@@ -14,6 +14,7 @@ const CompletedSprint = ({ sprint, number }) => {
   const tasks = useSelector((state) =>
     state.project.project.tasks.filter((task) => task.location === 'COMPLETED')
   );
+  const isMember = useSelector((state) => state.project.isMember);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -51,28 +52,33 @@ const CompletedSprint = ({ sprint, number }) => {
       <Flex wrap='wrap' mb='0.5rem'>
         <Box mr={{ base: 0, md: '1rem' }} w='30rem'>
           <Text>Review</Text>
-          {<Textarea value={review} onChange={(e) => setReview(e.target.value)} h='10rem' />}
+          <Textarea
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
+            isDisabled={!isMember}
+            h='10rem'
+          />
         </Box>
         <Box w='30rem'>
           <Text>Retrospective</Text>
-          {
-            <Textarea
-              value={retrospective}
-              onChange={(e) => setRetrospective(e.target.value)}
-              h='10rem'
-            />
-          }
+          <Textarea
+            value={retrospective}
+            onChange={(e) => setRetrospective(e.target.value)}
+            isDisabled={!isMember}
+            h='10rem'
+          />
         </Box>
       </Flex>
-      <Button
-        onClick={onEditReviewRetrospective}
-        isDisabled={review === sprint.review && retrospective === sprint.retrospective}
-        colorScheme='blue'
-        mb='1.5rem'
-      >
-        Save
-      </Button>
-      <Divider />
+      {isMember && (
+        <Button
+          onClick={onEditReviewRetrospective}
+          isDisabled={review === sprint.review && retrospective === sprint.retrospective}
+          colorScheme='blue'
+        >
+          Save
+        </Button>
+      )}
+      <Divider mt='1.5rem' />
     </Box>
   );
 };

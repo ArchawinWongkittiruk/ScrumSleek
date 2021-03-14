@@ -52,3 +52,6 @@ export const SET_SPRINT_TARGET = 'SET_SPRINT_TARGET';
 
 // Socket Events
 export const SET_ACTIVE_MEMBERS = 'SET_ACTIVE_MEMBERS';
+
+// Authorization
+export const SET_IS_MEMBER = 'SET_IS_MEMBER';

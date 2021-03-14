@@ -20,13 +20,14 @@ import {
 import TaskList from '../project/TaskList';
 import StoryPoints from '../project/StoryPoints';
 
-const Sprint = ({ setPage, isMember }) => {
+const Sprint = ({ setPage }) => {
   const [progress, setProgress] = useState(0);
   const tasks = useSelector((state) =>
     state.project.project.tasks.filter((task) => task.location === 'SPRINT')
   );
   const statuses = useSelector((state) => state.project.project.statuses);
   const sprint = useSelector((state) => state.project.project.sprints[0]);
+  const isMember = useSelector((state) => state.project.isMember);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -43,7 +44,7 @@ const Sprint = ({ setPage, isMember }) => {
   const onEndSprint = async (e) => {
     e.preventDefault();
     dispatch(endSprint());
-    if (isMember) setPage('Completed');
+    setPage('Completed');
   };
 
   return (
@@ -53,11 +54,13 @@ const Sprint = ({ setPage, isMember }) => {
         <Flex pt={{ base: '0.5rem', md: 0 }}>
           <StoryPoints location='SPRINT' />
           <Popover>
-            <PopoverTrigger>
-              <Button colorScheme={progress !== 100 ? 'red' : 'green'} ml='0.8rem'>
-                End Sprint
-              </Button>
-            </PopoverTrigger>
+            {isMember && (
+              <PopoverTrigger>
+                <Button colorScheme={progress !== 100 ? 'red' : 'green'} ml='0.8rem'>
+                  End Sprint
+                </Button>
+              </PopoverTrigger>
+            )}
             <PopoverContent mr='1.5rem'>
               <PopoverArrow />
               <PopoverCloseButton />
@@ -92,7 +95,6 @@ const Sprint = ({ setPage, isMember }) => {
 
 Sprint.propTypes = {
   setPage: PropTypes.func.isRequired,
-  isMember: PropTypes.bool,
 };
 
 export default Sprint;

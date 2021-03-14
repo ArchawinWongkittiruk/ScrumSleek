@@ -31,6 +31,7 @@ const PlanSprint = () => {
   );
   const velocityLimited = useSelector((state) => state.project.project.velocityLimited);
   const velocityLimit = useSelector((state) => state.project.project.velocityLimit);
+  const isMember = useSelector((state) => state.project.isMember);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -60,11 +61,16 @@ const PlanSprint = () => {
       </Flex>
       <Box pt='1rem'>
         <Text>Sprint Tasks</Text>
-        <TaskList location='SPRINTPLAN' canCreateTask />
+        <TaskList location='SPRINTPLAN' canCreateTask={isMember} />
       </Box>
       <Flex wrap='wrap' alignItems='center' pb='0.5rem' minH='3rem'>
         <Text mr='0.5rem'>Velocity Limit</Text>
-        <Switch isChecked={velocityLimited} onChange={onSetVelocityLimited} mr='1rem' />
+        <Switch
+          isChecked={velocityLimited}
+          onChange={onSetVelocityLimited}
+          isDisabled={!isMember}
+          mr='1rem'
+        />
         {velocityLimited && (
           <Flex wrap='wrap' alignItems='center'>
             <Text pr='0.5rem'>{storyPoints} /</Text>
@@ -73,7 +79,7 @@ const PlanSprint = () => {
               onChange={onSetVelocityLimit}
               min={0}
               max={99999}
-              isDisabled={!velocityLimited}
+              isDisabled={!velocityLimited || !isMember}
               isInvalid={storyPoints > velocityLimit}
               w='6rem'
             >
@@ -86,46 +92,48 @@ const PlanSprint = () => {
           </Flex>
         )}
       </Flex>
-      <form onSubmit={(e) => onSubmit(e)}>
-        <Flex pt='0.5rem' wrap='wrap'>
-          <Box pr='1rem'>
-            <Text>Start</Text>
-            <DateTimePicker
-              required
-              onChange={(newDate) => dispatch({ type: SET_SPRINT_START, payload: newDate })}
-              value={start}
+      {isMember && (
+        <form onSubmit={(e) => onSubmit(e)}>
+          <Flex pt='0.5rem' wrap='wrap'>
+            <Box pr='1rem'>
+              <Text>Start</Text>
+              <DateTimePicker
+                required
+                onChange={(newDate) => dispatch({ type: SET_SPRINT_START, payload: newDate })}
+                value={start}
+              />
+            </Box>
+            <Box>
+              <Text>End</Text>
+              <DateTimePicker
+                required
+                onChange={(newDate) => dispatch({ type: SET_SPRINT_END, payload: newDate })}
+                value={end}
+              />
+            </Box>
+          </Flex>
+          <Box pt='1rem'>
+            <Text>Sprint Target</Text>
+            <Textarea
+              isRequired
+              value={target}
+              onChange={(e) => dispatch({ type: SET_SPRINT_TARGET, payload: e.target.value })}
+              maxWidth='60rem'
+              h='10rem'
             />
           </Box>
-          <Box>
-            <Text>End</Text>
-            <DateTimePicker
-              required
-              onChange={(newDate) => dispatch({ type: SET_SPRINT_END, payload: newDate })}
-              value={end}
-            />
-          </Box>
-        </Flex>
-        <Box pt='1rem'>
-          <Text>Sprint Target</Text>
-          <Textarea
-            isRequired
-            value={target}
-            onChange={(e) => dispatch({ type: SET_SPRINT_TARGET, payload: e.target.value })}
-            maxWidth='60rem'
-            h='10rem'
-          />
-        </Box>
-        <Button
-          type='submit'
-          colorScheme='blue'
-          mt='1rem'
-          isDisabled={
-            tasks.length === 0 || !target || (velocityLimited && storyPoints > velocityLimit)
-          }
-        >
-          Start Sprint
-        </Button>
-      </form>
+          <Button
+            type='submit'
+            colorScheme='blue'
+            mt='1rem'
+            isDisabled={
+              tasks.length === 0 || !target || (velocityLimited && storyPoints > velocityLimit)
+            }
+          >
+            Start Sprint
+          </Button>
+        </form>
+      )}
     </>
   );
 };

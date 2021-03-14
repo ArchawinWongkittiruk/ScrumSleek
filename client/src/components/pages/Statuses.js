@@ -7,6 +7,7 @@ import CreateStatus from '../project/CreateStatus';
 
 const Statuses = () => {
   const statuses = useSelector((state) => state.project.project.statuses);
+  const isMember = useSelector((state) => state.project.isMember);
 
   return (
     <>
@@ -15,7 +16,7 @@ const Statuses = () => {
         {statuses.slice(0, statuses.length - 1).map((status, index) => (
           <Status key={status._id} statuses={statuses} status={status} index={index} />
         ))}
-        <CreateStatus />
+        {isMember && <CreateStatus />}
         <Status
           statuses={statuses}
           status={statuses[statuses.length - 1]}
