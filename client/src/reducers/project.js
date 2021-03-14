@@ -31,6 +31,7 @@ import {
   SET_ACTIVE_MEMBERS,
   // Authorization
   SET_IS_MEMBER,
+  SET_IS_ADMIN,
 } from '../actions/types';
 
 const initialState = {
@@ -39,6 +40,7 @@ const initialState = {
   projectsLoading: true,
   error: {},
   isMember: false,
+  isAdmin: false,
 };
 
 export default function Project(state = initialState, action) {
@@ -229,6 +231,11 @@ export default function Project(state = initialState, action) {
       return {
         ...state,
         isMember: payload,
+      };
+    case SET_IS_ADMIN:
+      return {
+        ...state,
+        isAdmin: payload,
       };
     default:
       return state;

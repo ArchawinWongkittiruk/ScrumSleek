@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import isAdmin from '../../utils/isAdmin';
 import { deleteProject } from '../../actions/projects';
 import { leaveProject } from '../../actions/members';
 import {
@@ -21,6 +20,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 
 const ProjectMenu = ({ project }) => {
   const user = useSelector((state) => state.auth.user);
+  const isAdmin = useSelector((state) => state.project.isAdmin);
   const dispatch = useDispatch();
 
   const onDeleteProject = async () => {
@@ -37,7 +37,7 @@ const ProjectMenu = ({ project }) => {
         Actions
       </MenuButton>
       <MenuList p='1rem'>
-        {isAdmin(project, user) ? (
+        {isAdmin ? (
           <Popover>
             <PopoverTrigger>
               <Button colorScheme='red'>Delete Project</Button>

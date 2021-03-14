@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeRole, removeMember } from '../../actions/members';
-import isAdmin from '../../utils/isAdmin';
 import {
   Box,
   Flex,
@@ -28,9 +27,8 @@ const roles = ['Admin', 'Product Owner', 'Scrum Master', 'Developer'];
 const Roles = () => {
   const members = useSelector((state) => state.project.project.members);
   const user = useSelector((state) => state.auth.user);
-  const project = useSelector((state) => state.project.project);
   const isMember = useSelector((state) => state.project.isMember);
-  const admin = isAdmin(project, user);
+  const isAdmin = useSelector((state) => state.project.isAdmin);
   const dispatch = useDispatch();
 
   const onChangeRole = async (member, newRole) => {
@@ -65,8 +63,8 @@ const Roles = () => {
                       value={role}
                       isDisabled={
                         role === 'Admin' ||
-                        (admin && member.user._id === user._id) ||
-                        (!admin && member.role === 'Admin') ||
+                        (isAdmin && member.user._id === user._id) ||
+                        (!isAdmin && member.role === 'Admin') ||
                         !isMember
                       }
                       mr='1rem'
@@ -77,7 +75,7 @@ const Roles = () => {
                     </Radio>
                   ))}
                 </RadioGroup>
-                {admin && member.user._id !== user._id && (
+                {isAdmin && member.user._id !== user._id && (
                   <Flex wrap='wrap' mt='1rem'>
                     <Popover>
                       <PopoverTrigger>

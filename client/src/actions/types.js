@@ -55,3 +55,4 @@ export const SET_ACTIVE_MEMBERS = 'SET_ACTIVE_MEMBERS';
 
 // Authorization
 export const SET_IS_MEMBER = 'SET_IS_MEMBER';
+export const SET_IS_ADMIN = 'SET_IS_ADMIN';

@@ -10,6 +10,7 @@ import {
   END_SPRINT,
   SET_ACTIVE_MEMBERS,
   SET_IS_MEMBER,
+  SET_IS_ADMIN,
 } from '../actions/types';
 import {
   Button,
@@ -44,7 +45,10 @@ const Project = ({ match }) => {
   const user = useSelector((state) => state.auth.user);
   const canGetProject = useSelector((state) => state.auth.canGetProject);
   const project = useSelector((state) => state.project.project);
-  const isMember = project?.members?.some((member) => member.user._id === user?._id);
+  const isMember = project?.members.some((member) => member.user._id === user?._id);
+  const isAdmin = project?.members.some(
+    (member) => member.role === 'Admin' && member.user._id === user?._id
+  );
   const dispatch = useDispatch();
   let history = useHistory();
 
@@ -57,10 +61,11 @@ const Project = ({ match }) => {
   }, [project?.title]);
 
   useEffect(() => {
-    if (isMember !== undefined) {
+    if (isMember !== undefined && isAdmin !== undefined) {
       dispatch({ type: SET_IS_MEMBER, payload: isMember });
+      dispatch({ type: SET_IS_ADMIN, payload: isAdmin });
     }
-  }, [dispatch, isMember]);
+  }, [dispatch, isMember, isAdmin]);
 
   useEffect(() => {
     if (project?._id) {
