@@ -16,6 +16,7 @@ const chakraColors = [
 const StatusSchema = new Schema({
   title: {
     type: String,
+    required: true,
   },
   color: {
     type: String,
