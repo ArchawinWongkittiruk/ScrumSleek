@@ -12,7 +12,7 @@ const auth = require('../middleware/auth');
 const User = require('../models/User');
 const Token = require('../models/Token');
 
-async function sendConfirmationEmail(user) {
+async function sendVerificationEmail(user) {
   const { _id, name, email } = user;
 
   const token = new Token({ user: _id, token: crypto.randomBytes(16).toString('hex') });
@@ -74,7 +74,7 @@ router.post(
         await user.save();
       }
 
-      await sendConfirmationEmail(user);
+      await sendVerificationEmail(user);
 
       // Return jsonwebtoken
       jwt.sign(
@@ -102,7 +102,7 @@ router.post('/resendVerify', auth, async (req, res) => {
   try {
     const user = req.body;
 
-    await sendConfirmationEmail(user);
+    await sendVerificationEmail(user);
 
     res.json({ msg: `A verification email has been sent to ${user.email}.` });
   } catch (err) {
