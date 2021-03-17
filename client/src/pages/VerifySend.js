@@ -27,8 +27,12 @@ const VerifySend = () => {
     return <Redirect to='/projects' />;
   }
 
+  if (!user) {
+    return <Redirect to='/' />;
+  }
+
   return (
-    <Flex justify='center' p='1.5rem' direction='column' m='auto' align='center' textAlign='center'>
+    <Flex justify='center' p='50px' direction='column' m='auto' align='center' textAlign='center'>
       <Text as='h1' fontSize='2rem' pb='1rem'>
         Welcome {user?.name}
       </Text>
