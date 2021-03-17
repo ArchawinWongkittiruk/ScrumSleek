@@ -27,7 +27,9 @@ async function sendConfirmationEmail(user) {
         <center>
           <h1>Welcome to ScrumSleek, ${name}!</h1>
           <h2>Please use the following link to activate your account</h2>
-          <p>${process.env.CLIENT_URL}/auth/verify/${token.token}</p>
+          <a href='${process.env.CLIENT_URL}/auth/verify/${token.token}' style='font-size: 1.5rem'>
+            Verify Email Address
+          </a>
         </center>
       `,
   });
@@ -203,7 +205,9 @@ async function sendPasswordReset(user) {
         <center>
           <h1>Reset your ScrumSleek password</h1>
           <h2>Please use the following link to reset your password, ${name}</h2>
-          <p>${process.env.CLIENT_URL}/auth/resetPassword/${token.token}</p>
+          <a href='${process.env.CLIENT_URL}/auth/resetPassword/${token.token}' style='font-size: 1.5rem'>
+            Reset Password
+          </a>
         </center>
       `,
   });
