@@ -39,7 +39,7 @@ import TooltipAvatar from '../other/TooltipAvatar';
 import ColorPicker from '../other/ColorPicker';
 import TaskMouseOver from './TaskMouseOver';
 
-const Task = ({ task }) => {
+const Task = ({ task, sorted }) => {
   const { colorMode } = useColorMode();
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
@@ -109,6 +109,7 @@ const Task = ({ task }) => {
                 setEditing={setEditing}
                 attributes={attributes}
                 listeners={listeners}
+                sorted={sorted}
               />
             )}
             {task.label !== 'gray' && (
@@ -242,6 +243,7 @@ const Task = ({ task }) => {
 
 Task.propTypes = {
   task: PropTypes.object.isRequired,
+  sorted: PropTypes.bool,
 };
 
 export default Task;

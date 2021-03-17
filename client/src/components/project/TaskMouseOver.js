@@ -17,7 +17,7 @@ import {
 import { EditIcon, DragHandleIcon } from '@chakra-ui/icons';
 import { BiUser } from 'react-icons/bi';
 
-const TaskMouseOver = ({ task, setEditing, attributes, listeners }) => {
+const TaskMouseOver = ({ task, setEditing, attributes, listeners, sorted }) => {
   const projectMembers = useSelector((state) => state.project.project.members);
   const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ const TaskMouseOver = ({ task, setEditing, attributes, listeners }) => {
             icon={<BiUser />}
             aria-label='Set Members for User Story'
             position='absolute'
-            left='63%'
+            left={!sorted ? '63%' : '72%'}
             top='5px'
             zIndex='1'
           />
@@ -69,22 +69,24 @@ const TaskMouseOver = ({ task, setEditing, attributes, listeners }) => {
         icon={<EditIcon />}
         aria-label='Edit User Story'
         position='absolute'
-        left='77%'
+        left={!sorted ? '77%' : '86%'}
         top='5px'
         zIndex='1'
       />
-      <DragHandleIcon
-        cursor='grab'
-        _pressed={{ cursor: 'grabbing' }}
-        color='gray.500'
-        position='absolute'
-        left='90%'
-        top='9px'
-        zIndex='1'
-        boxSize='2rem'
-        {...attributes}
-        {...listeners}
-      />
+      {!sorted && (
+        <DragHandleIcon
+          cursor='grab'
+          _pressed={{ cursor: 'grabbing' }}
+          color='gray.500'
+          position='absolute'
+          left='90%'
+          top='9px'
+          zIndex='1'
+          boxSize='2rem'
+          {...attributes}
+          {...listeners}
+        />
+      )}
     </>
   );
 };
@@ -94,6 +96,7 @@ TaskMouseOver.propTypes = {
   setEditing: PropTypes.func.isRequired,
   attributes: PropTypes.object.isRequired,
   listeners: PropTypes.object.isRequired,
+  sorted: PropTypes.bool,
 };
 
 export default TaskMouseOver;
