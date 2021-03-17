@@ -101,6 +101,12 @@ export const verifyUser = (token) => async (dispatch) => {
 
     dispatch(setAlert(res.data.msg, 'success'));
   } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+    }
+
     dispatch({
       type: AUTH_ERROR,
     });
