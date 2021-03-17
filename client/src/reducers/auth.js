@@ -1,6 +1,7 @@
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  VERIFY_USER,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -31,10 +32,11 @@ export default function Auth(state = initialState, action) {
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
+    case VERIFY_USER:
       localStorage.setItem('token', payload.token);
       return {
         ...state,
-        ...payload,
+        token: payload.token,
         isAuthenticated: true,
         loading: false,
       };

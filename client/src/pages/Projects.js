@@ -14,6 +14,10 @@ const Projects = () => {
     document.title = 'Your Projects | ScrumSleek';
   }, []);
 
+  if (user && !user.verified) {
+    return <Redirect to='/verifySend' />;
+  }
+
   if (!isAuthenticated) {
     return <Redirect to='/' />;
   }

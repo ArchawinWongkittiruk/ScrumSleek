@@ -18,6 +18,10 @@ const UserSchema = new Schema({
     type: String,
     default: '',
   },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
   projects: [
     {
       type: Schema.Types.ObjectId,

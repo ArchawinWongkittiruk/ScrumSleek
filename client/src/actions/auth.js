@@ -3,6 +3,7 @@ import { setAlert } from './alert';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  VERIFY_USER,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -56,6 +57,8 @@ export const register = ({ name, email, password }) => async (dispatch) => {
     });
 
     dispatch(loadUser());
+
+    dispatch(setAlert(res.data.msg, 'success'));
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -65,6 +68,41 @@ export const register = ({ name, email, password }) => async (dispatch) => {
 
     dispatch({
       type: REGISTER_FAIL,
+    });
+  }
+};
+
+// Resend verification token
+export const resendVerify = (user) => async (dispatch) => {
+  const body = JSON.stringify(user);
+
+  try {
+    const res = await axios.post('/api/users/resendVerify', body, config);
+
+    dispatch(setAlert(res.data.msg, 'success'));
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
+
+// Verify User
+export const verifyUser = (token) => async (dispatch) => {
+  try {
+    const res = await axios.post(`/api/users/verify/${token}`);
+
+    dispatch({
+      type: VERIFY_USER,
+      payload: res.data,
+    });
+
+    dispatch(loadUser());
+
+    dispatch(setAlert(res.data.msg, 'success'));
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
     });
   }
 };

@@ -6,6 +6,8 @@ import Login from './pages/Login';
 import Projects from './pages/Projects';
 import Project from './pages/Project';
 import Account from './pages/Account';
+import VerifySend from './pages/VerifySend';
+import VerifyReceive from './pages/VerifyReceive';
 
 import Navbar from './components/other/Navbar';
 import Alert from './components/other/Alert';
@@ -23,6 +25,8 @@ const Routes = () => {
         <Route exact path='/projects' component={Projects} />
         <Route exact path='/project/:id' component={Project} />
         <Route exact path='/account' component={Account} />
+        <Route exact path='/verifySend' component={VerifySend} />
+        <Route exact path='/auth/verify/:token' component={VerifyReceive} />
       </Switch>
     </>
   );
