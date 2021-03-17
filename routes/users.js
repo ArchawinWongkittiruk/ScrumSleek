@@ -65,6 +65,11 @@ router.post(
           password: await bcrypt.hash(password, await bcrypt.genSalt(10)),
         });
         await user.save();
+      } else {
+        // Change name/password for existing but unverified user
+        user.name = name;
+        user.password = await bcrypt.hash(password, await bcrypt.genSalt(10));
+        await user.save();
       }
 
       await sendConfirmationEmail(user);
