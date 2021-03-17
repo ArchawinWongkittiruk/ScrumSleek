@@ -173,3 +173,35 @@ export const editUser = (userId, formData) => async (dispatch) => {
     });
   }
 };
+
+// Send password reset
+export const sendPasswordReset = (email) => async (dispatch) => {
+  try {
+    const res = await axios.post(`/api/users/sendResetPassword/${email}`);
+
+    dispatch(setAlert(res.data.msg, 'success'));
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+    }
+  }
+};
+
+// Reset password
+export const resetPassword = (token, { password }) => async (dispatch) => {
+  const body = JSON.stringify({ password });
+
+  try {
+    const res = await axios.post(`/api/users/resetPassword/${token}`, body, config);
+
+    dispatch(setAlert(res.data.msg, 'success'));
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+    }
+  }
+};

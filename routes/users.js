@@ -109,7 +109,7 @@ router.post('/resendVerify', auth, async (req, res) => {
   }
 });
 
-// Activate user
+// Verify user
 router.post('/verify/:token', async (req, res) => {
   try {
     let user;
@@ -181,6 +181,84 @@ router.put(
       await user.save();
 
       res.json(user);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  }
+);
+
+async function sendPasswordReset(user) {
+  const { _id, name, email } = user;
+
+  const token = new Token({ user: _id, token: crypto.randomBytes(16).toString('hex') });
+  await token.save();
+
+  await sgMail.send({
+    to: email,
+    from: 'noreply@scrumsleek.com',
+    subject: 'Reset your ScrumSleek account password',
+    text: `You have just made a request to reset your password, ${name}.`,
+    html: `
+        <center>
+          <h1>Reset your ScrumSleek password</h1>
+          <h2>Please use the following link to reset your password, ${name}</h2>
+          <p>${process.env.CLIENT_URL}/auth/resetPassword/${token.token}</p>
+        </center>
+      `,
+  });
+}
+
+// Send password reset
+router.post('/sendResetPassword/:email', async (req, res) => {
+  try {
+    const email = req.params.email;
+
+    // See if user exists
+    let user = await User.findOne({ email });
+    if (user) {
+      await sendPasswordReset(user);
+    } else {
+      return res.status(400).json({
+        errors: [{ msg: 'User does not exist' }],
+      });
+    }
+
+    res.json({ msg: `A password reset request has been sent to ${email}.` });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// Reset password
+router.post(
+  '/resetPassword/:token',
+  [
+    check('password', 'Please enter a password with 6 or more characters').isLength({
+      min: 6,
+    }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { password } = req.body;
+
+    try {
+      let user;
+      let token = await Token.findOne({ token: req.params.token });
+      if (token) {
+        user = await User.findById(token.user);
+        user.password = await bcrypt.hash(password, await bcrypt.genSalt(10));
+        await user.save();
+      } else {
+        return res.status(400).json({ errors: [{ msg: 'Invalid/expired password reset token' }] });
+      }
+
+      res.json({ msg: `Password has been reset for ${user.email}.` });
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server error');

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { editUser } from '../actions/auth';
+import { editUser, sendPasswordReset } from '../actions/auth';
 import { Box, Text, Flex, Input, Button } from '@chakra-ui/react';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 
@@ -10,6 +10,7 @@ const Account = () => {
   const [name, setName] = useState('');
   const [avatar, setAvatar] = useState('');
   const [avatarValid, setAvatarValid] = useState(true);
+  const [resetDisabled, setResetDisabled] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
@@ -30,6 +31,16 @@ const Account = () => {
   const onEditUser = async (e) => {
     e.preventDefault();
     dispatch(editUser(user._id, { name, avatar }));
+  };
+
+  const onSendResetPassword = () => {
+    setResetDisabled(true);
+
+    dispatch(sendPasswordReset(user.email));
+
+    setTimeout(() => {
+      setResetDisabled(false);
+    }, 5000);
   };
 
   return (
@@ -88,6 +99,15 @@ const Account = () => {
                 Save
               </Button>
             </form>
+            <Button
+              onClick={onSendResetPassword}
+              isDisabled={resetDisabled}
+              colorScheme='red'
+              variant='outline'
+              mt='1rem'
+            >
+              Reset Password
+            </Button>
           </Box>
         </Flex>
       </Box>

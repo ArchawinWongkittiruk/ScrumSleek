@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as ReactLink, Redirect } from 'react-router-dom';
-import { login } from '../actions/auth';
+import { login, sendPasswordReset } from '../actions/auth';
 import { Button, Input, Flex, Box, Text, Link } from '@chakra-ui/react';
 
 import Copyright from '../components/other/Copyright';
@@ -11,6 +11,7 @@ const Login = () => {
     email: '',
     password: '',
   });
+  const [resetDisabled, setResetDisabled] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const project = useSelector((state) => state.project.project);
   const dispatch = useDispatch();
@@ -26,6 +27,16 @@ const Login = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     dispatch(login(email, password));
+  };
+
+  const onSendResetPassword = () => {
+    setResetDisabled(true);
+
+    dispatch(sendPasswordReset(email));
+
+    setTimeout(() => {
+      setResetDisabled(false);
+    }, 5000);
   };
 
   if (isAuthenticated) {
@@ -71,8 +82,18 @@ const Login = () => {
               type='password'
               value={password}
               onChange={(e) => onChange(e)}
-              mb='1rem'
+              mb='0.5rem'
             />
+            <Flex justify='flex-start' mb='1rem'>
+              <Button
+                onClick={onSendResetPassword}
+                isDisabled={resetDisabled}
+                size='sm'
+                variant='link'
+              >
+                Forgot Your Password?
+              </Button>
+            </Flex>
             <Button type='submit' isFullWidth mb='1rem' colorScheme='blue'>
               Sign In
             </Button>

@@ -8,6 +8,7 @@ import Project from './pages/Project';
 import Account from './pages/Account';
 import VerifySend from './pages/VerifySend';
 import VerifyReceive from './pages/VerifyReceive';
+import PasswordReset from './pages/PasswordReset';
 
 import Navbar from './components/other/Navbar';
 import Alert from './components/other/Alert';
@@ -27,6 +28,7 @@ const Routes = () => {
         <Route exact path='/account' component={Account} />
         <Route exact path='/verifySend' component={VerifySend} />
         <Route exact path='/auth/verify/:token' component={VerifyReceive} />
+        <Route exact path='/auth/resetPassword/:token' component={PasswordReset} />
       </Switch>
     </>
   );
