@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link as ReactLink, Redirect } from 'react-router-dom';
 import { setAlert } from '../actions/alert';
 import { register } from '../actions/auth';
+import { SET_SIGNUP_LOADING } from '../actions/types';
 import { Button, Input, Flex, Box, Text, Link } from '@chakra-ui/react';
 
 import Copyright from '../components/other/Copyright';
@@ -16,6 +17,7 @@ const Register = () => {
   });
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const project = useSelector((state) => state.project.project);
+  const signupLoading = useSelector((state) => state.auth.signupLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,6 +33,7 @@ const Register = () => {
     if (password !== password2) {
       dispatch(setAlert('Passwords do not match', 'error'));
     } else {
+      dispatch({ type: SET_SIGNUP_LOADING, payload: true });
       dispatch(register({ name, email, password }));
     }
   };
@@ -61,7 +64,7 @@ const Register = () => {
           Sign Up
         </Text>
         <Flex direction='column' maxWidth='30rem'>
-          <form onSubmit={(e) => onSubmit(e)}>
+          <form onSubmit={(e) => !signupLoading && onSubmit(e)}>
             <Input
               isRequired
               placeholder='Your Name'
@@ -99,7 +102,13 @@ const Register = () => {
               onChange={(e) => onChange(e)}
               mb='1rem'
             />
-            <Button type='submit' isFullWidth mb='1rem' colorScheme='blue'>
+            <Button
+              type='submit'
+              isLoading={signupLoading}
+              isFullWidth
+              mb='1rem'
+              colorScheme='blue'
+            >
               Sign Up
             </Button>
           </form>

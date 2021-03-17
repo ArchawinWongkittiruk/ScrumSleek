@@ -3,6 +3,7 @@ import { setAlert } from './alert';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  SET_SIGNUP_LOADING,
   VERIFY_USER,
   USER_LOADED,
   AUTH_ERROR,
@@ -69,6 +70,8 @@ export const register = ({ name, email, password }) => async (dispatch) => {
     dispatch({
       type: REGISTER_FAIL,
     });
+
+    dispatch({ type: SET_SIGNUP_LOADING, payload: false });
   }
 };
 

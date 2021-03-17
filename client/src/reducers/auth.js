@@ -9,12 +9,14 @@ import {
   LOGOUT,
   EDIT_USER,
   CAN_GET_PROJECT,
+  SET_SIGNUP_LOADING,
 } from '../actions/types';
 
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
   loading: true,
+  signupLoading: false,
   user: null,
   canGetProject: false,
 };
@@ -39,6 +41,11 @@ export default function Auth(state = initialState, action) {
         token: payload.token,
         isAuthenticated: true,
         loading: false,
+      };
+    case SET_SIGNUP_LOADING:
+      return {
+        ...state,
+        signupLoading: payload,
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:
