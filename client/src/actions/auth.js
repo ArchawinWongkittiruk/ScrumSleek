@@ -34,13 +34,11 @@ export const loadUser = () => async (dispatch) => {
       type: USER_LOADED,
       payload: res.data,
     });
-
-    dispatch({ type: CAN_GET_PROJECT });
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
     });
-
+  } finally {
     dispatch({ type: CAN_GET_PROJECT });
   }
 };
@@ -60,8 +58,6 @@ export const register = ({ name, email, password }) => async (dispatch) => {
     dispatch(loadUser());
 
     dispatch(setAlert(res.data.msg, 'success'));
-
-    dispatch({ type: SET_SIGNUP_LOADING, payload: false });
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -72,7 +68,7 @@ export const register = ({ name, email, password }) => async (dispatch) => {
     dispatch({
       type: REGISTER_FAIL,
     });
-
+  } finally {
     dispatch({ type: SET_SIGNUP_LOADING, payload: false });
   }
 };
