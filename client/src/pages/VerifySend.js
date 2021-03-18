@@ -39,7 +39,13 @@ const VerifySend = () => {
       <Text as='h2' fontSize='1.5rem' pb='1rem'>
         Please verify your email at {user?.email}
       </Text>
-      <Button onClick={onSend} isDisabled={sendDisabled} colorScheme='teal' mb='1rem'>
+      <Button
+        onClick={onSend}
+        isDisabled={sendDisabled}
+        colorScheme='teal'
+        variant='outline'
+        mb='1rem'
+      >
         Resend Verification Email
       </Button>
     </Flex>
