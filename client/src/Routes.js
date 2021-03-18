@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 
+import Landing from './pages/Landing';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Projects from './pages/Projects';
@@ -18,9 +19,10 @@ const Routes = () => {
 
   return (
     <>
-      {!['/register', '/login'].includes(location.pathname) && <Navbar />}
+      {!['/', '/register', '/login'].includes(location.pathname) && <Navbar />}
       <Alert />
       <Switch>
+        <Route exact path='/' component={Landing} />
         <Route exact path='/register' component={Register} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/projects' component={Projects} />
