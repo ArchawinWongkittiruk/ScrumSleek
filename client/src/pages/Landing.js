@@ -10,13 +10,13 @@ import Copyright from '../components/other/Copyright';
 
 const Landing = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     document.title = 'ScrumSleek';
   }, []);
 
-  if (isAuthenticated) {
+  if (user) {
     return <Redirect to='/projects' />;
   }
 

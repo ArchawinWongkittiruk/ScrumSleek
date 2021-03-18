@@ -5,7 +5,7 @@ import { verifyUser } from '../actions/auth';
 import { Box, Text, CircularProgress } from '@chakra-ui/react';
 
 const VerifyReceive = ({ match }) => {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const loading = useSelector((state) => state.auth.loading);
   const verified = useSelector((state) => state.auth.user?.verified);
   const dispatch = useDispatch();
 
@@ -19,13 +19,13 @@ const VerifyReceive = ({ match }) => {
 
   return (
     <Box textAlign='center' mt='20%'>
-      {isAuthenticated === null ? (
+      {loading ? (
         <>
           <Text pb='1rem'>Verifying your email...</Text>
           <CircularProgress isIndeterminate />
         </>
       ) : (
-        <Text>Invalid/expired verification token. Please resend confirmation email.</Text>
+        <Text>Invalid/expired token. Please resend verification email.</Text>
       )}
     </Box>
   );

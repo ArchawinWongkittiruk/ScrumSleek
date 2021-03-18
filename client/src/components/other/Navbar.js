@@ -22,7 +22,7 @@ import TooltipAvatar from './TooltipAvatar';
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.user);
   const projects = useSelector((state) => state.project.projects);
   const currentProject = useSelector((state) => state.project.project);
   const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const Navbar = () => {
         <Link as={ReactLink} to='/projects' pr='1rem'>
           ScrumSleek
         </Link>
-        {isAuthenticated && projects.length !== 0 && (
+        {user && projects.length !== 0 && (
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />} size='xs'>
               Projects
@@ -70,7 +70,7 @@ const Navbar = () => {
         <Button onClick={toggleColorMode} mr='0.5rem' size='xs'>
           {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
         </Button>
-        {isAuthenticated && user ? (
+        {user ? (
           <Menu>
             <MenuButton as={Button} variant='ghost' rightIcon={<ChevronDownIcon />} size='xs'>
               <TooltipAvatar user={user} size='xs' />

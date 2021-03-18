@@ -15,7 +15,7 @@ const Register = () => {
     password: '',
     password2: '',
   });
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.project.project);
   const signupLoading = useSelector((state) => state.auth.signupLoading);
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const Register = () => {
     }
   };
 
-  if (isAuthenticated) {
+  if (user) {
     if (project) {
       return <Redirect to={`/project/${project._id}`} />;
     } else {

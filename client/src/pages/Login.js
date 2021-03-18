@@ -12,7 +12,7 @@ const Login = () => {
     password: '',
   });
   const [resetDisabled, setResetDisabled] = useState(false);
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.project.project);
   const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ const Login = () => {
     }, 5000);
   };
 
-  if (isAuthenticated) {
+  if (user) {
     if (project) {
       return <Redirect to={`/project/${project._id}`} />;
     } else {

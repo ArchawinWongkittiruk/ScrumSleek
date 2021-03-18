@@ -14,7 +14,6 @@ import {
 
 const initialState = {
   token: localStorage.getItem('token'),
-  isAuthenticated: null,
   loading: true,
   signupLoading: false,
   user: null,
@@ -28,7 +27,6 @@ export default function Auth(state = initialState, action) {
     case USER_LOADED:
       return {
         ...state,
-        isAuthenticated: true,
         loading: false,
         user: payload,
       };
@@ -39,7 +37,6 @@ export default function Auth(state = initialState, action) {
       return {
         ...state,
         token: payload.token,
-        isAuthenticated: true,
         loading: false,
       };
     case SET_SIGNUP_LOADING:
@@ -55,7 +52,6 @@ export default function Auth(state = initialState, action) {
       return {
         ...state,
         token: null,
-        isAuthenticated: false,
         loading: false,
         user: null,
       };

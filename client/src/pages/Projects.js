@@ -6,7 +6,7 @@ import { Text, Flex, Link, CircularProgress } from '@chakra-ui/react';
 import CreateProject from '../components/other/CreateProject';
 
 const Projects = () => {
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.user);
   const projects = useSelector((state) => state.project.projects);
   const loading = useSelector((state) => state.project.projectsLoading);
 
@@ -18,7 +18,7 @@ const Projects = () => {
     return <Redirect to='/verifySend' />;
   }
 
-  if (!isAuthenticated) {
+  if (!user) {
     return <Redirect to='/' />;
   }
 
