@@ -201,3 +201,20 @@ export const resetPassword = (token, { password }) => async (dispatch) => {
     }
   }
 };
+
+// Delete user
+export const deleteUser = (userId, history) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/users/${userId}`);
+
+    dispatch(logout());
+
+    dispatch(setAlert(res.data.msg, 'success'));
+
+    history.push('/');
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};

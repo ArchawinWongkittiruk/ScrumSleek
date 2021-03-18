@@ -6,9 +6,12 @@ const { check, validationResult } = require('express-validator');
 require('dotenv').config();
 const auth = require('../middleware/auth');
 const { sendVerificationEmail, sendPasswordReset } = require('../utils/emailing');
+const leaveProject = require('../utils/leaveProject');
+const deleteProject = require('../utils/deleteProject');
 
 const User = require('../models/User');
 const Token = require('../models/Token');
+const Project = require('../models/Project');
 
 // Register user
 router.post(
@@ -221,5 +224,31 @@ router.post(
     }
   }
 );
+
+// Delete user and leave/delete projects
+router.delete('/:userId', auth, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const user = await User.findById(userId);
+    if (req.user.id !== userId) {
+      return res.status(401).json({ msg: 'You cannot delete other users' });
+    }
+
+    for (const projectId of user.projects) {
+      const project = await Project.findById(projectId);
+      if (project.members.some((member) => member.role === 'Admin' && member.user == user.id)) {
+        await deleteProject(req, res, project);
+      } else {
+        await leaveProject(req, res, project);
+      }
+    }
+    await user.remove();
+
+    res.json({ msg: 'Your account has been deleted.' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;

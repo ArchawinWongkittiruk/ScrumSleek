@@ -1,7 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { editUser, sendPasswordReset } from '../actions/auth';
-import { Box, Text, Flex, Input, Button } from '@chakra-ui/react';
+import { useHistory } from 'react-router-dom';
+import { editUser, sendPasswordReset, deleteUser } from '../actions/auth';
+import {
+  Box,
+  Text,
+  Flex,
+  Input,
+  Button,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+} from '@chakra-ui/react';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 
 import TooltipAvatar from '../components/other/TooltipAvatar';
@@ -11,8 +24,11 @@ const Account = () => {
   const [avatar, setAvatar] = useState('');
   const [avatarValid, setAvatarValid] = useState(true);
   const [resetDisabled, setResetDisabled] = useState(false);
+  const [deleteAlertOpen, setDeleteAlertOpen] = useState(false);
+  const cancelDeleteRef = useRef();
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+  let history = useHistory();
 
   useEffect(() => {
     document.title = 'Your Account | ScrumSleek';
@@ -41,6 +57,10 @@ const Account = () => {
     setTimeout(() => {
       setResetDisabled(false);
     }, 5000);
+  };
+
+  const onDeleteUser = () => {
+    dispatch(deleteUser(user._id, history));
   };
 
   return (
@@ -104,10 +124,43 @@ const Account = () => {
                   (!avatarValid && avatar !== '')
                 }
                 colorScheme='blue'
+                mb='1rem'
               >
                 Save
               </Button>
             </form>
+            <Button onClick={() => setDeleteAlertOpen(true)} colorScheme='red'>
+              Delete My Account
+            </Button>
+            <AlertDialog
+              isOpen={deleteAlertOpen}
+              leastDestructiveRef={cancelDeleteRef}
+              onClose={() => setDeleteAlertOpen(false)}
+            >
+              <AlertDialogOverlay>
+                <AlertDialogContent>
+                  <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                    Delete My Account
+                  </AlertDialogHeader>
+                  <AlertDialogBody>
+                    Are you absolutely sure? You will be also be deleting all the projects that you
+                    are the admin of, and leaving all the other projects that you are a member of.
+                  </AlertDialogBody>
+                  <AlertDialogFooter>
+                    <Button colorScheme='red' onClick={onDeleteUser}>
+                      Yes, Delete My Account
+                    </Button>
+                    <Button
+                      ref={cancelDeleteRef}
+                      onClick={() => setDeleteAlertOpen(false)}
+                      ml='1rem'
+                    >
+                      Cancel
+                    </Button>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialogOverlay>
+            </AlertDialog>
           </Box>
         </Flex>
       </Box>

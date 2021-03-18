@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const member = require('../middleware/member');
 const admin = require('../middleware/admin');
+const leaveProject = require('../utils/leaveProject');
 
 const User = require('../models/User');
 const Project = require('../models/Project');
@@ -70,43 +71,7 @@ router.patch('/role/:id', [auth, member], async (req, res) => {
 // Leave a project / remove a member
 router.delete('/leave/:userId', [auth, member], async (req, res) => {
   try {
-    const project = await Project.findById(req.header('projectId'));
-    const user = await User.findById(req.params.userId);
-    if (!user) {
-      return res.status(404).json({ msg: 'User not found' });
-    }
-
-    // Delete project from user's projects
-    user.projects.splice(user.projects.indexOf(project.id), 1);
-    await user.save();
-
-    // Delete user from project's members
-    project.members.splice(
-      project.members.findIndex((member) => member.user == user.id),
-      1
-    );
-
-    // Delete user from all involved tasks
-    for (const task of project.tasks) {
-      if (task.members.map((member) => member.user).includes(user.id)) {
-        task.members.splice(
-          task.members.findIndex((member) => member.user == user.id),
-          1
-        );
-      }
-    }
-    await project.save();
-
-    const io = req.app.get('io');
-
-    const clients = io.sockets.adapter.rooms.get(project.id);
-    for (const clientId of clients) {
-      const client = io.sockets.sockets.get(clientId);
-      if (client.userId == user.id) io.to(clientId).emit('LEAVE_PROJECT', project.id);
-    }
-
-    const payload = { tasks: project.tasks, memberId: user.id };
-    io.to(project.id).emit('REMOVE_MEMBER', payload);
+    await leaveProject(req, res, await Project.findById(req.header('projectId')));
     res.end();
   } catch (err) {
     console.error(err.message);

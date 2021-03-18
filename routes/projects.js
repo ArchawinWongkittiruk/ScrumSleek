@@ -4,6 +4,7 @@ const auth = require('../middleware/auth');
 const member = require('../middleware/member');
 const admin = require('../middleware/admin');
 const { check, validationResult } = require('express-validator');
+const deleteProject = require('../utils/deleteProject');
 
 const User = require('../models/User');
 const Project = require('../models/Project');
@@ -99,20 +100,7 @@ router.patch(
 // Delete a project
 router.delete('/:id', [auth, admin], async (req, res) => {
   try {
-    const projectId = req.params.id;
-    const project = await Project.findById(projectId);
-    if (!project) {
-      return res.status(404).json({ msg: 'Project not found' });
-    }
-
-    for (const member of project.members) {
-      const user = await User.findById(member.user);
-      user.projects.splice(user.projects.indexOf(projectId), 1);
-      await user.save();
-    }
-    await project.remove();
-
-    req.app.get('io').to(project.id).emit('DELETE_PROJECT', projectId);
+    await deleteProject(req, res, await Project.findById(req.params.id));
     res.end();
   } catch (err) {
     console.error(err.message);
