@@ -62,11 +62,20 @@ const Account = () => {
             m='1rem'
           />
           <Box w={{ base: '18rem', md: '30rem' }}>
+            <Text>Email</Text>
+            <Text as='h1' fontSize='1.2rem' pb='1rem'>
+              {user.email}
+            </Text>
+            <Button
+              onClick={onSendResetPassword}
+              isDisabled={resetDisabled}
+              colorScheme='red'
+              variant='outline'
+              mb='1rem'
+            >
+              Send Password Reset
+            </Button>
             <form onSubmit={(e) => onEditUser(e)}>
-              <Text>Email</Text>
-              <Text as='h1' fontSize='1.2rem' pb='1rem'>
-                {user.email}
-              </Text>
               <Text>Name</Text>
               <Input
                 isRequired
@@ -99,15 +108,6 @@ const Account = () => {
                 Save
               </Button>
             </form>
-            <Button
-              onClick={onSendResetPassword}
-              isDisabled={resetDisabled}
-              colorScheme='red'
-              variant='outline'
-              mt='1rem'
-            >
-              Reset Password
-            </Button>
           </Box>
         </Flex>
       </Box>
