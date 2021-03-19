@@ -11,7 +11,6 @@ const Members = () => {
   const [inviting, setInviting] = useState(false);
   const [invitee, setInvitee] = useState(null);
   const [inputValue, setInputValue] = useState('');
-  const [users, setUsers] = useState([]);
   const project = useSelector((state) => state.project.project);
   const isAdmin = useSelector((state) => state.project.isAdmin);
   const members = project.members;
@@ -19,17 +18,8 @@ const Members = () => {
 
   const handleInputValue = async (newInputValue) => {
     setInputValue(newInputValue);
-    if (newInputValue && newInputValue !== '') {
-      const search = (await axios.get(`/api/users/${newInputValue}`)).data
-        .slice(0, 1)
-        .filter((user) => !members.find((member) => member.user === user._id));
-      setUsers(search && search.length > 0 ? search : []);
-      if (users.length > 0 && newInputValue === users[0].email) {
-        setInvitee(users[0]);
-      } else {
-        setInvitee(null);
-      }
-    }
+    const user = newInputValue ? (await axios.get(`/api/users/${newInputValue}`)).data : null;
+    setInvitee(!members.some((member) => member.user._id === user?._id) ? user : null);
   };
 
   const onSubmit = async () => {

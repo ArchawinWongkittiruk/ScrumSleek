@@ -122,15 +122,10 @@ router.post('/verify/:token', async (req, res) => {
   }
 });
 
-// Get users with email regex
-router.get('/:input', auth, async (req, res) => {
+// Get user with email
+router.get('/:input', async (req, res) => {
   try {
-    const regex = new RegExp(req.params.input, 'i');
-    const users = await User.find({
-      email: regex,
-    }).select('-password');
-
-    res.json(users.filter((user) => user.id !== req.user.id));
+    res.json(await User.findOne({ email: req.params.input }).select('-password'));
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
