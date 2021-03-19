@@ -118,6 +118,7 @@ const PlanSprint = () => {
               isRequired
               value={target}
               onChange={(e) => dispatch({ type: SET_SPRINT_TARGET, payload: e.target.value })}
+              onKeyPress={(e) => e.key === 'Enter' && e.preventDefault()}
               maxWidth='60rem'
               h='10rem'
             />
