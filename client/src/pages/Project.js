@@ -43,7 +43,7 @@ const Project = ({ match }) => {
   const [currentPage, setCurrentPage] = useState('Backlog');
   const [entered, setEntered] = useState(false);
   const user = useSelector((state) => state.auth.user);
-  const canGetProject = useSelector((state) => state.auth.canGetProject);
+  const authLoading = useSelector((state) => state.auth.loading);
   const project = useSelector((state) => state.project.project);
   const isMember = project?.members.some((member) => member.user._id === user?._id);
   const isAdmin = project?.members.some(
@@ -53,8 +53,8 @@ const Project = ({ match }) => {
   let history = useHistory();
 
   useEffect(() => {
-    if (canGetProject) dispatch(getProject(match.params.id));
-  }, [dispatch, canGetProject, match.params.id]);
+    if (!authLoading) dispatch(getProject(match.params.id));
+  }, [dispatch, authLoading, match.params.id]);
 
   useEffect(() => {
     if (project?.title) document.title = project.title + ' | ScrumSleek';

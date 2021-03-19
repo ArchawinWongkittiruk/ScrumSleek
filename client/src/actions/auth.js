@@ -11,7 +11,6 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   EDIT_USER,
-  CAN_GET_PROJECT,
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
@@ -38,8 +37,6 @@ export const loadUser = () => async (dispatch) => {
     dispatch({
       type: AUTH_ERROR,
     });
-  } finally {
-    dispatch({ type: CAN_GET_PROJECT });
   }
 };
 

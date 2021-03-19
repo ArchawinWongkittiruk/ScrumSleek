@@ -8,7 +8,6 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   EDIT_USER,
-  CAN_GET_PROJECT,
   SET_SIGNUP_LOADING,
 } from '../actions/types';
 
@@ -59,11 +58,6 @@ export default function Auth(state = initialState, action) {
       return {
         ...state,
         user: payload,
-      };
-    case CAN_GET_PROJECT:
-      return {
-        ...state,
-        canGetProject: true,
       };
     default:
       return state;
