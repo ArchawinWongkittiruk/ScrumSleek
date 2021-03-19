@@ -70,8 +70,6 @@ const Project = ({ match }) => {
 
   useEffect(() => {
     if (project?._id) {
-      setEntered(false);
-
       socket.emit(
         'ENTER_PROJECT',
         { userId: isMember ? user._id : null, projectId: project._id },
@@ -89,6 +87,7 @@ const Project = ({ match }) => {
       });
 
       return () => {
+        setEntered(false);
         socket.offAny();
         socket.emit('EXIT_PROJECT', { userId: isMember ? user._id : null, projectId: project._id });
       };
