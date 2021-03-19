@@ -98,6 +98,7 @@ router.post('/verify/:token', async (req, res) => {
       user = await User.findById(token.user);
       user.verified = true;
       await user.save();
+      await token.remove();
     } else {
       return res.status(400).json({ errors: [{ msg: 'Invalid/expired verification token' }] });
     }
@@ -208,6 +209,7 @@ router.post(
         user = await User.findById(token.user);
         user.password = await bcrypt.hash(password, await bcrypt.genSalt(10));
         await user.save();
+        await token.remove();
       } else {
         return res.status(400).json({ errors: [{ msg: 'Invalid/expired password reset token' }] });
       }
