@@ -16,7 +16,6 @@ const initialState = {
   loading: true,
   signupLoading: false,
   user: null,
-  canGetProject: false,
 };
 
 export default function Auth(state = initialState, action) {
