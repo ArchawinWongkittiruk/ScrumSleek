@@ -22,9 +22,9 @@ import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon } from '@chakra-ui/icons'
 import ColorPicker from '../other/ColorPicker';
 
 const Status = ({ statuses, status, index }) => {
-  const isMember = useSelector((state) => state.project.isMember);
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(status.title);
+  const isMember = useSelector((state) => state.project.isMember);
   const dispatch = useDispatch();
 
   useEffect(() => {

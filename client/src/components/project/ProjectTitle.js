@@ -5,9 +5,9 @@ import { renameProject } from '../../actions/projects';
 import { Box, Text, Input } from '@chakra-ui/react';
 
 const ProjectTitle = ({ project }) => {
-  const isMember = useSelector((state) => state.project.isMember);
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(project.title);
+  const isMember = useSelector((state) => state.project.isMember);
   const dispatch = useDispatch();
 
   useEffect(() => {

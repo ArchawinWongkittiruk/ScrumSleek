@@ -11,9 +11,8 @@ const Members = () => {
   const [inviting, setInviting] = useState(false);
   const [invitee, setInvitee] = useState(null);
   const [inputValue, setInputValue] = useState('');
-  const project = useSelector((state) => state.project.project);
+  const members = useSelector((state) => state.project.project.members);
   const isAdmin = useSelector((state) => state.project.isAdmin);
-  const members = project.members;
   const dispatch = useDispatch();
 
   const handleInputValue = async (newInputValue) => {
