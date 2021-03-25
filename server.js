@@ -61,10 +61,10 @@ io.emitActiveMembers = function (projectId) {
 
 // Socket event handlers
 io.on('connection', (socket) => {
-  socket.on('ENTER_PROJECT', async ({ userId, projectId }, callback) => {
+  socket.on('ENTER_PROJECT', ({ userId, projectId }, callback) => {
     socket.userId = userId;
     socket.projectId = projectId;
-    await socket.join(projectId);
+    socket.join(projectId);
     if (userId) {
       io.emitActiveMembers(projectId);
       callback();
@@ -73,13 +73,13 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('EXIT_PROJECT', async ({ userId, projectId }) => {
-    await socket.leave(projectId);
+  socket.on('EXIT_PROJECT', ({ userId, projectId }) => {
+    socket.leave(projectId);
     if (userId) io.emitActiveMembers(projectId);
   });
 
-  socket.on('disconnect', async () => {
-    await socket.leave(socket.projectId);
+  socket.on('disconnect', () => {
+    socket.leave(socket.projectId);
     if (socket.userId) io.emitActiveMembers(socket.projectId);
   });
 });
