@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect, Link as ReactLink } from 'react-router-dom';
+import getDateDisplay from '../utils/getDateDisplay';
 import { Text, Flex, Link, CircularProgress } from '@chakra-ui/react';
 
 import CreateProject from '../components/other/CreateProject';
@@ -34,17 +35,20 @@ const Projects = () => {
       {loading && <CircularProgress isIndeterminate m='40px' />}
       <Flex m='1rem' direction='column' align='center' justify='center'>
         {projects.map((project) => (
-          <Link
-            as={ReactLink}
+          <Flex
             key={project._id}
-            to={`/project/${project._id}`}
+            direction='column'
             borderBottom='2px solid lightgrey'
-            p='2rem'
-            w='300px'
+            w='330px'
             textAlign='center'
           >
-            {project.title}
-          </Link>
+            <Link as={ReactLink} to={`/project/${project._id}`} fontSize='1.2rem' p='1.8rem'>
+              {project.title}
+            </Link>
+            <Text fontSize='0.8rem' mb='0.2rem'>
+              Last Updated: {getDateDisplay(project.updatedAt)}
+            </Text>
+          </Flex>
         ))}
       </Flex>
     </Flex>
