@@ -69,7 +69,7 @@ const Project = ({ match }) => {
   }, [dispatch, isAdmin]);
 
   useEffect(() => {
-    if (project?._id) {
+    const enterProject = () => {
       socket.emit(
         'ENTER_PROJECT',
         { userId: isMember ? user._id : null, projectId: project._id },
@@ -78,12 +78,20 @@ const Project = ({ match }) => {
           setEntered(true);
         }
       );
+    };
+
+    if (project?._id) {
+      enterProject();
 
       socket.onAny((type, payload) => {
         dispatch({ type, payload });
 
         if (type === DELETE_PROJECT || type === LEAVE_PROJECT) history.push('/projects');
         if (type === END_SPRINT) dispatch({ type: RESET_SPRINT_PLAN });
+      });
+
+      socket.on('disconnect', () => {
+        enterProject();
       });
 
       return () => {
