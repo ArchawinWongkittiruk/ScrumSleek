@@ -53,8 +53,8 @@ const Project = ({ match }) => {
   let history = useHistory();
 
   useEffect(() => {
-    if (!authLoading) dispatch(getProject(match.params.id));
-  }, [dispatch, authLoading, match.params.id]);
+    if (!authLoading && !project) dispatch(getProject(match.params.id));
+  }, [dispatch, authLoading, project, match.params.id]);
 
   useEffect(() => {
     if (project?.title) document.title = project.title + ' | ScrumSleek';
