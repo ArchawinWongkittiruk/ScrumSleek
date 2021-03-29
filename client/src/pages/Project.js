@@ -91,6 +91,10 @@ const Project = ({ match }) => {
       });
 
       socket.on('disconnect', () => {
+        setEntered(false);
+      });
+
+      socket.on('connect', () => {
         enterProject();
       });
 
