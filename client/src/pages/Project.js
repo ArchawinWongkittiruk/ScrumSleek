@@ -26,21 +26,21 @@ import {
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
-import Backlog from '../components/pages/Backlog';
-import PlanSprint from '../components/pages/PlanSprint';
-import Sprint from '../components/pages/Sprint';
-import Completed from '../components/pages/Completed';
-import Statuses from '../components/pages/Statuses';
-import Roles from '../components/pages/Roles';
+import Backlog from '../components/views/Backlog';
+import PlanSprint from '../components/views/PlanSprint';
+import Sprint from '../components/views/Sprint';
+import Completed from '../components/views/Completed';
+import Statuses from '../components/views/Statuses';
+import Roles from '../components/views/Roles';
 
 import ProjectTitle from '../components/project/ProjectTitle';
 import ProjectMenu from '../components/project/ProjectMenu';
 import Members from '../components/project/Members';
 
-const pages = ['Backlog', 'Sprint', 'Completed', 'Statuses', 'Roles'];
+const views = ['Backlog', 'Sprint', 'Completed', 'Statuses', 'Roles'];
 
 const Project = ({ match }) => {
-  const [currentPage, setCurrentPage] = useState('Backlog');
+  const [currentView, setCurrentView] = useState('Backlog');
   const [entered, setEntered] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const authLoading = useSelector((state) => state.auth.loading);
@@ -108,9 +108,9 @@ const Project = ({ match }) => {
 
   useEffect(() => {
     if (project?.sprintOngoing === true) {
-      setCurrentPage('Sprint');
+      setCurrentView('Sprint');
     } else if (project?.sprintOngoing === false) {
-      setCurrentPage('Backlog');
+      setCurrentView('Backlog');
       dispatch({ type: RESET_SPRINT_PLAN });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -135,13 +135,13 @@ const Project = ({ match }) => {
         </Flex>
         <Flex pb='1rem'>
           <Box display={{ base: 'none', md: 'block' }}>
-            {pages.map((page) => (
+            {views.map((view) => (
               <Button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                isDisabled={page === currentPage}
+                key={view}
+                onClick={() => setCurrentView(view)}
+                isDisabled={view === currentView}
               >
-                {page}
+                {view}
               </Button>
             ))}
           </Box>
@@ -151,16 +151,16 @@ const Project = ({ match }) => {
               rightIcon={<ChevronDownIcon />}
               display={{ base: 'block', md: 'none' }}
             >
-              Pages
+              Views
             </MenuButton>
             <MenuList>
-              {pages.map((page) => (
+              {views.map((view) => (
                 <MenuItem
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  isDisabled={page === currentPage}
+                  key={view}
+                  onClick={() => setCurrentView(view)}
+                  isDisabled={view === currentView}
                 >
-                  {page}
+                  {view}
                 </MenuItem>
               ))}
             </MenuList>
@@ -168,13 +168,13 @@ const Project = ({ match }) => {
           {isMember && <ProjectMenu project={project} />}
         </Flex>
       </Flex>
-      {currentPage === 'Backlog' ? (
+      {currentView === 'Backlog' ? (
         <Backlog />
-      ) : currentPage === 'Sprint' ? (
+      ) : currentView === 'Sprint' ? (
         <>{project.sprintOngoing ? <Sprint /> : <PlanSprint />}</>
-      ) : currentPage === 'Completed' ? (
+      ) : currentView === 'Completed' ? (
         <Completed />
-      ) : currentPage === 'Statuses' ? (
+      ) : currentView === 'Statuses' ? (
         <Statuses />
       ) : (
         <Roles />
