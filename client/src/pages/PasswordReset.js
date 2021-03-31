@@ -36,7 +36,15 @@ const PasswordReset = ({ match }) => {
   };
 
   return (
-    <Flex justify='center' p='50px' direction='column' m='auto' align='center' textAlign='center'>
+    <Flex
+      justify='center'
+      p={{ base: '50px', md: 0 }}
+      direction='column'
+      m='50px auto'
+      align='center'
+      textAlign='center'
+      maxW='30rem'
+    >
       <Text as='h2' fontSize='1.5rem' pb='1rem'>
         Reset your ScrumSleek password
       </Text>
