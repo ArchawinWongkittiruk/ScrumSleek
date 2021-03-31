@@ -65,7 +65,7 @@ const Account = () => {
 
   return (
     user && (
-      <Box pt='5vh'>
+      <Box m='5vh auto'>
         <Flex
           direction='column'
           w='40rem'
