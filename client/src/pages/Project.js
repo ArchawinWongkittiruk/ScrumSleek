@@ -70,14 +70,10 @@ const Project = ({ match }) => {
 
   useEffect(() => {
     const enterProject = () => {
-      socket.emit(
-        'ENTER_PROJECT',
-        { userId: isMember ? user._id : null, projectId: project._id },
-        (activeMembers) => {
-          if (activeMembers) dispatch({ type: SET_ACTIVE_MEMBERS, payload: activeMembers });
-          setEntered(true);
-        }
-      );
+      socket.emit('ENTER_PROJECT', { isMember, projectId: project._id }, (activeMembers) => {
+        if (activeMembers) dispatch({ type: SET_ACTIVE_MEMBERS, payload: activeMembers });
+        setEntered(true);
+      });
     };
 
     if (project?._id) {
@@ -101,7 +97,7 @@ const Project = ({ match }) => {
       return () => {
         setEntered(false);
         socket.offAny();
-        socket.emit('EXIT_PROJECT', { userId: isMember ? user._id : null, projectId: project._id });
+        socket.emit('EXIT_PROJECT', { isMember, projectId: project._id });
       };
     }
   }, [dispatch, history, isMember, user?._id, project?._id]);
