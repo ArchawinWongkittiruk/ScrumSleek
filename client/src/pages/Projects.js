@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Redirect, Link as ReactLink } from 'react-router-dom';
-import socket from '../socket';
-import { ADD_PROJECT } from '../actions/types';
 import getDateDisplay from '../utils/getDateDisplay';
 import { Text, Flex, Link, CircularProgress } from '@chakra-ui/react';
 
@@ -12,23 +10,10 @@ const Projects = () => {
   const user = useSelector((state) => state.auth.user);
   const projects = useSelector((state) => state.project.projects);
   const loading = useSelector((state) => state.project.projectsLoading);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     document.title = 'Your Projects | ScrumSleek';
   }, []);
-
-  useEffect(() => {
-    const addProjectListener = (project) => {
-      dispatch({ type: ADD_PROJECT, payload: project });
-    };
-
-    socket.on(ADD_PROJECT, addProjectListener);
-
-    return () => {
-      socket.off(ADD_PROJECT, addProjectListener);
-    };
-  }, [dispatch]);
 
   if (user && !user.verified) {
     return <Redirect to='/verifySend' />;
