@@ -30,9 +30,19 @@ router.put('/addMember/:userId', [auth, admin], async (req, res) => {
     project.members.push({ user: user.id, role: 'Developer' });
     await project.save();
 
-    const { name, avatar } = user;
-    const payload = { user: { _id: user.id, name, avatar }, role: 'Developer' };
-    req.app.get('io').to(project.id).emit('ADD_MEMBER', payload);
+    const io = req.app.get('io');
+
+    // Emit project to new member
+    const clients = Array.from(await io.allSockets());
+    let payload = { _id: project.id, title: project.title, updatedAt: project.updatedAt };
+    for (const clientId of clients) {
+      const client = io.sockets.sockets.get(clientId);
+      if (client.userId == user.id) io.to(clientId).emit('ADD_PROJECT', payload);
+    }
+
+    const { _id, name, avatar } = user;
+    payload = { user: { _id, name, avatar }, role: 'Developer' };
+    io.to(project.id).emit('ADD_MEMBER', payload);
     res.end();
   } catch (err) {
     console.error(err.message);
