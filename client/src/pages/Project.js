@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import socket from '../socket';
 import { getProject } from '../actions/projects';
 import {
+  ADD_PROJECT,
   RESET_SPRINT_PLAN,
   DELETE_PROJECT,
   LEAVE_PROJECT,
@@ -80,7 +81,7 @@ const Project = ({ match }) => {
       enterProject();
 
       socket.onAny((type, payload) => {
-        dispatch({ type, payload });
+        if (type !== ADD_PROJECT) dispatch({ type, payload });
 
         if (type === DELETE_PROJECT || type === LEAVE_PROJECT) history.push('/projects');
         if (type === END_SPRINT) dispatch({ type: RESET_SPRINT_PLAN });
