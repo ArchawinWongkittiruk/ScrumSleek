@@ -70,7 +70,7 @@ const Project = ({ match }) => {
   }, [dispatch, isAdmin]);
 
   useEffect(() => {
-    const enterProject = () => {
+    const enterProjectRoom = () => {
       socket.emit('ENTER_PROJECT', { isMember, projectId: project._id }, (activeMembers) => {
         if (activeMembers) dispatch({ type: SET_ACTIVE_MEMBERS, payload: activeMembers });
         setEntered(true);
@@ -82,7 +82,7 @@ const Project = ({ match }) => {
     };
 
     if (project?._id) {
-      enterProject();
+      enterProjectRoom();
 
       socket.onAny((type, payload) => {
         if (type !== ADD_PROJECT) dispatch({ type, payload });
@@ -92,13 +92,13 @@ const Project = ({ match }) => {
       });
 
       socket.on('disconnect', disconnectListener);
-      socket.on('connect', enterProject);
+      socket.on('connect', enterProjectRoom);
 
       return () => {
         setEntered(false);
         socket.offAny();
         socket.off('disconnect', disconnectListener);
-        socket.off('connect', enterProject);
+        socket.off('connect', enterProjectRoom);
         socket.emit('EXIT_PROJECT', { isMember, projectId: project._id });
       };
     }
