@@ -1,6 +1,5 @@
 import io from 'socket.io-client';
 import store from './store';
-import { ADD_PROJECT } from './actions/types';
 
 const socket = io(
   process.env.NODE_ENV === 'development'
@@ -27,8 +26,8 @@ socket.on('connect', () => {
   setSocketUserId();
 });
 
-socket.on(ADD_PROJECT, (project) => {
-  store.dispatch({ type: ADD_PROJECT, payload: project });
+socket.onAny((type, payload) => {
+  store.dispatch({ type, payload });
 });
 
 export default socket;

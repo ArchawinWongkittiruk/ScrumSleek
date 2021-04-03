@@ -4,11 +4,7 @@ import { useHistory } from 'react-router-dom';
 import socket from '../socket';
 import { getProject } from '../actions/projects';
 import {
-  ADD_PROJECT,
   RESET_SPRINT_PLAN,
-  DELETE_PROJECT,
-  LEAVE_PROJECT,
-  END_SPRINT,
   SET_ACTIVE_MEMBERS,
   SET_IS_MEMBER,
   SET_IS_ADMIN,
@@ -45,6 +41,7 @@ const Project = ({ match }) => {
   const [entered, setEntered] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const authLoading = useSelector((state) => state.auth.loading);
+  const projects = useSelector((state) => state.project.projects);
   const project = useSelector((state) => state.project.project);
   const isMember = project?.members.some((member) => member.user._id === user?._id);
   const isAdmin = project?.members.some(
@@ -84,32 +81,32 @@ const Project = ({ match }) => {
     if (project?._id) {
       enterProjectRoom();
 
-      socket.onAny((type, payload) => {
-        if (type !== ADD_PROJECT) dispatch({ type, payload });
-
-        if (type === DELETE_PROJECT || type === LEAVE_PROJECT) history.push('/projects');
-        if (type === END_SPRINT) dispatch({ type: RESET_SPRINT_PLAN });
-      });
-
       socket.on('disconnect', disconnectListener);
       socket.on('connect', enterProjectRoom);
 
       return () => {
         setEntered(false);
-        socket.offAny();
         socket.off('disconnect', disconnectListener);
         socket.off('connect', enterProjectRoom);
         socket.emit('EXIT_PROJECT', { isMember, projectId: project._id });
       };
     }
-  }, [dispatch, history, isMember, user?._id, project?._id]);
+  }, [dispatch, isMember, project?._id]);
+
+  useEffect(() => {
+    if (project?.sprintOngoing === false) dispatch({ type: RESET_SPRINT_PLAN });
+  }, [dispatch, project?.sprintOngoing]);
+
+  useEffect(() => {
+    const projectInProjects = projects.map((project) => project._id).includes(project?._id);
+    if (isMember && !projectInProjects) history.push('/projects');
+  }, [history, isMember, project?._id, projects]);
 
   useEffect(() => {
     if (project?.sprintOngoing === true) {
       setCurrentView('Sprint');
     } else if (project?.sprintOngoing === false) {
       setCurrentView('Backlog');
-      dispatch({ type: RESET_SPRINT_PLAN });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, project?._id]);
