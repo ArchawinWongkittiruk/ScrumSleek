@@ -33,7 +33,10 @@ module.exports = async (req, res, project) => {
   if (clients) {
     for (const clientId of clients) {
       const client = io.sockets.sockets.get(clientId);
-      if (client.userId == user.id) io.to(clientId).emit('LEAVE_PROJECT', project.id);
+      if (client.userId == user.id) {
+        client.leave(project.id);
+        io.to(clientId).emit('LEAVE_PROJECT', project.id);
+      }
     }
   }
 
