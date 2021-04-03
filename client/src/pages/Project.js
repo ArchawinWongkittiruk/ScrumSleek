@@ -5,6 +5,8 @@ import socket from '../socket';
 import { getProject } from '../actions/projects';
 import {
   RESET_SPRINT_PLAN,
+  LEAVE_PROJECT,
+  DELETE_PROJECT,
   SET_ACTIVE_MEMBERS,
   SET_IS_MEMBER,
   SET_IS_ADMIN,
@@ -41,7 +43,6 @@ const Project = ({ match }) => {
   const [entered, setEntered] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const authLoading = useSelector((state) => state.auth.loading);
-  const projects = useSelector((state) => state.project.projects);
   const project = useSelector((state) => state.project.project);
   const isMember = project?.members.some((member) => member.user._id === user?._id);
   const isAdmin = project?.members.some(
@@ -74,29 +75,32 @@ const Project = ({ match }) => {
       });
     };
 
-    const disconnectListener = () => {
+    const goToProjects = () => {
+      history.push('/projects');
+    };
+
+    const setEnteredFalse = () => {
       setEntered(false);
     };
 
     if (project?._id) {
       enterProjectRoom();
 
-      socket.on('disconnect', disconnectListener);
+      socket.on(LEAVE_PROJECT, goToProjects);
+      socket.on(DELETE_PROJECT, goToProjects);
+      socket.on('disconnect', setEnteredFalse);
       socket.on('connect', enterProjectRoom);
 
       return () => {
         setEntered(false);
-        socket.off('disconnect', disconnectListener);
+        socket.off(LEAVE_PROJECT, goToProjects);
+        socket.off(DELETE_PROJECT, goToProjects);
+        socket.off('disconnect', setEnteredFalse);
         socket.off('connect', enterProjectRoom);
         socket.emit('EXIT_PROJECT', { isMember, projectId: project._id });
       };
     }
-  }, [dispatch, isMember, project?._id]);
-
-  useEffect(() => {
-    const projectInProjects = projects.map((project) => project._id).includes(project?._id);
-    if (isMember && !projectInProjects) history.push('/projects');
-  }, [history, isMember, project?._id, projects]);
+  }, [dispatch, history, isMember, project?._id]);
 
   useEffect(() => {
     if (project?.sprintOngoing === false) dispatch({ type: RESET_SPRINT_PLAN });
