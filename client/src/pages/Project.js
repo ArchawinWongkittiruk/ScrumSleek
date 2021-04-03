@@ -94,13 +94,13 @@ const Project = ({ match }) => {
   }, [dispatch, isMember, project?._id]);
 
   useEffect(() => {
-    if (project?.sprintOngoing === false) dispatch({ type: RESET_SPRINT_PLAN });
-  }, [dispatch, project?.sprintOngoing]);
-
-  useEffect(() => {
     const projectInProjects = projects.map((project) => project._id).includes(project?._id);
     if (isMember && !projectInProjects) history.push('/projects');
   }, [history, isMember, project?._id, projects]);
+
+  useEffect(() => {
+    if (project?.sprintOngoing === false) dispatch({ type: RESET_SPRINT_PLAN });
+  }, [dispatch, project?.sprintOngoing]);
 
   useEffect(() => {
     if (project?.sprintOngoing === true) {
