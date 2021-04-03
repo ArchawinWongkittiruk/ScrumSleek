@@ -77,6 +77,10 @@ const Project = ({ match }) => {
       });
     };
 
+    const disconnectListener = () => {
+      setEntered(false);
+    };
+
     if (project?._id) {
       enterProject();
 
@@ -87,17 +91,14 @@ const Project = ({ match }) => {
         if (type === END_SPRINT) dispatch({ type: RESET_SPRINT_PLAN });
       });
 
-      socket.on('disconnect', () => {
-        setEntered(false);
-      });
-
-      socket.on('connect', () => {
-        enterProject();
-      });
+      socket.on('disconnect', disconnectListener);
+      socket.on('connect', enterProject);
 
       return () => {
         setEntered(false);
         socket.offAny();
+        socket.off('disconnect', disconnectListener);
+        socket.off('connect', enterProject);
         socket.emit('EXIT_PROJECT', { isMember, projectId: project._id });
       };
     }
