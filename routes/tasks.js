@@ -136,6 +136,7 @@ router.patch('/storyPoints/:id', [auth, member], async (req, res) => {
       return res.status(404).json({ msg: 'Task not found' });
     }
 
+    // Set to 0 if input if empty
     task.storyPoints = storyPoints ? storyPoints : 0;
     await project.save();
 
@@ -157,6 +158,7 @@ router.put('/setMember/:add/:taskId/:userId', [auth, member], async (req, res) =
       return res.status(404).json({ msg: 'Task not found' });
     }
 
+    // If not adding then removing
     const add = req.params.add === 'true';
     const members = task.members.map((member) => member.user);
     const index = members.indexOf(userId);

@@ -231,6 +231,7 @@ router.delete('/:userId', auth, async (req, res) => {
       return res.status(401).json({ msg: 'You cannot delete other users' });
     }
 
+    // Delete projects which user is the admin of, and leave all other projects
     for (const projectId of user.projects) {
       const project = await Project.findById(projectId);
       if (project.members.some((member) => member.role === 'Admin' && member.user == user.id)) {

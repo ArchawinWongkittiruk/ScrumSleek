@@ -125,6 +125,7 @@ router.delete('/:id', [auth, member], async (req, res) => {
     const statusIndex = project.statuses.findIndex((status) => status.id === statusId);
     project.statuses.splice(statusIndex, 1);
 
+    // Replace the statuses of all tasks which is on this status with an adjacent status
     const replacementIndex = statusIndex > 0 ? statusIndex - 1 : 0;
     for (const task of project.tasks) {
       if (task.status == statusId) {

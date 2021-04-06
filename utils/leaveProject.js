@@ -29,6 +29,7 @@ module.exports = async (req, res, project) => {
 
   const io = req.app.get('io');
 
+  // Emit leave project to leaving user
   const clients = io.sockets.adapter.rooms.get(project.id);
   if (clients) {
     for (const clientId of clients) {

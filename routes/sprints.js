@@ -16,6 +16,7 @@ router.post('/', [auth, member], async (req, res) => {
     project.sprints.unshift({ start, end, target });
     project.sprintOngoing = true;
 
+    // Move all tasks from sprint plan to sprint
     for (let task of project.tasks) {
       if (task.location === 'SPRINTPLAN') {
         task.location = 'SPRINT';
@@ -41,9 +42,11 @@ router.post('/end', [auth, member], async (req, res) => {
     const project = await Project.findById(projectId);
     project.sprintOngoing = false;
 
+    // Set the sprint end to the current date and time
     const sprint = project.sprints[0];
     sprint.end = new Date();
 
+    // Move unfinished tasks back to the backlog, and to the completed sprint otherwise
     for (const task of project.tasks) {
       if (
         task.status == project.statuses[project.statuses.length - 1].id &&
