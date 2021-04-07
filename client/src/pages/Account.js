@@ -27,6 +27,7 @@ const Account = () => {
   const [deleteAlertOpen, setDeleteAlertOpen] = useState(false);
   const cancelDeleteRef = useRef();
   const user = useSelector((state) => state.auth.user);
+  const isDemoUser = user?.email === 'demo-user@scrumsleek.com';
   const dispatch = useDispatch();
   let history = useHistory();
 
@@ -46,13 +47,13 @@ const Account = () => {
 
   const onEditUser = async (e) => {
     e.preventDefault();
-    dispatch(editUser(user._id, { name, avatar }));
+    if (!isDemoUser) dispatch(editUser(user._id, { name, avatar }));
   };
 
   const onSendResetPassword = () => {
     setResetDisabled(true);
 
-    dispatch(sendPasswordReset(user.email));
+    if (!isDemoUser) dispatch(sendPasswordReset(user.email));
 
     setTimeout(() => {
       setResetDisabled(false);
@@ -60,7 +61,7 @@ const Account = () => {
   };
 
   const onDeleteUser = () => {
-    dispatch(deleteUser(user._id, history));
+    if (!isDemoUser) dispatch(deleteUser(user._id, history));
   };
 
   return (
@@ -88,7 +89,7 @@ const Account = () => {
             </Text>
             <Button
               onClick={onSendResetPassword}
-              isDisabled={resetDisabled}
+              isDisabled={resetDisabled || isDemoUser}
               colorScheme='red'
               variant='outline'
               mb='1rem'
@@ -101,6 +102,7 @@ const Account = () => {
                 isRequired
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                isDisabled={isDemoUser}
                 size='lg'
                 mb='1rem'
               />
@@ -114,6 +116,7 @@ const Account = () => {
                   setAvatar(e.target.value);
                   setAvatarValid(true);
                 }}
+                isDisabled={isDemoUser}
                 size='lg'
                 mb='1rem'
               />
@@ -129,7 +132,11 @@ const Account = () => {
                 Save
               </Button>
             </form>
-            <Button onClick={() => setDeleteAlertOpen(true)} colorScheme='red'>
+            <Button
+              onClick={() => setDeleteAlertOpen(true)}
+              isDisabled={isDemoUser}
+              colorScheme='red'
+            >
               Delete My Account
             </Button>
             <AlertDialog
