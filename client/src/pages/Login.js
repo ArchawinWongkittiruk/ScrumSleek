@@ -105,6 +105,11 @@ const Login = () => {
           </Flex>
         </Flex>
       </Flex>
+      <Flex direction='column' w='26rem' maxWidth='90vw' margin='auto' p='1rem' boxShadow='lg'>
+        <Text>Demo User</Text>
+        <Text>Email: demo-user@scrumsleek.com</Text>
+        <Text>Password: 123456</Text>
+      </Flex>
       <Box mt={5}>
         <Copyright />
       </Box>
