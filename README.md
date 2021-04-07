@@ -6,7 +6,7 @@ A project management tool for introducing the Scrum agile framework to students 
 
 ## Development Setup
 
-You will need Node JS, a browser, and a terminal to run this application.
+You will need Node.js, a browser, and a terminal to run this application. You can use any code editor. I developed this app with Visual Studio Code, and that is what I would recommend.
 
 ### Add a .env file at the root specifying your own variables
 
