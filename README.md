@@ -18,6 +18,8 @@ CLIENT_URL - For local development, use 'http://localhost:3000'.
 
 SENDGRID_API_KEY - See https://sendgrid.com/.
 
+EMAIL_FROM - The email address from which you will be sending verification and password reset emails. See SendGrid as before.
+
 ### Install server dependencies
 
 ```bash

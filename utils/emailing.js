@@ -13,7 +13,7 @@ exports.sendVerificationEmail = async (user) => {
 
   await sgMail.send({
     to: email,
-    from: 'noreply@scrumsleek.com',
+    from: process.env.EMAIL_FROM,
     subject: 'Activate your ScrumSleek account',
     text: `Welcome to ScrumSleek, ${name}!. Please verify your email to activate your account.`,
     html: `
@@ -36,7 +36,7 @@ exports.sendPasswordReset = async (user) => {
 
   await sgMail.send({
     to: email,
-    from: 'noreply@scrumsleek.com',
+    from: process.env.EMAIL_FROM,
     subject: 'Reset your ScrumSleek account password',
     text: `You have just made a request to reset your password, ${name}.`,
     html: `
