@@ -1,3 +1,5 @@
+// from https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/utils/setAuthToken.js
+
 import axios from 'axios';
 
 const setAuthToken = (token) => {

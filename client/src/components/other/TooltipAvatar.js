@@ -1,3 +1,5 @@
+// getInitials from https://stackoverflow.com/a/33076482
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip, Avatar, AvatarBadge } from '@chakra-ui/react';

@@ -1,3 +1,5 @@
+// from https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/reducers/alert.js
+
 import { SET_ALERT, REMOVE_ALERT } from '../actions/types';
 
 const initialState = [];

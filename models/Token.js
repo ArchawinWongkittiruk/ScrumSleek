@@ -1,3 +1,5 @@
+// from https://gist.github.com/Sohan022/4bfd6ca8623a5a004367d70b044a958e#file-tokenschema-js
+
 const { Schema, model } = require('mongoose');
 
 const TokenSchema = new Schema({

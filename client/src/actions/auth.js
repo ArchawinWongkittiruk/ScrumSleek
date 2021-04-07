@@ -1,3 +1,5 @@
+// loadUser, register, login, and logout based on https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/actions/auth.js
+
 import axios from 'axios';
 import { setAlert } from './alert';
 import {

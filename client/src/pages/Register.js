@@ -1,3 +1,5 @@
+// based on https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/components/auth/Register.js
+
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as ReactLink, Redirect } from 'react-router-dom';

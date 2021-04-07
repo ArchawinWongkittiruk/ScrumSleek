@@ -1,3 +1,5 @@
+// from https://chakra-ui.com/docs/features/color-mode
+
 import { extendTheme } from '@chakra-ui/react';
 
 const config = {

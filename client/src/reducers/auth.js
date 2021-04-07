@@ -1,3 +1,5 @@
+// based on https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/reducers/auth.js
+
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,

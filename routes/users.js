@@ -1,3 +1,5 @@
+// register user based on https://github.com/bradtraversy/devconnector_2.0/blob/master/routes/api/users.js
+
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
