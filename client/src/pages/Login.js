@@ -58,7 +58,8 @@ const Login = () => {
         margin='auto'
         align='center'
         p='2rem'
-        boxShadow='xl'
+        borderWidth='2px'
+        borderRadius='xl'
       >
         <Text as='h1' fontSize='3rem'>
           ScrumSleek
@@ -107,7 +108,15 @@ const Login = () => {
           </Flex>
         </Flex>
       </Flex>
-      <Flex direction='column' w='26rem' maxWidth='90vw' margin='auto' p='1rem' boxShadow='lg'>
+      <Flex
+        direction='column'
+        w='26rem'
+        maxWidth='90vw'
+        margin='auto'
+        p='1rem'
+        borderWidth='2px'
+        borderBottomRadius='xl'
+      >
         <Text>Demo User</Text>
         <Text>Email: demo-user@scrumsleek.com</Text>
         <Text>Password: 123456</Text>

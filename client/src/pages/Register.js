@@ -57,7 +57,8 @@ const Register = () => {
         margin='auto'
         align='center'
         p='2rem'
-        boxShadow='xl'
+        borderWidth='2px'
+        borderRadius='xl'
       >
         <Text as='h1' fontSize='3rem'>
           ScrumSleek
