@@ -74,7 +74,8 @@ const Account = () => {
           margin='auto'
           align='center'
           p='2rem'
-          boxShadow='xl'
+          borderWidth='2px'
+          borderRadius='xl'
         >
           <TooltipAvatar
             user={{ name, avatar }}
