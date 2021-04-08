@@ -1,11 +1,11 @@
 import {
   // Projects
+  PROJECT_ERROR,
   CLEAR_PROJECT,
   ADD_PROJECT,
   GET_PROJECTS,
   GET_PROJECT,
   RENAME_PROJECT,
-  PROJECT_ERROR,
   DELETE_PROJECT,
   // Tasks
   ADD_TASK,
@@ -53,6 +53,11 @@ export default function Project(state = initialState, action) {
 
   switch (type) {
     // Projects
+    case PROJECT_ERROR:
+      return {
+        ...state,
+        error: payload,
+      };
     case CLEAR_PROJECT:
       return {
         ...state,
@@ -81,11 +86,6 @@ export default function Project(state = initialState, action) {
         projects: state.projects.map((project) =>
           project._id === payload._id ? { ...project, title: payload.title } : project
         ),
-      };
-    case PROJECT_ERROR:
-      return {
-        ...state,
-        error: payload,
       };
     case DELETE_PROJECT:
       return {
