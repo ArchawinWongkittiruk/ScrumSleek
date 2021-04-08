@@ -1,4 +1,5 @@
 import {
+  // Projects
   CLEAR_PROJECT,
   ADD_PROJECT,
   GET_PROJECTS,
@@ -6,6 +7,7 @@ import {
   RENAME_PROJECT,
   PROJECT_ERROR,
   DELETE_PROJECT,
+  // Tasks
   ADD_TASK,
   EDIT_TASK,
   MOVE_TASK,
@@ -13,16 +15,19 @@ import {
   CHANGE_TASK_STORY_POINTS,
   SET_TASK_MEMBER,
   DELETE_TASK,
+  // Sprints
   START_SPRINT,
   END_SPRINT,
   EDIT_REVIEW_RETROSPECTIVE,
   SET_VELOCITY_LIMITED,
   SET_VELOCITY_LIMIT,
+  // Statuses
   ADD_STATUS,
   EDIT_STATUS,
   MOVE_STATUS,
   CHANGE_STATUS_COLOR,
   DELETE_STATUS,
+  // Members
   ADD_MEMBER,
   CHANGE_ROLE,
   LEAVE_PROJECT,
@@ -47,6 +52,7 @@ export default function Project(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    // Projects
     case CLEAR_PROJECT:
       return {
         ...state,
@@ -86,6 +92,7 @@ export default function Project(state = initialState, action) {
         ...state,
         projects: state.projects.filter((project) => project._id !== payload),
       };
+    // Tasks
     case ADD_TASK:
       return {
         ...state,
@@ -115,6 +122,7 @@ export default function Project(state = initialState, action) {
           tasks: state.project.tasks.filter((task) => task._id !== payload),
         },
       };
+    // Sprints
     case START_SPRINT:
     case END_SPRINT:
       return {
@@ -150,6 +158,7 @@ export default function Project(state = initialState, action) {
           velocityLimit: payload,
         },
       };
+    // Statuses
     case ADD_STATUS:
       return {
         ...state,
@@ -179,6 +188,7 @@ export default function Project(state = initialState, action) {
           ...payload,
         },
       };
+    // Members
     case ADD_MEMBER:
       return {
         ...state,
