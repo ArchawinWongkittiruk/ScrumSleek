@@ -30,9 +30,9 @@ This being the case, the process of quickly setting up the application for devel
 
 2. In client\src\pages\Projects.js, remove the if-statement checking for user verification (lines 18-20).
 
-3. In client\src\pages\Login.js, remove the "Forgot Your Password?" section (lines 89-98).
+3. In client\src\pages\Login.js, remove the "Forgot Your Password?" part (lines 90-99).
 
-4. In client\src\pages\Account.js, remove the "Send Password Reset" section (lines 90-98).
+4. In client\src\pages\Account.js, remove the "Send Password Reset" part (lines 91-99).
 
 ### Install server dependencies
 
